@@ -39,8 +39,8 @@ namespace DG_BugTracker.Controllers
         // GET: TicketNotifications/Create
         public ActionResult Create()
         {
-            ViewBag.RecieverId = new SelectList(db.ApplicationUsers, "Id", "FirstName");
-            ViewBag.SenderId = new SelectList(db.ApplicationUsers, "Id", "FirstName");
+            ViewBag.RecieverId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
             return View();
         }
@@ -59,8 +59,8 @@ namespace DG_BugTracker.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RecieverId = new SelectList(db.ApplicationUsers, "Id", "FirstName", ticketNotification.RecieverId);
-            ViewBag.SenderId = new SelectList(db.ApplicationUsers, "Id", "FirstName", ticketNotification.SenderId);
+            ViewBag.RecieverId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecieverId);
+            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketNotification.TicketId);
             return View(ticketNotification);
         }
@@ -77,8 +77,8 @@ namespace DG_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RecieverId = new SelectList(db.ApplicationUsers, "Id", "FirstName", ticketNotification.RecieverId);
-            ViewBag.SenderId = new SelectList(db.ApplicationUsers, "Id", "FirstName", ticketNotification.SenderId);
+            ViewBag.RecieverId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecieverId);
+            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketNotification.TicketId);
             return View(ticketNotification);
         }
@@ -96,8 +96,8 @@ namespace DG_BugTracker.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RecieverId = new SelectList(db.ApplicationUsers, "Id", "FirstName", ticketNotification.RecieverId);
-            ViewBag.SenderId = new SelectList(db.ApplicationUsers, "Id", "FirstName", ticketNotification.SenderId);
+            ViewBag.RecieverId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecieverId);
+            ViewBag.SenderId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.SenderId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketNotification.TicketId);
             return View(ticketNotification);
         }
