@@ -10,7 +10,7 @@ using DG_BugTracker.Models;
 
 namespace DG_BugTracker.Controllers
 {
-    public class TicketStatusController : Controller
+    public class TicketStatusesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
