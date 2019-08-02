@@ -50,48 +50,48 @@ namespace DG_BugTracker.Migrations
 
             //If users don't exist, create these users
             #region Seeded Users
-            if(!context.Users.Any(u => u.Email == "AdminUser@Mailinator.com"))
+            if(!context.Users.Any(u => u.Email == "AdminAlex@Mailinator.com"))
             {
                 userManager.Create(new ApplicationUser
                 {
-                    UserName = "AdminUser@Mailinator.com",
-                    Email = "AdminUser@Mailinator.com",
+                    UserName = "AdminAlex@Mailinator.com",
+                    Email = "AdminAlex@Mailinator.com",
                     FirstName = "Alex",
                     LastName = "Amari",
                     DisplayName = "Alex"
                 }, "Admin+3775!");
             }
 
-            if (!context.Users.Any(u => u.Email == "PMUser@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "PMPatty@Mailinator.com"))
             {
                 userManager.Create(new ApplicationUser
                 {
-                    UserName = "PMUser@Mailinator.com",
-                    Email = "PMUser@Mailinator.com",
+                    UserName = "PMPatty@Mailinator.com",
+                    Email = "PMPatty@Mailinator.com",
                     FirstName = "Patricia",
                     LastName = "Patterson",
                     DisplayName = "Patty"
                 }, "PM+1117!");
             }
 
-            if (!context.Users.Any(u => u.Email == "DevUser@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "DevDale@Mailinator.com"))
             {
                 userManager.Create(new ApplicationUser
                 {
-                    UserName = "DevUser@Mailinator.com",
-                    Email = "DevUser@Mailinator.com",
+                    UserName = "DevDale@Mailinator.com",
+                    Email = "DevDale@Mailinator.com",
                     FirstName = "Dale",
                     LastName = "Daniels",
                     DisplayName = "Dale"
                 }, "Dev+0627!");
             }
 
-            if (!context.Users.Any(u => u.Email == "SubmitterUser@Mailinator.com"))
+            if (!context.Users.Any(u => u.Email == "SubmitterSam@Mailinator.com"))
             {
                 userManager.Create(new ApplicationUser
                 {
-                    UserName = "SubmitterUser@Mailinator.com",
-                    Email = "SubmitterUser@Mailinator.com",
+                    UserName = "SubmitterSam@Mailinator.com",
+                    Email = "SubmitterSam@Mailinator.com",
                     FirstName = "Samantha",
                     LastName = "Sadler",
                     DisplayName = "Sam"
@@ -104,16 +104,16 @@ namespace DG_BugTracker.Migrations
 
             #region Role Assignments
             //set variable in first one so i can use that variable for the rest of them
-            var userId = userManager.FindByEmail("AdminUser@Mailinator.com").Id;
+            var userId = userManager.FindByEmail("AdminAlex@Mailinator.com").Id;
             userManager.AddToRole(userId, "Admin");
 
-            userId = userManager.FindByEmail("PMUser@Mailinator.com").Id;
+            userId = userManager.FindByEmail("PMPatty@Mailinator.com").Id;
             userManager.AddToRole(userId, "Project Manager");
 
-            userId = userManager.FindByEmail("DevUser@Mailinator.com").Id;
+            userId = userManager.FindByEmail("DevDale@Mailinator.com").Id;
             userManager.AddToRole(userId, "Developer");
 
-            userId = userManager.FindByEmail("SubmitterUser@Mailinator.com").Id;
+            userId = userManager.FindByEmail("SubmitterSam@Mailinator.com").Id;
             userManager.AddToRole(userId, "Submitter");
             #endregion
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

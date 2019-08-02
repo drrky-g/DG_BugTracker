@@ -1,0 +1,61 @@
+﻿@using DG_BugTracker.ViewModels
+@model IEnumerable<UserProfileViewModel>
+<div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">User Index</h4>
+                    <p class="card-category">This table contains all registered application users.</p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class=" text-primary">
+                            <th>
+                                Picture
+                            </th>
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                First Name
+                            </th>
+                            <th>
+                                Last Name
+                            </th>
+                            <th>
+                                Options
+                            </th>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@user.AvatarPath" />
+                                        </td>
+                                        <td>
+                                            @user.Id
+                                        </td>
+                                        <td>
+                                            @user.FirstName
+                                        </td>
+                                        <td>
+                                            @user.LastName
+                                        </td>
+                                        <td class="text-primary">
+                                            <!-- Link for Assigning Role -->
+
+                                            <!-- Link for Assigning Project -->
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

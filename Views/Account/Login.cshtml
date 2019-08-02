@@ -46,10 +46,10 @@
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
-                                            <i class="material-icons">mail</i>
+                                            <i class="material-icons">mail_outline</i>
                                         </span>
                                     </div>
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder="Email"})
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
                                 </div>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -57,33 +57,24 @@
                                             <i class="material-icons">lock_outline</i>
                                         </span>
                                     </div>
-                                    @Html.PasswordFor(m => m.Password, new { @class="form-control", placeholder = "Password"})
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
                                 </div>
                             </div>
                             <div class="footer text-center">
-                                
+
                                 <button type="submit" class="btn btn-wd btn-lg btn-link btn-primary">Log In</button>
 
                             </div>
 
                         }
-
-
-
-
-
-
-
-
-
-
-
-
-                       
                     </div>
+                    <!-- Send to Register form -->
                     <div class="text-center has-white">
-                        
                         @Html.ActionLink("Create An Account", "Register", "Account", new { @class = "btn btn-primary btn-wd" })
+                    </div>
+                    <!-- Password Reset Link-->
+                    <div class="text-center has-white">
+                        @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account", new { @class = "btn btn-white btn-wd text-primary" })
                     </div>
                 </div>
             </div>

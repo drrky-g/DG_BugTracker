@@ -29,7 +29,7 @@ namespace DG_BugTracker.Models
         public ApplicationUser()
         {
             
-            this.TicketAttachments = new HashSet<TicketAttachment>(); 
+            this.TicketAttachments = new HashSet<TicketAttachment>();
             this.TicketComments = new HashSet<TicketComment>();
             this.TicketHistories = new HashSet<TicketHistory>();
             this.Projects = new HashSet<Project>();
