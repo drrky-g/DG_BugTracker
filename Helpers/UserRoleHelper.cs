@@ -27,7 +27,7 @@ namespace DG_BugTracker.Helpers
         public ICollection<string> ListUserRoles(string userId)
         {
             
-            return userManager.GetRoles(userId).ToList();
+            return userManager.GetRoles(userId);
         }
 
         //Assigns a user to a role

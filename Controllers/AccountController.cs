@@ -155,7 +155,8 @@ namespace DG_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                //default avatar picture
+                model.AvatarPath = "/Avatars/avatar-placeholder.png";
                 //profile picture setting
                 if (ImageUploader.IsWebFriendlyImage(AvatarPath))
                 {
@@ -163,7 +164,6 @@ namespace DG_BugTracker.Controllers
                     AvatarPath.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
                     model.AvatarPath = "/Avatars/" + fileName;
                 }
-                // else, set model.AvatarPath to the default avatar path
 
                 var user = new ApplicationUser {
                     UserName = model.Email,
@@ -442,12 +442,11 @@ namespace DG_BugTracker.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        // (Removed [HttpPost] & [ValidateAntiForgeryToken] )
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         //

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DG_BugTracker.Models
 {
@@ -15,6 +16,24 @@ namespace DG_BugTracker.Models
         public string LastName { get; set; }
         public string AvatarPath { get; set; }
         public string DisplayName { get; set; }
+
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
+
+        [NotMapped]
+        public string FullNamePlusEmail
+        {
+            get
+            {
+                return $"{FirstName} {LastName} - {Email}";
+            }
+        }
 
         // virtual ----------------------------
 

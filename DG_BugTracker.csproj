@@ -185,6 +185,7 @@
     </Compile>
     <Compile Include="Helpers\EmailModel.cs" />
     <Compile Include="Helpers\ImageUploader.cs" />
+    <Compile Include="Helpers\ProjectHelper.cs" />
     <Compile Include="Helpers\UserRoleHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -750,6 +751,8 @@
     <Content Include="Views\TicketNotifications\Index.cshtml" />
     <Content Include="site.webmanifest" />
     <Content Include="Views\RoleManagement\UserIndex.cshtml" />
+    <Content Include="Views\RoleManagement\ManageSingleRole.cshtml" />
+    <Content Include="Views\RoleManagement\ManageMultipleRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

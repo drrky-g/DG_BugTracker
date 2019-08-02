@@ -1,21 +1,40 @@
 ﻿@using DG_BugTracker.ViewModels
+@using DG_BugTracker.Helpers
 @model IEnumerable<UserProfileViewModel>
+
+@{ 
+    var roleHelper = new UserRoleHelper();
+}
+
 <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header card-header-primary">
-                    <h4 class="card-title ">User Index</h4>
-                    <p class="card-category">This table contains all registered application users.</p>
+                <div class="card-header card-header-danger">
+
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h4 class="card-title ">User Index</h4>
+                            <p class="card-category">This table contains all registered application users.</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2" id="manageAllRoles">
+                            @Html.ActionLink("Manage All User Roles", "ManageMultipleRoles", "RoleManagement", null, new { @class = "btn btn-white btn-sm text-danger" })
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table">
-                            <thead class=" text-primary">
+                            <thead>
                             <th>
-                                Picture
+                                <i class="material-icons">perm_identity</i>
                             </th>
                             <th>
                                 Id
+                            </th>
+                            <th>
+                                Email Address
                             </th>
                             <th>
                                 First Name
@@ -24,6 +43,9 @@
                                 Last Name
                             </th>
                             <th>
+                                Role
+                            </th>
+                            <th class="text-center">
                                 Options
                             </th>
                             </thead>
@@ -32,22 +54,28 @@
                                 {
                                     <tr>
                                         <td>
-                                            <img src="@user.AvatarPath" />
+                                            <img src="@user.AvatarPath" style="width: 30px; height: 30px; border-radius: 40px;" />
                                         </td>
-                                        <td>
+                                        <td class="text-white">
                                             @user.Id
                                         </td>
-                                        <td>
+                                        <td class="text-white">
+                                            @user.Email
+                                        </td>
+                                        <td class="text-white">
                                             @user.FirstName
                                         </td>
-                                        <td>
+                                        <td class="text-white">
                                             @user.LastName
                                         </td>
-                                        <td class="text-primary">
+                                        <td class="text-white">
+                                            @roleHelper.ListUserRoles(user.Id).FirstOrDefault()
+                                        </td>
+                                        <td class="text-primary text-center">
                                             <!-- Link for Assigning Role -->
-
+                                            @Html.ActionLink("Manage Role", "ManageSingleRole", "RoleManagement", new { userId = user.Id }, new { @class = "btn btn-success btn-sm" })
                                             <!-- Link for Assigning Project -->
-
+                                            @Html.ActionLink("Manage Project(s)", "ManageUserProjects", "RoleManagement", new { id = user.Id }, new { @class = "btn btn-warning btn-sm" })
                                         </td>
                                     </tr>
                                 }
@@ -59,3 +87,9 @@
         </div>
     </div>
 
+<style>
+    #manageAllRoles {
+        margin-bottom: -35px;
+    }
+
+</style>

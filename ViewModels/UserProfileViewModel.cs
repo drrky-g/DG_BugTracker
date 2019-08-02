@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using DG_BugTracker.Models;
 
 namespace DG_BugTracker.ViewModels
 {
@@ -23,6 +24,10 @@ namespace DG_BugTracker.ViewModels
 
         [Display(Name = "Profile Picture")]
         public string AvatarPath { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
 
     }
 }
