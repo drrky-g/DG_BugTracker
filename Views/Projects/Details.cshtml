@@ -5,6 +5,29 @@
 }
 
 <h2>Details</h2>
+<!-- fill out form routing info!!!!!-->
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("ProjectId", Model.Id)
+
+    <div class="row">
+        Project Managers
+        @Html.ListBox("ProjectManagers")
+    </div>
+    <div class="row">
+        Developers
+        @Html.ListBox("Developers")
+    </div>
+    <div class="row">
+        Submitters
+        @Html.ListBox("Submitters")
+    </div>
+    <btn type="submit" class="btn btn-sm btn-success" >Assign</btn>
+}
+
+
+
 
 <div>
     <h4>Project</h4>

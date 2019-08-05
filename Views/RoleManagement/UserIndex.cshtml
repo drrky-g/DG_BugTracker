@@ -74,8 +74,8 @@
                                         <td class="text-primary text-center">
                                             <!-- Link for Assigning Role -->
                                             @Html.ActionLink("Manage Role", "ManageSingleRole", "RoleManagement", new { userId = user.Id }, new { @class = "btn btn-success btn-sm" })
-                                            <!-- Link for Assigning Project -->
-                                            @Html.ActionLink("Manage Project(s)", "ManageUserProjects", "RoleManagement", new { id = user.Id }, new { @class = "btn btn-warning btn-sm" })
+                                            <!-- Link for Assigning Projects -->
+                                            @Html.ActionLink("Manage Projects", "ManageUsersMultipleProjects", "RoleManagement", new { userId = user.Id }, new { @class = "btn btn-warning btn-sm" })
                                         </td>
                                     </tr>
                                 }

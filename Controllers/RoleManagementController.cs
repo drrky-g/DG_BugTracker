@@ -16,6 +16,8 @@ namespace DG_BugTracker.Controllers
 
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRoleHelper roleHelper = new UserRoleHelper();
+        private ProjectHelper projectHelper = new ProjectHelper();
+        private UserProjectsHelper managerHelper = new UserProjectsHelper();
 
         
         //
@@ -126,20 +128,79 @@ namespace DG_BugTracker.Controllers
             return RedirectToAction("ManageMultipleRoles");
         }
 
+       
         //
-        //GET: ManageProject
-        public ActionResult ManageProject(string id)
+        //GET: ManageUsersMultipleProjects
+        public ActionResult ManageUsersMultipleProjects(string userId)
         {
-            return View(id);
+
+            ViewBag.UserId = userId;
+            ViewBag.ProjectIds = new MultiSelectList(db.Projects.ToList(), "Id", "Name");
+            return View();
         }
 
         //
-        //POST: ManageProject
+        //POST: ManageUsersMultipleProjects
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ManageProject(UserProfileViewModel id)
+        public ActionResult ManageUsersMultipleProjects(string userId, List<int> projectIds)
         {
-            return View(id);
+            foreach(var project in projectHelper.ListUserProjects(userId))
+            {
+                projectHelper.RemoveUserFromProject(userId, project.Id);
+            }
+            if (projectIds != null)
+            {
+                foreach(var projectId in projectIds)
+                {
+                    projectHelper.AddUserToProject(userId, projectId);
+                }
+            }
+
+            
+            
+            return RedirectToAction("UserIndex");
+        }
+
+        //
+        //POST: ManageProjectUsers
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ManageProjectUsers(int projectId, List<string> ProjectManagers, List<string> Developers, List<string> Submitters)
+        {
+            //1: remove all users from project
+            foreach (var user in projectHelper.UsersOnProject(projectId).ToList())
+            {
+                projectHelper.RemoveUserFromProject(user.Id, projectId);
+            }
+            //2: add back selected PMs
+            if(ProjectManagers != null)
+            {
+                foreach(var projectManagerId in ProjectManagers)
+                {
+                    projectHelper.AddUserToProject(projectManagerId, projectId);
+                }
+            }
+
+            //3: add back selected Devs
+            if (Developers != null)
+            {
+                foreach (var developerId in Developers)
+                {
+                    projectHelper.AddUserToProject(developerId, projectId);
+                }
+            }
+
+            //4: add back selected Submitters
+            if (Submitters != null)
+            {
+                foreach (var submitterId in Submitters)
+                {
+                    projectHelper.AddUserToProject(submitterId, projectId);
+                }
+            }
+
+            return RedirectToAction("Index", "Projects");
         }
     }
 }

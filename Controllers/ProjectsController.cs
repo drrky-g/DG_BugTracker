@@ -6,13 +6,17 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DG_BugTracker.Helpers;
 using DG_BugTracker.Models;
 
 namespace DG_BugTracker.Controllers
 {
     public class ProjectsController : Controller
     {
+        private UserRoleHelper roleHelper = new UserRoleHelper();
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectHelper projectHelper = new ProjectHelper();
+        
 
         // GET: Projects
         public ActionResult Index()
@@ -32,6 +36,25 @@ namespace DG_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+
+            //give details view a multiselectlist of available people per role
+            var allPMs = roleHelper.UsersInRole("Project Manager");
+            var allDevs = roleHelper.UsersInRole("Developer");
+            var allSubmitters = roleHelper.UsersInRole("Submitter");
+
+            //get all current assigned team members
+            var assignedPMs = projectHelper.UsersInRoleOnProject(project.Id, "ProjectManager");
+            var assignedDevs = projectHelper.UsersInRoleOnProject(project.Id, "Developer");
+            var assignedSubmitters = projectHelper.UsersInRoleOnProject(project.Id, "Submitter");
+
+
+
+            //setting view bag to contain multiselect lists of all members of each specific role
+            //maybe make PM a drop down list since only 1 can be on a project at a time?
+            ViewBag.ProjectManagers = new MultiSelectList(allPMs, "Id", "FullNamePlusEmail", assignedPMs);
+            ViewBag.Developers = new MultiSelectList(allDevs, "Id", "FullNamePlusEmail", assignedDevs);
+            ViewBag.Submitters = new MultiSelectList(allSubmitters, "Id", "FullNamePlusEmail", assignedSubmitters);
+
             return View(project);
         }
 

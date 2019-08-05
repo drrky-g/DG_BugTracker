@@ -9,6 +9,22 @@ namespace DG_BugTracker.Helpers
     public class ProjectHelper
     {
         ApplicationDbContext db = new ApplicationDbContext();
+        UserRoleHelper roleHelper = new UserRoleHelper();
+
+        public List<string> UsersInRoleOnProject(int projectId, string roleName)
+        {
+            var people = new List<string>();
+
+            foreach(var user in UsersOnProject(projectId).ToList())
+            {
+                if(roleHelper.IsUserInRole(user.Id, roleName))
+                {
+                    people.Add(user.Id);
+                }
+            }
+
+            return people;
+        }
 
         public bool IsUserOnProject(string userId, int projectId)
         {

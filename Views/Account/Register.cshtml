@@ -28,89 +28,88 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 ml-auto mr-auto">
                     <div class="card card-login">
-                       @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form", @enctype="multipart/form-data", role = "form" }))
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form", @enctype = "multipart/form-data", role = "form" }))
                         {
 
 
 
                             @Html.AntiForgeryToken()
 
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                             <!-- 3rd party OAuth buttons -->
                             <div class="card-header card-header-info text-center">
                                 <h4 class="card-title">Register</h4>
-                                
+
                             </div>
                             <p class="description text-center">Create An Account...</p>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <!-- actual form -->
-                    <div class="card-body">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">mail_outline</i>
-                                </span>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">mail_outline</i>
+                                        </span>
+                                    </div>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">perm_identity</i>
+                                        </span>
+                                    </div>
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">perm_identity</i>
+                                        </span>
+                                    </div>
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">perm_identity</i>
+                                        </span>
+                                    </div>
+                                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", placeholder = "Display Name" })
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">lock</i>
+                                        </span>
+                                    </div>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">lock</i>
+                                        </span>
+                                    </div>
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="material-icons">add_a_photo</i>
+                                        </span>
+                                    </div>
+                                    @Html.TextBoxFor(m => m.AvatarPath, new { @class = "form-control", type = "file", placeholder = "Profile Picture" })
+                                </div>
                             </div>
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">perm_identity</i>
-                                </span>
-                            </div>
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">perm_identity</i>
-                                </span>
-                            </div>
-                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">perm_identity</i>
-                                </span>
-                            </div>
-                            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", placeholder = "Display Name" })
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">lock</i>
-                                </span>
-                            </div>
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">lock</i>
-                                </span>
-                            </div>
-                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="material-icons">add_a_photo</i>
-                                </span>
-                            </div>
-                            @Html.TextBoxFor(m => m.AvatarPath, new { @class = "form-control", type = "file", placeholder = "Profile Picture" })
-                        </div>
-                    </div>
-                    <div class="text-center">
+                            <div class="text-center">
 
-                        <button type="submit" class="btn btn-wd btn-lg btn-link btn-info">Register</button>
-                    </div>
+                                <button type="submit" class="btn btn-wd btn-lg btn-link btn-info">Register</button>
+                            </div>
 
                         }
                     </div>
                     <div class="text-center has-white">
-
-                        
                         @Html.ActionLink("Have an account?", "Login", "Account", new { @class = "btn btn-info btn-wd"} )
                     </div>
                 </div>

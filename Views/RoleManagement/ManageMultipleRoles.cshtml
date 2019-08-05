@@ -23,7 +23,7 @@
             @Html.AntiForgeryToken()
             <div class="row">
                 <div class="col-md-8" id="multiselect">
-                    @Html.ListBox("Users", null, new { @class = "form-control", size = "25", style = "height: 150px" })
+                    @Html.ListBox("Users", null, new { @class = "form-control", size = "25", style = "height: 125px" })
                 </div>
                 <div class="col-md-4" id="dropdown">
                     @Html.DropDownList("RoleName", null, "--Select Role--", new { @class = "form-control text-success" })
@@ -44,7 +44,6 @@
         <th class="text-success">
             <i class="material-icons">perm_identity</i>
         </th>
-
         <th class="text-success">
             Email Address
         </th>
