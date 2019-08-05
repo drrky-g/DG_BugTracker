@@ -2,51 +2,59 @@
 @using DG_BugTracker.Helpers
 @model IEnumerable<UserProfileViewModel>
 
-@{ 
+@{
     var roleHelper = new UserRoleHelper();
 }
 
-@{
-    ViewBag.Title = "ManageMultipleRoles";
-}
 
-<h2>ManageMultipleRoles</h2>
 
 @using (Html.BeginForm())
-{ 
+{
+    <div class="card col-md-9">
+        <div class="card-header card-header-success">
 
-    @Html.AntiForgeryToken()
-<div class="row">
-    <div class="col-md-4">
-        @Html.ListBox("Users", null, new { @class = "form-control" })
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="card-title ">Manage Multiple Roles</h4>
+                    <p class="card-category">Assign Multiple Team Members to Roles.</p>
+                </div>
+            </div></div>
+        <div class="card-body">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-8" id="multiselect">
+                    @Html.ListBox("Users", null, new { @class = "form-control", size = "25", style = "height: 150px" })
+                </div>
+                <div class="col-md-4" id="dropdown">
+                    @Html.DropDownList("RoleName", null, "--Select Role--", new { @class = "form-control text-success" })
+                    <button type="submit" class="btn btn-wd btn-success">Submit Changes</button>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        @Html.DropDownList("RoleName", null, "--Select Role--", new { @class = "form-control" })
-    </div>
-    <div class="col-md-4">
-        <button type="submit" class="btn btn-wd btn-lg btn-primary">Submit Changes</button>
-    </div>
-</div>
-}
+ }
 
 
 <div class="table-responsive">
     <table class="table">
         <thead>
-        <th>
+        <th class="text-success">
             <i class="material-icons">perm_identity</i>
         </th>
-        
-        <th>
+
+        <th class="text-success">
             Email Address
         </th>
-        <th>
+        <th class="text-success">
             First Name
         </th>
-        <th>
+        <th class="text-success">
             Last Name
         </th>
-        <th>
+        <th class="text-success">
             Role
         </th>
         </thead>
@@ -57,7 +65,7 @@
                     <td>
                         <img src="@user.AvatarPath" style="width: 30px; height: 30px; border-radius: 40px;" />
                     </td>
-                    
+
                     <td class="text-white">
                         @user.Email
                     </td>
@@ -70,9 +78,18 @@
                     <td class="text-white">
                         @roleHelper.ListUserRoles(user.Id).FirstOrDefault()
                     </td>
-                    
+
                 </tr>
             }
         </tbody>
     </table>
 </div>
+<div class="text-left has-white">
+    @Html.ActionLink("Return to User Index", "UserIndex", "RoleManagement", new { @class = "btn btn-success" })
+</div>
+
+<style>
+    select {
+        height: 300px;
+    }
+</style>
