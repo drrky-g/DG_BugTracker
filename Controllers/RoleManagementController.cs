@@ -17,7 +17,6 @@ namespace DG_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRoleHelper roleHelper = new UserRoleHelper();
         private ProjectHelper projectHelper = new ProjectHelper();
-        private UserProjectsHelper managerHelper = new UserProjectsHelper();
 
         
         //
@@ -133,9 +132,9 @@ namespace DG_BugTracker.Controllers
         //GET: ManageUsersMultipleProjects
         public ActionResult ManageUsersMultipleProjects(string userId)
         {
-
+            var myProjects = projectHelper.ListUserProjects(userId).Select(proj => proj.Id);
             ViewBag.UserId = userId;
-            ViewBag.ProjectIds = new MultiSelectList(db.Projects.ToList(), "Id", "Name");
+            ViewBag.ProjectIds = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
             return View();
         }
 
@@ -173,6 +172,7 @@ namespace DG_BugTracker.Controllers
             {
                 projectHelper.RemoveUserFromProject(user.Id, projectId);
             }
+
             //2: add back selected PMs
             if(ProjectManagers != null)
             {

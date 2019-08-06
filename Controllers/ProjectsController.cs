@@ -37,13 +37,15 @@ namespace DG_BugTracker.Controllers
                 return HttpNotFound();
             }
 
+
+
             //give details view a multiselectlist of available people per role
             var allPMs = roleHelper.UsersInRole("Project Manager");
             var allDevs = roleHelper.UsersInRole("Developer");
             var allSubmitters = roleHelper.UsersInRole("Submitter");
 
             //get all current assigned team members
-            var assignedPMs = projectHelper.UsersInRoleOnProject(project.Id, "ProjectManager");
+            var assignedPMs = projectHelper.UsersInRoleOnProject(project.Id, "Project Manager");
             var assignedDevs = projectHelper.UsersInRoleOnProject(project.Id, "Developer");
             var assignedSubmitters = projectHelper.UsersInRoleOnProject(project.Id, "Submitter");
 
@@ -57,6 +59,8 @@ namespace DG_BugTracker.Controllers
 
             return View(project);
         }
+
+
 
         // GET: Projects/Create
         [Authorize(Roles = "Admin, Project Manager")]

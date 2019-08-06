@@ -5,25 +5,54 @@
 }
 
 <h2>Details</h2>
-<!-- fill out form routing info!!!!!-->
-@using (Html.BeginForm())
+
+@using (Html.BeginForm("ManageProjectUsers", "RoleManagement", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("ProjectId", Model.Id)
+<div class="row">
+    <div class=" col-md-3 card card-stats">
+        <div class="card-header card-header-success">
+            <h5>
+                Project Managers
+            </h5>
+        </div>
+        <div class="card-body">
+            <!-- multiselect list here-->
+            @Html.ListBox("ProjectManagers", null, htmlAttributes: new { @class = "col-md-12" })
+        </div>
+    </div>
+    <span class="col-md-1"></span>
+    <div class=" col-md-3 card">
+        <div class="card-header card-header-success">
+            <h5>
+                Developers
+            </h5>
+        </div>
+        <div class="card-body">
+            <!-- multiselect list here-->
+            @Html.ListBox("Developers", null, htmlAttributes: new { @class = "col-md-12" })
+        </div>
+    </div>
+    <span class="col-md-1"></span>
+    <div class="col-md-3 card card-stats">
+        <div class="card-header card-header-success">
+            <h5>
+                Submitters
+            </h5>
+        </div>
+        <div class="card-body">
+            <!-- multiselect list here-->
+            @Html.ListBox("Submitters", null, htmlAttributes: new { @class = "col-md-12" })
 
-    <div class="row">
-        Project Managers
-        @Html.ListBox("ProjectManagers")
+        </div>
     </div>
-    <div class="row">
-        Developers
-        @Html.ListBox("Developers")
-    </div>
-    <div class="row">
-        Submitters
-        @Html.ListBox("Submitters")
-    </div>
-    <btn type="submit" class="btn btn-sm btn-success" >Assign</btn>
+</div>
+     <div class="row">
+         <div class="col-md-12 text-center">
+             <button type="submit" class="btn btn-success btn-lg btn-wd">Assign Members</button>
+         </div>
+     </div>
 }
 
 
