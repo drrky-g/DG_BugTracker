@@ -27,9 +27,8 @@
                 Tip 2: you can also add an image using data-image tag
             -->
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-                    Derrick's Tracker
-                </a>
+                @Html.ActionLink("Derrick's Tracker", "Index", "Home", null, htmlAttributes: new { @class = "simple-text logo-normal"})
+                
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
@@ -43,14 +42,10 @@
                         @Html.ActionLink("User Index", "UserIndex", "RoleManagement", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)">
-                            Placeholder
-                        </a>
+                        @Html.ActionLink("Change Your Password", "ChangePassword", "Manage", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0)">
-                            Placeholder
-                        </a>
+                        @Html.ActionLink("Your Tickets", "MyIndex", "Tickets", null, new { @class="nav-link"})
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void(0)">
@@ -68,7 +63,8 @@
             <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
-                        <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+                        
+                        @Html.ActionLink("Dashboard", "Index", "Home",null, htmlAttributes: new { @class = "navbar-brand"})
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="sr-only">Toggle navigation</span>
@@ -304,3 +300,5 @@
 </body>
 
 </html>
+
+@RenderSection("Scripts", required: false)

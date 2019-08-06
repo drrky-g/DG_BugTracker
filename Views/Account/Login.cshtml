@@ -60,6 +60,9 @@
                                     @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
                                 </div>
                             </div>
+                            <div class="row text-danger">
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                            </div>
                             <div class="footer text-center">
 
                                 <button type="submit" class="btn btn-wd btn-lg btn-link btn-primary">Log In</button>

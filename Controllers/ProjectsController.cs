@@ -16,7 +16,7 @@ namespace DG_BugTracker.Controllers
         private UserRoleHelper roleHelper = new UserRoleHelper();
         private ApplicationDbContext db = new ApplicationDbContext();
         private ProjectHelper projectHelper = new ProjectHelper();
-        
+
 
         // GET: Projects
         public ActionResult Index()
@@ -74,7 +74,7 @@ namespace DG_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles ="Admin, Project Manager")]
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Create([Bind(Include = "Id,Name,Description,Created")] Project project)
         {
             if (ModelState.IsValid)
@@ -121,7 +121,7 @@ namespace DG_BugTracker.Controllers
         }
 
         // GET: Projects/Delete/5
-        [Authorize (Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -139,7 +139,7 @@ namespace DG_BugTracker.Controllers
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize (Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);

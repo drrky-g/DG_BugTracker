@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,13 +9,18 @@ namespace DG_BugTracker.Models
     public class Ticket
     {
         public int Id { get; set; }
+        [Display (Name = "Name")]
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTimeOffset Created { get; set; }
         public DateTimeOffset? Updated { get; set; }
+        [Display(Name = "Type")]
         public int TicketTypeId { get; set; }
+        [Display(Name = "Project")]
         public int ProjectId { get; set; }
+        [Display(Name = "Priority")]
         public int TicketPriorityId { get; set; }
+        [Display(Name = "Status")]
         public int TicketStatusId { get; set; }
         public string OwnerUserId { get; set; }
         public string AssignedToUserId { get; set; }

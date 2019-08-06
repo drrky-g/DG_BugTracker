@@ -238,10 +238,12 @@ namespace DG_BugTracker.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return RedirectToAction ("Index", "Home");
             }
             AddErrors(result);
-            return View(model);
+            //return View(model);
+            return RedirectToAction("Index", "Home");
         }
 
         //

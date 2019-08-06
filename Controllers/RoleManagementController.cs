@@ -18,7 +18,15 @@ namespace DG_BugTracker.Controllers
         private UserRoleHelper roleHelper = new UserRoleHelper();
         private ProjectHelper projectHelper = new ProjectHelper();
 
-        
+        //SYNTAX FOR SelectList()
+        // SelectList(
+        //   1:  list of data pushed into control,
+        //   2:  property used in post communication, 
+        //   3:  property displayed in control,
+        //   4:  default selection (usually indicates some sort of pre-existing relationship.
+        //                          for example: if a ticket is already assigned to a developer, it would show here)
+        //                             );
+
         //
         // GET: RoleManagement
         public ActionResult UserIndex()
@@ -39,12 +47,7 @@ namespace DG_BugTracker.Controllers
         //GET: ManageSingleRole
         public ActionResult ManageSingleRole(string userId)
         {
-            //SYNTAX FOR SelectList()
-            // SelectList(
-            //   1:  list of data pushed into control,
-            //   2:  communicate column selection to Post, 
-            //   3:  column we show user inside control,
-            //   4:  if role is already occupied show this)
+            
 
 
             var currentRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
