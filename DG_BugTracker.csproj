@@ -233,6 +233,7 @@
     <Content Include="Content\assets\img\sidebar-2.jpg" />
     <Content Include="Content\assets\img\sidebar-3.jpg" />
     <Content Include="Content\assets\img\sidebar-4.jpg" />
+    <Content Include="Content\dataTable-override.css" />
     <Content Include="Content\LogInAndRegisterAssets\css\material-kit.css" />
     <Content Include="Content\LogInAndRegisterAssets\css\material-kit.min.css" />
     <Content Include="Content\LogInAndRegisterAssets\img\apple-icon.png" />
@@ -278,6 +279,10 @@
     <Content Include="Content\LogInAndRegisterAssets\js\plugins\nouislider.min.js" />
     <Content Include="favicon-16x16.png" />
     <Content Include="favicon-32x32.png" />
+    <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Images\sort_asc.png" />
+    <Content Include="Images\sort_both.png" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\js\core\bootstrap-material-design.min.js" />
     <Content Include="Scripts\js\core\jquery.min.js" />
     <Content Include="Scripts\js\core\popper.min.js" />

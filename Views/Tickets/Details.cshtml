@@ -5,184 +5,360 @@
 }
 
 <h2>Details</h2>
-
-
-<!-- main ticket details-->
-<!--********* 
-    includes:
-    -------------
-    Id
-    Title
-    Description
-    Created
-    Updated
-    Type
-    Status
-    Priority
-    ProjectId
-    Submitter
-    Assigned Dev
-    --------------------
-    -->
+<!-- Misc Details-->
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="card">
-            <div class="card-header card-header-success">
-                <!-- card header-->
-                <h4 class="card-title">@Model.Title</h4>
+            <div class="card-header card-header-primary">
+                <h4>
+                    Ticket: @Html.DisplayFor(model => model.Title)
+                </h4>
             </div>
             <div class="card-body">
-                <!-- card body-->
-            </div>
-            <div class="card-footer">
-                <!-- card footer-->
+                Id Number: @Html.DisplayFor(model => model.Id)
+                <br />
+                <hr />
+                Project Name: @Html.DisplayFor(model => model.Project.Name)
+                <br />
+                <hr />
+                Description: @Html.DisplayFor(model => model.Description)
             </div>
         </div>
     </div>
 </div>
-
-
-<!-- Comments Collection-->
+<!-- Team Members -->
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header card-header-success">
-                <!-- card header-->
-            </div>
-            <div class="card-body">
-                <!-- card body-->
+    <!-- Submission Card-->
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">content_copy</i>
+                </div>
+                <p class="card-category">Submitter:</p>
+                <h4 class="card-title">
+                    @Html.DisplayFor(model => model.OwnerUser.FullName) <!-- may be blank because i made the ticket without being logged in -->
+                </h4>
             </div>
             <div class="card-footer">
-                <!-- card footer-->
+                <div class="stats">
+                    <i class="material-icons">access_time</i> Submitted on: @Html.DisplayFor(model => model.Created)
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Developer Card-->
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-primary card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">code</i>
+                </div>
+                <p class="card-category">Developer:</p>
+                <h4 class="card-title">
+                    @Html.DisplayFor(model => model.AssignedToUser.FullName)
+                </h4>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">update</i>Updated on: @Html.DisplayFor(model => model.Updated)
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Attachments Collection -->
+<!-- Ticket Tags-->
 <div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header card-header-success">
-                <!-- card header-->
-            </div>
-            <div class="card-body">
-                <!-- card body-->
+    <!-- Ticket Type -->
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="card card-stats">
+            <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">local_offer</i>
+                </div>
+                <p class="card-category">Type:</p>
+                <h4 class="card-title">
+                    @Html.DisplayFor(model => model.TicketType.Name)
+                </h4>
             </div>
             <div class="card-footer">
-                <!-- card footer-->
+                <div class="stats">
+                    @Html.ActionLink("View all" ,"Index", "TicketTypes", htmlAttributes: new { @class = "btn-link btn-sm btn-warning"})
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Ticket Status -->
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="card card-stats">
+            <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">local_offer</i>
+                </div>
+                <p class="card-category">Status:</p>
+                <h4 class="card-title">
+                    <!-- needs to be fixed in model, i forgot to provide virtual nav-->
+                    @Html.DisplayFor(model => model.TicketStatus.Name)
+                </h4>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    @Html.ActionLink("View all", "Index", "TicketStatuses", htmlAttributes: new { @class = "btn-link btn-sm btn-warning" })
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Ticket Priority -->
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="card card-stats">
+            <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">local_offer</i>
+                </div>
+                <p class="card-category">Priority:</p>
+                <h4 class="card-title">
+                    @Html.DisplayFor(model => model.TicketPriority.Name)
+                </h4>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    @Html.ActionLink("View all", "Index", "TicketPriorities", htmlAttributes: new { @class = "btn-link btn-sm btn-warning" })
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Histories Collection -->
+<!-- Collections -->
 <div class="row">
-    <div class="col-md-12">
+    <!-- Ticket Comments -->
+    <div class="col-lg-6 col-md-6 col-sm-6">
         <div class="card">
             <div class="card-header card-header-success">
-                <!-- card header-->
+                <h4>
+                    Comments
+                </h4>
+                <button class="btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#commentForm">
+                    <i class="material-icons" style="color: white;">note_add</i>
+                </button>
             </div>
             <div class="card-body">
-                <!-- card body-->
+                @if (Model.TicketComments.Count == 0)
+                {
+                    <i class="text-success"> There are no comments for this ticket.</i>
+                }
+                else
+                {
+                    foreach (var ticketComment in Model.TicketComments.OrderByDescending(comment => comment.Created))
+                    {
+                        <p><b>Posted by @ticketComment.User.FullName :</b>  <i>@ticketComment.Body</i></p>
+                        <hr />
+                    }
+                }
             </div>
-            <div class="card-footer">
-                <!-- card footer-->
+        </div>
+    </div>
+    <!-- Ticket Attachments -->
+    <div class="col-lg-6 col-md-6 col-sm-6">
+        <div class="card">
+            <div class="card-header card-header-success">
+                <h4>
+                    Attachments
+                </h4>
+                <button class="btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#attachForm">
+                    <i class="material-icons" style="color: white;">note_add</i>
+                </button>
+            </div>
+            <div class="card-body">
+                @if (Model.TicketAttachments.Count == 0)
+                {
+                    <i class="text-success"> There are no attachments for this ticket.</i>
+                }
+                else
+                {
+                    foreach (var ticketAttachment in Model.TicketAttachments.OrderByDescending(attachment => attachment.Created))
+                    {
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 col-sm-3">
+                                @ticketAttachment.User.FullName
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6">
+                                @ticketAttachment.Description
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-sm-3">
+                                <!-- Eventually this will be a download link-->
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                }
+
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AssignedToUser.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AssignedToUser.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OwnerUser.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OwnerUser.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketPriority.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketPriority.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketStatusId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatusId)
-        </dd>
-
-    </dl>
+<!-- Ticket History -->
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header card-header-danger">
+                <h4>
+                    History
+                </h4>
+                <button class="btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#historyForm">
+                    <i class="material-icons" style="color: white;">note_add</i>
+                </button>
+            </div>
+            <div class="card-body">
+                @if (Model.TicketHistories.Count == 0)
+                {
+                    <i class="text-danger">There are no history entries for this ticket yet.</i>
+                }
+                else
+                {
+                    foreach(var ticketHistory in Model.TicketHistories.OrderByDescending(history => history.Changed))
+                    {
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 col-sm-3">
+                                @ticketHistory.User.FullName
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-sm-3">
+                                @ticketHistory.Property
+                            </div>
+                            <div class="col-md-3 col-lg-3 col-sm-3">
+                                @ticketHistory.OldValue
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                @ticketHistory.NewValue
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-lg-12">
+        @Html.ActionLink("Edit This Ticket", "Edit", new { id = Model.Id }, htmlAttributes: new { @class = "btn btn-link btn-warning" }) |
+        @Html.ActionLink("Back to List", "MyIndex", null, htmlAttributes: new { @class = "btn btn-link btn-info" })
+    </div>
+</div>
+<!-- Form Modals -->
+
+<!-- Create | Ticket Attachment (To-Do) -->
+<div class="modal fade" id="attachForm" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="form">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add an Attachment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!--body -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link">Nice Button</button>
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Create | Ticket History (Done)-->
+<div class="modal fade" id="historyForm" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="form">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create a History Entry</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            @using (Html.BeginForm("Create", "TicketHistories", FormMethod.Post))
+            {
+                <div class="modal-body">
+
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("TicketId", Model.Id)
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <!-- property field-->
+                        <label class="col-md-12 control-label">
+                            Property:
+                        </label>
+                        <div class="col-lg-10 col-md-10 col-sm-10">
+                            <input name="property" class="form-control" />
+                        </div>
+                    </div>
+                    <!-- old value field-->
+                    <div class="form-group">
+                        <label class="col-md-12 control-label">
+                            Old Value:
+                        </label>
+                        <div class="col-lg-10 col-md-10 col-sm-10">
+                            <input name="oldValue" class="form-control" />
+                        </div>
+                    </div>
+                    <!-- new value field -->
+                    <div class="form-group">
+                        <label class="col-md-12 control-label">
+                            New Value:
+                        </label>
+                        <div class="col-lg-10 col-md-10 col-sm-10">
+                            <input name="newValue" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-link btn-success">Submit</button>
+                    <button class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!-- Create | Ticket Comment (Done) -->
+<div class="modal fade" id="commentForm" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="form">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add a Comment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+       @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+        {
+        <div class="modal-body">
+            @Html.AntiForgeryToken()
+            @Html.Hidden("TicketId", Model.Id)
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <!-- body field field-->
+            <div class="form-group">
+                <label class="col-md-12 control-label">
+                    Comment:
+                </label>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <input name="commentBody" class="form-control" placeholder="Write a comment.." />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success btn-link">Submit</button>
+            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+        </div>
+        }
+        </div>
+    </div>
+</div>

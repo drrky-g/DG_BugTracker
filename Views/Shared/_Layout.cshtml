@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- Material Kit CSS -->
     <link href="~/Content/assets/css/material-dashboard.css" rel="stylesheet" />
+    <!-- dataTables CSS-->
+    <!-- default:-->
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 
 <body class="dark-edition">
@@ -128,16 +131,20 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!--  Google Maps Plugin    -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
     <!-- Chartist JS -->
     <script src="~/Scripts/js/plugins/chartist.min.js"></script>
     <!--  Notifications Plugin    -->
     <script src="~/Scripts/js/plugins/bootstrap-notify.js"></script>
     <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="~/Scripts/js/material-dashboard.js"></script>
-    <!-- demo.js was here, but it said to remove it -->
-    <script>$(document).ready(function() {
+    <!-- dataTables -->
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script>
+        //format all tables with "table" class
+        $(".table").DataTable();
+    </script>
+    <script>
+      $(document).ready(function () {
       $().ready(function() {
         $sidebar = $('.sidebar');
 
@@ -296,7 +303,8 @@
 
         });
       });
-    });</script>
+      });
+    </script>
 </body>
 
 </html>

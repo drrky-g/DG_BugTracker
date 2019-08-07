@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace DG_BugTracker.Models
 {
     public class Ticket
     {
         public int Id { get; set; }
-        [Display (Name = "Name")]
+        [Display(Name = "Name")]
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTimeOffset Created { get; set; }
@@ -22,7 +20,9 @@ namespace DG_BugTracker.Models
         public int TicketPriorityId { get; set; }
         [Display(Name = "Status")]
         public int TicketStatusId { get; set; }
+        [Display(Name = "Submitter")]
         public string OwnerUserId { get; set; }
+        [Display(Name = "Assigned Developer")]
         public string AssignedToUserId { get; set; }
 
         //-------virtual------------------------------------
@@ -32,12 +32,13 @@ namespace DG_BugTracker.Models
         public virtual TicketType TicketType { get; set; }
         public virtual Project Project { get; set; }
         public virtual TicketPriority TicketPriority { get; set; }
+        public virtual TicketStatus TicketStatus { get; set; }
         public virtual ApplicationUser OwnerUser { get; set; }
         public virtual ApplicationUser AssignedToUser { get; set; }
 
         //-------------icollections-------------------------------------
 
-        public virtual ICollection<TicketComment> Comments { get; set; }
+        public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
         public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
@@ -46,7 +47,7 @@ namespace DG_BugTracker.Models
 
         public Ticket()
         {
-            this.Comments = new HashSet<TicketComment>();
+            this.TicketComments = new HashSet<TicketComment>();
             this.TicketAttachments = new HashSet<TicketAttachment>();
             this.TicketHistories = new HashSet<TicketHistory>();
         }

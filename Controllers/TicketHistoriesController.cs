@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DG_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DG_BugTracker.Controllers
 {
@@ -49,13 +50,22 @@ namespace DG_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Property,OldValue,NewValue,Changed,UserId,TicketId")] TicketHistory ticketHistory)
+        public ActionResult Create([Bind(Include = "TicketId")] TicketHistory ticketHistory, string property, string oldValue, string newValue)
         {
             if (ModelState.IsValid)
             {
+                // input ids: property, oldValue, newValue,
+                //passing hidden TicketId
+                ticketHistory.UserId = User.Identity.GetUserId();
+                ticketHistory.Changed = DateTimeOffset.Now;
+                ticketHistory.Property = property;
+                ticketHistory.OldValue = oldValue;
+                ticketHistory.NewValue = newValue;
+
+
                 db.TicketHistories.Add(ticketHistory);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Tickets", new { id = ticketHistory.TicketId});
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketHistory.TicketId);
