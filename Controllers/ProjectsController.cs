@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DG_BugTracker.Helpers;
 using DG_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DG_BugTracker.Controllers
 {
@@ -17,25 +18,53 @@ namespace DG_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ProjectHelper projectHelper = new ProjectHelper();
 
-
         // GET: Projects
+        //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Index()
         {
             return View(db.Projects.ToList());
         }
 
+        // GET: MyProjects
+        public ActionResult MyProjects()
+        {
+
+            var loggedInUser = User.Identity.GetUserId();
+            //if user in project, assign to myProjects
+            //return myProjects to view
+            var myProjects = projectHelper.ListUserProjects(loggedInUser);
+
+            return View("Index", myProjects);
+        }
+
+        
+
         // GET: Projects/Details/5
         public ActionResult Details(int? id)
         {
+            
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            };
+
+
             Project project = db.Projects.Find(id);
+
+
             if (project == null)
             {
                 return HttpNotFound();
-            }
+            };
+
+            var visitor = User.Identity.GetUserId();
+            var allowedAccess = projectHelper.IsUserOnProject(visitor, (int)id);
+
+            if (!allowedAccess)
+            {
+                return RedirectToAction("NotAllowedProject", "Home");
+            };
 
 
 
@@ -63,7 +92,7 @@ namespace DG_BugTracker.Controllers
 
 
         // GET: Projects/Create
-        [Authorize(Roles = "Admin, Project Manager")]
+        //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Create()
         {
             return View();
@@ -74,7 +103,7 @@ namespace DG_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Project Manager")]
+        //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Create([Bind(Include = "Id,Name,Description,Created")] Project project)
         {
             if (ModelState.IsValid)
@@ -88,7 +117,7 @@ namespace DG_BugTracker.Controllers
         }
 
         // GET: Projects/Edit/5
-        [Authorize(Roles = "Admin, Project Manager")]
+        //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -106,9 +135,10 @@ namespace DG_BugTracker.Controllers
         // POST: Projects/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [Authorize(Roles = "Admin, Project Manager")]
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,Created")] Project project)
         {
             if (ModelState.IsValid)
@@ -121,7 +151,7 @@ namespace DG_BugTracker.Controllers
         }
 
         // GET: Projects/Delete/5
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -139,7 +169,7 @@ namespace DG_BugTracker.Controllers
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);

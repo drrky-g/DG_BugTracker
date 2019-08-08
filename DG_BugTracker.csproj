@@ -687,8 +687,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -715,17 +713,14 @@
     <Content Include="Views\Tickets\Details.cshtml" />
     <Content Include="Views\Tickets\Edit.cshtml" />
     <Content Include="Views\Tickets\Index.cshtml" />
-    <Content Include="Views\TicketAttachments\Create.cshtml" />
     <Content Include="Views\TicketAttachments\Delete.cshtml" />
     <Content Include="Views\TicketAttachments\Details.cshtml" />
     <Content Include="Views\TicketAttachments\Edit.cshtml" />
     <Content Include="Views\TicketAttachments\Index.cshtml" />
-    <Content Include="Views\TicketComments\Create.cshtml" />
     <Content Include="Views\TicketComments\Delete.cshtml" />
     <Content Include="Views\TicketComments\Details.cshtml" />
     <Content Include="Views\TicketComments\Edit.cshtml" />
     <Content Include="Views\TicketComments\Index.cshtml" />
-    <Content Include="Views\TicketHistories\Create.cshtml" />
     <Content Include="Views\TicketHistories\Delete.cshtml" />
     <Content Include="Views\TicketHistories\Details.cshtml" />
     <Content Include="Views\TicketHistories\Edit.cshtml" />
@@ -760,6 +755,8 @@
     <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Projects\Index.cshtml" />
+    <Content Include="Views\Home\NotAllowedTicket.cshtml" />
+    <Content Include="Views\Home\NotAllowedProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

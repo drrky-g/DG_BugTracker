@@ -36,14 +36,6 @@ namespace DG_BugTracker.Controllers
             return View(ticketAttachment);
         }
 
-        // GET: TicketAttachments/Create
-        public ActionResult Create()
-        {
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
-        }
-
         // POST: TicketAttachments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

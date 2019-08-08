@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DG_BugTracker.Models;
 using DG_BugTracker.Helpers;
@@ -16,6 +15,11 @@ namespace DG_BugTracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRoleHelper roleHelper = new UserRoleHelper();
+        private ProjectHelper projectHelper = new ProjectHelper();
+        
+        
+
+
 
         // GET: Tickets
         public ActionResult Index()
@@ -24,7 +28,7 @@ namespace DG_BugTracker.Controllers
             return View(tickets.ToList());
         }
 
-        // [Authorize (Roles = "Project Manager, Developer, Submitter"
+        // [Authorize (Roles = "Project Manager, Developer, Submitter")]
         public ActionResult MyIndex()
         {
             //View where the authenticated user only sees tickets theyre associated with
@@ -68,19 +72,80 @@ namespace DG_BugTracker.Controllers
         // GET: Tickets/Details/5
         public ActionResult Details(int? id)
         {
+
+            Ticket ticket = db.Tickets.Find(id);
+
+            //compare logged in user to users assigned the ticket, if they match, allow access
+            var loggedInUser = User.Identity.GetUserId();
+
+            //store assigned dev
+            var assignedDev = ticket.AssignedToUserId;
+
+            //store submitter
+            var assignedSubmitter = ticket.OwnerUserId;
+
+            //if PM is not assigned to the project this ticket is on, deny access
+            
+            //get project id
+            var projectId = ticket.ProjectId;
+
+            //check to see if PM is the PM of the projectId
+            var isOnProject = projectHelper.IsUserOnProject(loggedInUser, projectId);
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Ticket ticket = db.Tickets.Find(id);
+
             if (ticket == null)
             {
                 return HttpNotFound();
             }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                //get user role
+                var myRole = roleHelper.ListUserRoles(loggedInUser).FirstOrDefault();
+
+                switch (myRole)
+                {
+                    case "Project Manager":
+                        //Only allow PM of associated project
+                        if (!isOnProject)
+                        {
+                            return RedirectToAction("NotAllowedTicket", "Home");
+                        }
+                        break;
+                    case "Developer":
+                        //Compare AssignedToUser property to logged in user
+                        if (loggedInUser != assignedDev)
+                        {
+                            return RedirectToAction("NotAllowedTicket", "Home");
+                        }
+                        break;
+                    case "Submitter":
+                        //Compare OwnerUser property to logged in user
+                        if (loggedInUser != assignedSubmitter)
+                        {
+                            return RedirectToAction("NotAllowedTicket", "Home");
+                        }
+                        break;
+                    case "Admin":
+                        //Automatic Access
+                        return View(ticket);
+                }
+            }
+
+            
             return View(ticket);
         }
 
         // GET: Tickets/Create
+        //[Authorize (Roles = "Submitter")]
         public ActionResult Create()
         {
             //variable to only show Devs in assign field
@@ -101,6 +166,7 @@ namespace DG_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize (Roles = "Submitter")]
         public ActionResult Create([Bind(Include = "Id,Title,Description,Updated,TicketTypeId,ProjectId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
 
@@ -116,6 +182,7 @@ namespace DG_BugTracker.Controllers
 
             if (ModelState.IsValid)
             {
+                ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New").Id;
                 //automate created field
                 ticket.Created = DateTimeOffset.Now;
 

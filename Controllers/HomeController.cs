@@ -13,16 +13,16 @@ namespace DG_BugTracker.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult NotAllowedTicket()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "You're not assigned to this ticket";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult NotAllowedProject()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "You're not assigned to this project.";
 
             return View();
         }

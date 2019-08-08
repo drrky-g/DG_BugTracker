@@ -53,6 +53,7 @@ namespace DG_BugTracker.Helpers
             }
         }
 
+
         public void RemoveUserFromProject(string userId, int projectId)
         {
             if(IsUserOnProject(userId, projectId))

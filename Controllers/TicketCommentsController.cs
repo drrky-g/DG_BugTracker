@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DG_BugTracker.Models;
 using Microsoft.AspNet.Identity;
@@ -37,13 +34,6 @@ namespace DG_BugTracker.Controllers
             return View(ticketComment);
         }
 
-        // GET: TicketComments/Create
-        public ActionResult Create()
-        {
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
-            return View();
-        }
 
         // POST: TicketComments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

@@ -29,6 +29,7 @@ namespace DG_BugTracker.Controllers
 
         //
         // GET: RoleManagement
+        //[Authorize(Roles = "Admin")]
         public ActionResult UserIndex()
         {
             var allusers = db.Users.Select(user => new UserProfileViewModel
@@ -45,15 +46,15 @@ namespace DG_BugTracker.Controllers
 
         //
         //GET: ManageSingleRole
+        //[Authorize(Roles = "Admin")]
         public ActionResult ManageSingleRole(string userId)
         {
-            
-
-
             var currentRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+
             ViewBag.UserId = userId;
             ViewBag.UserRole = new SelectList(db.Roles.ToList(), "Name", "Name", currentRole);
             ViewBag.UserName = db.Users.Find(userId).FullName;
+
             return View();
             
         }
@@ -62,6 +63,7 @@ namespace DG_BugTracker.Controllers
         //POST: ManageSingleRole
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin")]
         public ActionResult ManageSingleRole(string userId, string userRole)
         {
             //remove user from any role they have assigned already
@@ -80,6 +82,7 @@ namespace DG_BugTracker.Controllers
 
         //
         //GET: ManageMultipleRoles
+        //[Authorize( Roles = "Admin")]
         public ActionResult ManageMultipleRoles()
         {
 
@@ -103,6 +106,7 @@ namespace DG_BugTracker.Controllers
         //POST: ManageMultipleRoles
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize (Roles = "Admin")]
         public ActionResult ManageMultipleRoles(List<string> users, string roleName)
         {//--------------------------------------^^^^^^^^^^^^^^^^^communicates entire list of users to action
 
@@ -133,6 +137,7 @@ namespace DG_BugTracker.Controllers
        
         //
         //GET: ManageUsersMultipleProjects
+        //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult ManageUsersMultipleProjects(string userId)
         {
             var myProjects = projectHelper.ListUserProjects(userId).Select(proj => proj.Id);
@@ -145,6 +150,7 @@ namespace DG_BugTracker.Controllers
         //POST: ManageUsersMultipleProjects
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult ManageUsersMultipleProjects(string userId, List<int> projectIds)
         {
             foreach(var project in projectHelper.ListUserProjects(userId))
@@ -168,6 +174,7 @@ namespace DG_BugTracker.Controllers
         //POST: ManageProjectUsers
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin, Project Manager')]
         public ActionResult ManageProjectUsers(int projectId, List<string> ProjectManagers, List<string> Developers, List<string> Submitters)
         {
             //1: remove all users from project

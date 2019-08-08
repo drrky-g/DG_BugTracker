@@ -11,17 +11,17 @@
         <div class="card">
             <div class="card-header card-header-primary">
                 <h4>
-                    Ticket: @Html.DisplayFor(model => model.Title)
+                    Ticket: @Model.Title
                 </h4>
             </div>
             <div class="card-body">
-                Id Number: @Html.DisplayFor(model => model.Id)
+                Id Number: @Model.Id)
                 <br />
                 <hr />
-                Project Name: @Html.DisplayFor(model => model.Project.Name)
+                Project Name: @Model.Project.Name
                 <br />
                 <hr />
-                Description: @Html.DisplayFor(model => model.Description)
+                Description: @Model.Description
             </div>
         </div>
     </div>
@@ -36,13 +36,13 @@
                     <i class="material-icons">content_copy</i>
                 </div>
                 <p class="card-category">Submitter:</p>
-                <h4 class="card-title">
-                    @Html.DisplayFor(model => model.OwnerUser.FullName) <!-- may be blank because i made the ticket without being logged in -->
+                <h4 class="card-title text-success">
+                    @Model.OwnerUser.FullName <!-- may be blank because i made the ticket without being logged in -->
                 </h4>
             </div>
             <div class="card-footer">
                 <div class="stats">
-                    <i class="material-icons">access_time</i> Submitted on: @Html.DisplayFor(model => model.Created)
+                    <i class="material-icons">access_time</i> Submitted on: @Model.Created
                 </div>
             </div>
         </div>
@@ -55,9 +55,27 @@
                     <i class="material-icons">code</i>
                 </div>
                 <p class="card-category">Developer:</p>
-                <h4 class="card-title">
-                    @Html.DisplayFor(model => model.AssignedToUser.FullName)
-                </h4>
+                @if (Model.AssignedToUser == null)
+                {
+                    if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("ASSIGN DEV", "Edit", "Tickets", new { id = Model.Id }, htmlAttributes: new { @class = "text-danger"})
+                    }
+                    else
+                    {
+                        <h4 class="card-title text-danger">
+                            Unassigned
+                        </h4>
+                    }
+
+                }
+                else
+                {
+                    <h4 class="card-title">
+                        @Model.AssignedToUser.DisplayName)
+                    </h4>
+                }
+
             </div>
             <div class="card-footer">
                 <div class="stats">
@@ -77,8 +95,8 @@
                     <i class="material-icons">local_offer</i>
                 </div>
                 <p class="card-category">Type:</p>
-                <h4 class="card-title">
-                    @Html.DisplayFor(model => model.TicketType.Name)
+                <h4 class="card-title text-warning">
+                    @Model.TicketType.Name
                 </h4>
             </div>
             <div class="card-footer">
@@ -96,9 +114,9 @@
                     <i class="material-icons">local_offer</i>
                 </div>
                 <p class="card-category">Status:</p>
-                <h4 class="card-title">
+                <h4 class="card-title text-warning">
                     <!-- needs to be fixed in model, i forgot to provide virtual nav-->
-                    @Html.DisplayFor(model => model.TicketStatus.Name)
+                    @Model.TicketStatus.Name
                 </h4>
             </div>
             <div class="card-footer">
@@ -117,8 +135,8 @@
                     <i class="material-icons">local_offer</i>
                 </div>
                 <p class="card-category">Priority:</p>
-                <h4 class="card-title">
-                    @Html.DisplayFor(model => model.TicketPriority.Name)
+                <h4 class="card-title text-warning">
+                    @Model.TicketPriority.Name
                 </h4>
             </div>
             <div class="card-footer">
@@ -137,10 +155,11 @@
             <div class="card-header card-header-success">
                 <h4>
                     Comments
+                    <button class=" float-right btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#commentForm">
+                        <i class="material-icons" style="color: white;">note_add</i>
+                    </button>
                 </h4>
-                <button class="btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#commentForm">
-                    <i class="material-icons" style="color: white;">note_add</i>
-                </button>
+                
             </div>
             <div class="card-body">
                 @if (Model.TicketComments.Count == 0)
@@ -164,10 +183,11 @@
             <div class="card-header card-header-success">
                 <h4>
                     Attachments
+                    <button class=" float-right btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#attachForm">
+                        <i class="material-icons" style="color: white;">note_add</i>
+                    </button>
                 </h4>
-                <button class="btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#attachForm">
-                    <i class="material-icons" style="color: white;">note_add</i>
-                </button>
+                
             </div>
             <div class="card-body">
                 @if (Model.TicketAttachments.Count == 0)
@@ -204,10 +224,10 @@
             <div class="card-header card-header-danger">
                 <h4>
                     History
+                    <button class="float-right btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#historyForm">
+                        <i class="material-icons" style="color: white;">note_add</i>
+                    </button>
                 </h4>
-                <button class="btn btn-link btn-fab btn-round" data-toggle="modal" data-target="#historyForm">
-                    <i class="material-icons" style="color: white;">note_add</i>
-                </button>
             </div>
             <div class="card-body">
                 @if (Model.TicketHistories.Count == 0)
@@ -272,7 +292,7 @@
     <div class="modal-dialog" role="form">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Create a History Entry</h5>
+                <h5 class="modal-title has-white">Create a History Entry</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">clear</i>
                 </button>
@@ -294,7 +314,7 @@
                             Property:
                         </label>
                         <div class="col-lg-10 col-md-10 col-sm-10">
-                            <input name="property" class="form-control" />
+                            <input name="property" class="form-control text-primary" placeholder="What was changed?"/>
                         </div>
                     </div>
                     <!-- old value field-->
@@ -303,7 +323,7 @@
                             Old Value:
                         </label>
                         <div class="col-lg-10 col-md-10 col-sm-10">
-                            <input name="oldValue" class="form-control" />
+                            <input name="oldValue" class="form-control text-primary" placeholder="What was the original value?" />
                         </div>
                     </div>
                     <!-- new value field -->
@@ -312,7 +332,7 @@
                             New Value:
                         </label>
                         <div class="col-lg-10 col-md-10 col-sm-10">
-                            <input name="newValue" class="form-control" />
+                            <input name="newValue" class="form-control text-primary" placeholder="What did you change it to?" />
                         </div>
                     </div>
                 </div>
@@ -326,7 +346,7 @@
 </div>
 <!-- Create | Ticket Comment (Done) -->
 <div class="modal fade" id="commentForm" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="form">
+    <div class="modal-dialog bg-dark" role="form">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Add a Comment</h5>
@@ -350,7 +370,7 @@
                     Comment:
                 </label>
                 <div class="col-lg-10 col-md-10 col-sm-10">
-                    <input name="commentBody" class="form-control" placeholder="Write a comment.." />
+                    <input name="commentBody" class="form-control text-primary" placeholder="Write a comment.." />
                 </div>
             </div>
         </div>
