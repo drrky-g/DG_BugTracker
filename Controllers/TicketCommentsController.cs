@@ -15,6 +15,7 @@ namespace DG_BugTracker.Controllers
         // GET: TicketComments
         public ActionResult Index()
         {
+                                            //This is eager loading, which leads to faster load times
             var ticketComments = db.TicketComments.Include(t => t.Ticket).Include(t => t.User);
             return View(ticketComments.ToList());
         }

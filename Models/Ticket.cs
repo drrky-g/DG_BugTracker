@@ -8,6 +8,7 @@ namespace DG_BugTracker.Models
     {
         public int Id { get; set; }
         [Display(Name = "Name")]
+        [StringLength(50, ErrorMessage = "The title must be between {2} and {1} characters long", MinimumLength = 5)]
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTimeOffset Created { get; set; }

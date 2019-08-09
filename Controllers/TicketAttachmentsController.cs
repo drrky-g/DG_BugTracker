@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using DG_BugTracker.Helpers;
 using DG_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DG_BugTracker.Controllers
 {
@@ -41,10 +44,26 @@ namespace DG_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FilePath,Description,Created,TicketId,UserId")] TicketAttachment ticketAttachment)
+        public ActionResult Create([Bind(Include = "TicketId")] TicketAttachment ticketAttachment, HttpPostedFileBase FilePath, string attachmentDescription)
         {
             if (ModelState.IsValid)
             {
+                ticketAttachment.Description = attachmentDescription;
+                ticketAttachment.Created = DateTimeOffset.Now;
+                ticketAttachment.UserId = User.Identity.GetUserId();
+
+                //Use Attachment Upload Validator to verify file
+                if (ImageUploader.IsValidAttachment(FilePath))
+                {
+                    var fileName = Path.GetFileName(FilePath.FileName);
+                    FilePath.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), fileName));
+                    ticketAttachment.FilePath = "/Attachments/" + fileName;
+                }
+
+
+
+
+
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
                 return RedirectToAction("Index");

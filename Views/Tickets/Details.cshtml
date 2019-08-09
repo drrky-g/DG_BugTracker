@@ -199,14 +199,30 @@
                     foreach (var ticketAttachment in Model.TicketAttachments.OrderByDescending(attachment => attachment.Created))
                     {
                         <div class="row">
+                            <!-- attachment author-->
                             <div class="col-md-3 col-lg-3 col-sm-3">
                                 @ticketAttachment.User.FullName
                             </div>
-                            <div class="col-md-6 col-lg-6 col-sm-6">
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                                @ticketAttachment.Created.ToString("MMMM dd, yyyy")
+                                <!-- check string formatting?-->
+                            </div>
+                            <!-- display file path-->
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                                <!-- takes file path and splits it for the selected icon, [x] x= array position-->
+                                <!-- /Uploads/FileAttachment1.pdf -->
+                                @ticketAttachment.FilePath.Split('/')[2].Split('.')[0];
+                                <!-- this will output 'FileAttachment' -->
+                                <!-- experiment with Path object linq statements-->
+                                <!-- Path.GetFileNameWithoutExtension(ticketAttachment.FilePath)-->
+                            </div>
+                            <!-- description-->
+                            <div class="col-md-4 col-lg-4 col-sm-4">
                                 @ticketAttachment.Description
                             </div>
-                            <div class="col-md-3 col-lg-3 col-sm-3">
+                            <div class="col-md-1 col-lg-1 col-sm-1">
                                 <!-- Eventually this will be a download link-->
+                                <a href="@ticketAttachment.FilePath" target="_blank" class="btn btn-sm btn.link">Download</a>
                             </div>
                         </div>
                         <hr />
@@ -279,6 +295,34 @@
             </div>
             <div class="modal-body">
                 <!--body -->
+                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { @class = "form", enctype = "Multipart/form-data"}))
+                {
+                    @Html.AntiForgeryToken();
+                    @Html.Hidden("TicketId", Model.Id)
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            @Html.ValidationSummary(true, "", new { @class= "text-danger"})
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-sm-12">
+                            <!-- RENAME DESCRIPTION PROPERTY OR IT WILL ASSOCIATE WITH TICKET DESCRIPTION -->
+                            <input  type="text" name="attachmentDescription" id="attachmentDescription" class="form-control text-success" placeholder="Description"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-sm-12">
+                            <input type="file" name="FilePath" id="filePath" class="form-control text-success" placeholder="Upload a file"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <button type="submit" class="btn btn-link btn-info">Upload Attachment</button>
+                        </div>
+                    </div>
+
+                }
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-link">Nice Button</button>

@@ -74,9 +74,15 @@ namespace DG_BugTracker.Controllers
         {
 
             Ticket ticket = db.Tickets.Find(id);
-
+             
             //compare logged in user to users assigned the ticket, if they match, allow access
             var loggedInUser = User.Identity.GetUserId();
+
+            //get project id
+            var projectId = ticket.ProjectId;
+
+            //check to see if PM is the PM of the projectId
+            var isOnProject = projectHelper.IsUserOnProject(loggedInUser, projectId);
 
             //store assigned dev
             var assignedDev = ticket.AssignedToUserId;
@@ -84,13 +90,7 @@ namespace DG_BugTracker.Controllers
             //store submitter
             var assignedSubmitter = ticket.OwnerUserId;
 
-            //if PM is not assigned to the project this ticket is on, deny access
             
-            //get project id
-            var projectId = ticket.ProjectId;
-
-            //check to see if PM is the PM of the projectId
-            var isOnProject = projectHelper.IsUserOnProject(loggedInUser, projectId);
 
             if (id == null)
             {
