@@ -174,7 +174,7 @@ namespace DG_BugTracker.Controllers
         //POST: ManageProjectUsers
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin, Project Manager')]
+        //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult ManageProjectUsers(int projectId, List<string> ProjectManagers, List<string> Developers, List<string> Submitters)
         {
             //1: remove all users from project

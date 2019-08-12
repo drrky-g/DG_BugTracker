@@ -4,84 +4,113 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr >
-        <th>
-            Developer
-        </th>
-        <th>
-            Submitter
-        </th>
-        <th>
-            Project
-        </th>
-        <th>
-            Priority
-        </th>
-        <th>
-            Type
-        </th>
-        <th>
-            Name
-        </th>
-        <th>
-            Description
-        </th>
-        <th>
-            Created On
-        </th>
-        <th>
-            Updated On
-        </th>
-        <th>
-            Status
-        </th>
-        <th></th>
-    </tr>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-success">
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.AssignedToUser.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OwnerUser.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Project.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketType.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Created)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Updated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketStatusId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h4 class="card-title ">Ticket Index</h4>
+                            <p class="card-category">This table contains your tickets.</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Project
+                                    </th>
+                                    <th>
+                                        Title
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th>
+                                        Created
+                                    </th>
+                                    <th>
+                                        Updated
+                                    </th>
+                                    <th>
+                                        Type
+                                    </th>
+                                    <th>
+                                        Priority
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Submitter
+                                    </th>
+                                    <th>
+                                        Developer
+                                    </th>
+                                    <th class="text-center">
+                                        Options
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ticket in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @ticket.Project.Name
+                                    </td>
+                                    <td class="text-white">
+                                        @ticket.Title
+                                    </td>
+                                    <td class="text-white">
+                                        @ticket.Description
+                                    </td>
+                                    <td class="text-white">
+                                        @ticket.Created
+                                    </td>
+                                    <td class="text-white">
+                                        @ticket.Updated
+                                    </td>
+                                    <td class="text-white">
+                                        @ticket.TicketType.Name
+                                    </td>
+                                    <td class="text-white">
+                                        @ticket.TicketPriority.Name
+                                    </td>
+                                    <td class="text-white">
+                                        @ticket.TicketStatus.Name
+                                    </td>
+                                    <td class="text-white">
+                                        @ticket.OwnerUser.FullName
+                                    </td>
+                                    <td class="text-white">
+                                        @if (ticket.AssignedToUser != null)
+                                        {
+                                            @ticket.AssignedToUser.FullName
+                                        }
+                                        else
+                                        {
+                                            <p>Not Assigned</p>
+                                        }
 
-</table>
+                                    </td>
+                                    <td class="text-primary text-center">
+                                        <!-- Link for details -->
+                                        @Html.ActionLink("Details", "Details", "Tickets", new { Id = ticket.Id }, new { @class = "btn btn-success btn-sm" })
+                                        
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

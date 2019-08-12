@@ -16,7 +16,7 @@ using System.IO;
 
 namespace DG_BugTracker.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

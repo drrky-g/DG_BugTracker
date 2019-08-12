@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -12,6 +13,49 @@ namespace DG_BugTracker.Models
         public string Description { get; set; }
         public DateTimeOffset Created { get; set; }
 
+        //------id targetting strings--------------
+        
+        
+        [NotMapped]
+        public string BtnTarget
+        {
+            get
+            {
+                return $"p{Id}btn";
+            }
+        }
+        [NotMapped]
+        public string IdTarget
+        {
+            get
+            {
+                return $"p{Id}Id";
+            }
+        }
+        [NotMapped]
+        public string NameTarget
+        {
+            get
+            {
+                return $"p{Id}Name";
+            }
+        }
+        [NotMapped]
+        public string DescTarget
+        {
+            get
+            {
+                return $"p{Id}Desc";
+            }
+        }
+        [NotMapped]
+        public string CreatedTarget
+        {
+            get
+            {
+                return $"p{Id}Created";
+            }
+        }
         //------------virtual----------------------------
         //------------icollection------------------------
         public virtual ICollection<Ticket> Tickets { get; set; }

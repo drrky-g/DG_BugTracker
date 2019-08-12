@@ -10,7 +10,7 @@ using DG_BugTracker.Models;
 
 namespace DG_BugTracker.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

@@ -28,7 +28,7 @@ namespace DG_BugTracker.Controllers
             return View(tickets.ToList());
         }
 
-        // [Authorize (Roles = "Project Manager, Developer, Submitter")]
+        //[Authorize (Roles = "Project Manager, Developer, Submitter")]
         public ActionResult MyIndex()
         {
             //View where the authenticated user only sees tickets theyre associated with

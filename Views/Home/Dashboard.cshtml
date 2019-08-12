@@ -1,0 +1,477 @@
+﻿@using DG_BugTracker.ViewModels
+@using DG_BugTracker.Helpers
+@model MyDashboard
+
+@{
+    var rH = new UserRoleHelper();
+}
+<!-- Dashboard View--------------------------------
+    -----------------------------------------------
+    two tables, your projects and your tickets
+    modal that injects table data into details modal
+    use vue to transfer row data into details
+    use vue to transfer row data into relevant forms
+    ------------------------------------------------->
+
+
+    <!-- greeting -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Greeting Message for User-->
+            <h2>Welcome back, Mr. Stark</h2>
+        </div>
+    </div> <!-- greeting row end -->
+    <!-- my projects -->
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Project Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Created
+                        </th>
+                        <th>
+                            Team Members
+                        </th>
+                        <th>
+                            Tickets
+                        </th>
+                        <th>
+                            Details
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model.MyProjects)
+                    {
+                        <tr>
+                            <td id="@project.IdTarget">
+                                @project.Id
+                            </td>
+                            <td id="@project.NameTarget">
+                                @project.Name
+                            </td>
+                            <td id="@project.DescTarget">
+                                @project.Description
+                            </td>
+                            <td id="@project.CreatedTarget">
+                                @project.Created
+                            </td>
+                            <td>
+                                @foreach (var user in project.Users)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img src="@user.AvatarPath" style="width: 30px; height: 30px; border-radius: 40px;" />
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @user.FullName
+                                        </div>
+                                        <div>
+                                            @user.Email
+                                        </div>
+                                        <div>
+                                            @if (rH.ListUserRoles(user.Id).FirstOrDefault() != null)
+                                            {
+                                                @rH.ListUserRoles(user.Id).FirstOrDefault()
+                                            }
+                                            else
+                                            {
+                                                <p> Unassigned to a Role</p>
+                                            }
+
+                                        </div>
+                                    </div>
+                                }
+                                <!-- team members? -->
+                            </td>
+                            <td>
+                                @foreach (var ticket in project.Tickets)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @ticket.Id
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @ticket.Title
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @ticket.Description
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <a href="#@ticket.RowTarget">Go To Ticket</a>
+                                            <!-- Link to tickets row in ticket table?
+                                                            or pops out actual ticket modal?-->
+                                        </div>
+                                    </div>
+                                }
+                                <!-- tickets? -->
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div><!-- project row end -->
+    <!-- my tickets-->
+    <div class="row">
+        <div class="col-md-12">
+            <table id="ticketTable" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Project
+                        </th>
+                        <th>
+                            Id
+                        </th>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Created
+                        </th>
+                        <th>
+                            Updated
+                        </th>
+                        <th>
+                            Type
+                        </th>
+                        <th>
+                            Priority
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Submitter
+                        </th>
+                        <th>
+                            Developer
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th>
+                            Attachments
+                        </th>
+                        <th>
+                            History
+                        </th>
+                        <th>
+                            Notifications
+                        </th>
+                        <th>
+                            Details
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Model.MyTickets)
+                    {
+                        <tr id="@ticket.RowTarget">
+                            <td id="@ticket.ProjectTarget">
+                                @ticket.Project.Name
+                            </td>
+                            <td id="@ticket.IdTarget">
+                                @ticket.Id
+                            </td>
+                            <td id="@ticket.TitleTarget">
+                                @ticket.Title
+                            </td>
+                            <td id="@ticket.DescriptionTarget">
+                                @ticket.Description
+                            </td>
+                            <td id="@ticket.CreatedTarget">
+                                @ticket.Created
+                            </td>
+                            <td id="@ticket.UpdatedTarget">
+                                @ticket.Updated
+                            </td>
+                            <td id="@ticket.TypeTarget">
+                                @ticket.TicketType.Name
+                            </td>
+                            <td id="@ticket.PriorityTarget">
+                                @ticket.TicketPriority.Name
+                            </td>
+                            <td id="@ticket.StatusTarget">
+                                @ticket.TicketStatus.Name
+                            </td>
+                            <td id="@ticket.SubTarget">
+                                @ticket.OwnerUser.FullName <!-- maybe just user name or avatar? idk... -->
+                            </td>
+                            <td id="@ticket.DevTarget">
+                                @if (ticket.AssignedToUser != null)
+                                {
+                                    @ticket.AssignedToUser.FullName
+                                }
+                                else
+                                {
+                                    <p> Unassigned</p>
+                                }
+                                <!-- ^^ same as above ^^-->
+                            </td>
+                            <td>
+                                <!-- comments? -->
+                                @foreach (var comment in ticket.TicketComments)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            @comment.Created
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            @comment.User.FullName
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            @comment.Body
+                                        </div>
+                                    </div>
+
+                                }
+                            </td>
+                            <td>
+                                <!-- attachments? -->
+                                @foreach (var attachment in ticket.TicketAttachments)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            @attachment.Created
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            @attachment.User.FullName
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            @attachment.Description
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3">
+                                            @attachment.FilePath
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                <!-- histories? -->
+                                @foreach (var history in ticket.TicketHistories)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @history.User.FullName
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            @history.Property
+                                        </div>
+                                        <div>
+                                            @history.OldValue
+                                        </div>
+                                        <div>
+                                            @history.NewValue
+                                        </div>
+                                        <div>
+                                            @history.User.FullName
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                <!-- notifications? -->
+
+                            </td>
+                            <td>
+                                <button  id="@ticket.BtnTarget" class="detailFire btn btn-sm btn-link btn-success" data-toggle="modal" data-target="#detailTargetWindow">
+                                    Details
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Dynamic table render?-->
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-lg-12">
+                    <b-table striped hover :items="items"></b-table>
+                </div>
+            </div>
+        </div>
+    </div> <!-- ticket row end -->
+
+
+<!-- dynamic detail  modal window-->
+<div class="modal fade" id="detailTargetWindow" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- ticket title + ticket ID-->
+                <h5 class="modal-title" >Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">clear</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- detail window content-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Ticket Id -->
+                        <p id="idPropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Ticket Title -->
+                        <p id="titlePropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Ticket Desc -->
+                        <p  id="descPropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Ticket Created -->
+                        <p id="crePropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Ticket Updated -->
+                        <p  id="updPropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Tickets Parent Project Name -->
+                        <p id="projNamePropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Ticket Type -->
+                        <p id="typePropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12" >
+                        <!-- Ticket Status -->
+                        <p id="statusPropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Ticket Priority -->
+                        <p id="priorityPropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Ticket Submitter -->
+                        <p id="subPropTarget"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Content type -->
+                        <p id="devPropTarget"></p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link">Nice Button</button>
+                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- to do list-->
+<!-------------------------
+
+    2| impliment vue,
+    3| write script for injecting and routing via id/class,
+    4| structure modal,
+    -------------------------------------->
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/vue.js"></script>
+
+<script>
+    //How will I target this content????
+    //string break + rebuild of the id of the button (model passes a unique id to button)
+    $('.detailFire').click(function () {
+        //store the id of the button (has id nested inside of it)
+        var btnFullId = this.id;
+        //split the characters of the id string into an array
+        var idBreak = btnFullId.split('')
+        //removes 'btn' from end of id
+        idBreak.splice(idBreak.length - 3, 3);
+        //take 't' from beginning of string
+        idBreak.splice(0, 1);
+        //remaining values in 'idBreak' string is now solely the id of the ticket itself
+
+        //rebuild the targetting strings out of the remaining value (the id) (these are unmapped but in the model itself)
+        var idCellTarget = "t" + idBreak + "Id";
+        var titleCellTarget = "t" + idBreak + "Title";
+        var descrCellTarget = "t" + idBreak + "Desc";
+        var createdCellTarget = "t" + idBreak + "Created";
+        var updatedCellTarget = "t" + idBreak + "Updated";
+        var projectCellTarget = "t" + idBreak + "Project";
+        var typeCellTarget = "t" + idBreak + "Type";
+        var statusCellTarget = "t" + idBreak + "Status";
+        var priorCellTarget = "t" + idBreak + "Priority";
+        var subCellTarget = "t" + idBreak + "Sub";
+        var devCellTarget = "t" + idBreak + "Dev";
+
+        //pull data inside the cells into variables
+        var idToDetails = document.getElementById(idCellTarget).innerText;
+        var titleToDetails = document.getElementById(titleCellTarget).innerText;
+        var descToDetails = document.getElementById(descrCellTarget).innerText;
+        var createdToDetails = document.getElementById(createdCellTarget).innerText;
+        var updatedToDetails = document.getElementById(updatedCellTarget).innerText;
+        var projToDetails = document.getElementById(projectCellTarget).innerText;
+        var typeToDetails = document.getElementById(typeCellTarget).innerText;
+        var statusToDetails = document.getElementById(statusCellTarget).innerText;
+        var priorToDetails = document.getElementById(priorCellTarget).innerText;
+        var subToDetails = document.getElementById(subCellTarget).innerText;
+        var devToDetails = document.getElementById(devCellTarget).innerText;
+
+        //push that data back into the modal targeted elements
+        $('#idPropTarget').text(idToDetails);
+        $('#titlePropTarget').text(titleToDetails);
+        $('#descPropTarget').text(descToDetails);
+        $('#crePropTarget').text(createdToDetails);
+        $('#updPropTarget').text(updatedToDetails);
+        $('#projNamePropTarget').text(projToDetails);
+        $('#typePropTarget').text(typeToDetails);
+        $('#statusPropTarget').text(statusToDetails);
+        $('#priorityPropTarget').text(priorToDetails);
+        $('#subPropTarget').text(subToDetails);
+        $('#devPropTarget').text(devToDetails);
+
+
+
+
+    });
+
+
+
+
+
+
+
+</script>

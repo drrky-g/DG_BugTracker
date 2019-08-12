@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using DG_BugTracker.Models;
 
 namespace DG_BugTracker.ViewModels
@@ -28,6 +29,9 @@ namespace DG_BugTracker.ViewModels
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        public IEnumerable<SelectListItem> CurrentRole { get; set; }
+        public IEnumerable<SelectListItem> CurrentProjects { get; set; }
 
     }
 }
