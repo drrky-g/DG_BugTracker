@@ -764,6 +764,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Attachments\" />
     <Folder Include="Avatars\" />
   </ItemGroup>
   <ItemGroup>

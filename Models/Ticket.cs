@@ -141,7 +141,38 @@ namespace DG_BugTracker.Models
                 return $"t{Id}Dev";
             }
         }
-       
+        [NotMapped]
+        public string CommentContainerTarget
+        {
+            get
+            {
+                return $"t{Id}Comms";
+            }
+        }
+        [NotMapped]
+        public string AttachmentContainerTarget
+        {
+            get
+            {
+                return $"t{Id}Attach";
+            }
+        }
+        [NotMapped]
+        public string HistoryContainerTarget
+        {
+            get
+            {
+                return $"t{Id}Hist";
+            }
+        }
+        [NotMapped]
+        public string NotifContainerTarget
+        {
+            get
+            {
+                return $"t{Id}Notif";
+            }
+        }
 
 
         //-------------icollections-------------------------------------

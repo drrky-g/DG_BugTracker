@@ -66,6 +66,7 @@ namespace DG_BugTracker.Controllers
                     myTickets = dB.Users.Find(userId).Projects.SelectMany(ticket => ticket.Tickets).ToList();
                     break;
                 case "Admin":
+                    myProjects = dB.Projects.ToList();
                     myTickets = dB.Tickets.ToList();
                     break;
             }

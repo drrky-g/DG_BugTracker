@@ -115,7 +115,6 @@
                 </div>
                 <p class="card-category">Status:</p>
                 <h4 class="card-title text-warning">
-                    <!-- needs to be fixed in model, i forgot to provide virtual nav-->
                     @Model.TicketStatus.Name
                 </h4>
             </div>
@@ -204,25 +203,25 @@
                                 @ticketAttachment.User.FullName
                             </div>
                             <div class="col-sm-2 col-md-2 col-lg-2">
-                                @ticketAttachment.Created.ToString("MMMM dd, yyyy")
+                                @ticketAttachment.Created.ToString("MM/dd/yyyy h:mm tt")
                                 <!-- check string formatting?-->
                             </div>
                             <!-- display file path-->
                             <div class="col-sm-2 col-md-2 col-lg-2">
                                 <!-- takes file path and splits it for the selected icon, [x] x= array position-->
                                 <!-- /Uploads/FileAttachment1.pdf -->
-                                @ticketAttachment.FilePath.Split('/')[2].Split('.')[0];
+                                @ticketAttachment.FilePath.Split('/')[2].Split('.')[0]
                                 <!-- this will output 'FileAttachment' -->
                                 <!-- experiment with Path object linq statements-->
                                 <!-- Path.GetFileNameWithoutExtension(ticketAttachment.FilePath)-->
                             </div>
                             <!-- description-->
-                            <div class="col-md-4 col-lg-4 col-sm-4">
+                            <div class="col-md-3 col-lg-3 col-sm-3">
                                 @ticketAttachment.Description
                             </div>
-                            <div class="col-md-1 col-lg-1 col-sm-1">
+                            <div class="col-md-2 col-lg-2 col-sm-2">
                                 <!-- Eventually this will be a download link-->
-                                <a href="@ticketAttachment.FilePath" target="_blank" class="btn btn-sm btn.link">Download</a>
+                                <a href="@ticketAttachment.FilePath" target="_blank" class="btn btn-fab btn-round"><i class="material-icons">cloud_download</i></a>
                             </div>
                         </div>
                         <hr />

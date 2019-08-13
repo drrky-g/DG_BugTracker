@@ -164,16 +164,16 @@
                         <th>
                             Developer
                         </th>
-                        <th>
+                        <th hidden>
                             Comments
                         </th>
-                        <th>
+                        <th hidden>
                             Attachments
                         </th>
-                        <th>
+                        <th hidden>
                             History
                         </th>
-                        <th>
+                        <th hidden>
                             Notifications
                         </th>
                         <th>
@@ -198,7 +198,7 @@
                                 @ticket.Description
                             </td>
                             <td id="@ticket.CreatedTarget">
-                                @ticket.Created
+                                @ticket.Created.ToString("MM/dd/yyyy h:mm tt")
                             </td>
                             <td id="@ticket.UpdatedTarget">
                                 @ticket.Updated
@@ -226,7 +226,7 @@
                                 }
                                 <!-- ^^ same as above ^^-->
                             </td>
-                            <td>
+                            <td hidden id="@ticket.CommentContainerTarget">
                                 <!-- comments? -->
                                 @foreach (var comment in ticket.TicketComments)
                                 {
@@ -241,10 +241,11 @@
                                             @comment.Body
                                         </div>
                                     </div>
+                                    <hr />
 
                                 }
                             </td>
-                            <td>
+                            <td hidden id="@ticket.AttachmentContainerTarget">
                                 <!-- attachments? -->
                                 @foreach (var attachment in ticket.TicketAttachments)
                                 {
@@ -262,9 +263,10 @@
                                             @attachment.FilePath
                                         </div>
                                     </div>
+                                    <hr />
                                 }
                             </td>
-                            <td>
+                            <td hidden id="@ticket.HistoryContainerTarget">
                                 <!-- histories? -->
                                 @foreach (var history in ticket.TicketHistories)
                                 {
@@ -287,7 +289,7 @@
                                     </div>
                                 }
                             </td>
-                            <td>
+                            <td hidden id="@ticket.NotifContainerTarget">
                                 <!-- notifications? -->
 
                             </td>
@@ -300,48 +302,110 @@
                     }
                 </tbody>
             </table>
-
-            <!-- Dynamic table render?-->
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-lg-12">
-                    <b-table striped hover :items="items"></b-table>
-                </div>
-            </div>
         </div>
     </div> <!-- ticket row end -->
 
 
 <!-- dynamic detail  modal window-->
 <div class="modal fade" id="detailTargetWindow" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <!-- Header Div-->
             <div class="modal-header">
-                <!-- ticket title + ticket ID-->
-                <h5 class="modal-title" >Modal title</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <!-- Ticket ID (this may need to be placed somewhere else...)-->
+                            <h5 id="idPropTarget"></h5>
+                        </div>
+                        <div class="col-md-10">
+                            <!-- Ticket Title-->
+                            <h5 class="float-left" id="titlePropTarget"></h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- close button (dont change)-->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="material-icons">clear</i>
                 </button>
-            </div>
+            </div><!-- Header Div End-->
+            <!-- Body Div -->
             <div class="modal-body">
-                <!-- detail window content-->
+                <!-- Ticket "Users" Sections -->
                 <div class="row">
-                    <div class="col-md-12">
-                        <!-- Ticket Id -->
-                        <p id="idPropTarget"></p>
+                    <!-- Submitter Card-->
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header-success">
+                                <!-- Submitter Card Header-->
+                                <h6>Ticket Submitter:</h6>
+                            </div>
+                            <div class="card-body">
+                                <!-- Submitter Card Body -->
+                                <p id="subPropTarget"></p>
+                                <!-- Created Date?-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header-warning">
+                                <!-- Developer Card Header -->
+                                <h6>Ticket Developer:</h6>
+                            </div>
+                            <div class="card-body">
+                                <!-- Developer Card Body -->
+                                <p id="devPropTarget"></p>
+                                <!-- Assigned Date?-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tags/Labels for Ticket-->
+                <div class="row">
+                    <div class="col-md-3">
+                        <p> Ticket Tags:</p>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Ticket Type -->
+                        <p id="typePropTarget"><!-- Ticket Type--></p>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Ticket Status -->
+                        <p id="statusPropTarget"></p>
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Ticket Priority -->
+                        <p id="priorityPropTarget"></p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- Ticket Title -->
-                        <p id="titlePropTarget"></p>
+                        <p id="projNamePropTarget"></p>
                     </div>
                 </div>
+                <!-- Description-->
                 <div class="row">
                     <div class="col-md-12">
-                        <!-- Ticket Desc -->
-                        <p  id="descPropTarget"></p>
+                        <p id="descPropTarget"></p>
                     </div>
                 </div>
+                <!-- Comments Accordion -->
+                <div class="row">
+                    <button class=" btn btn-info col-md-12" data-toggle="collapse" data-target="#commentCollTarget">
+                        Comments
+                    </button>
+                    <!-- Comments Collection -->
+                    <div id="commentCollTarget" class="collapse"></div>
+                </div>
+                <!-- Attachments Accordion -->
+                <div class="row">
+                    <button class="btn btn-info col-md-12" data-toggle="collapse" data-target="#attachCollTarget">
+                        Attachments
+                    </button>
+                    <div id="attachCollTarget"></div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Ticket Created -->
@@ -351,7 +415,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Ticket Updated -->
-                        <p  id="updPropTarget"></p>
+                        <p id="updPropTarget"></p>
                     </div>
                 </div>
                 <div class="row">
@@ -360,45 +424,16 @@
                         <p id="projNamePropTarget"></p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Ticket Type -->
-                        <p id="typePropTarget"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12" >
-                        <!-- Ticket Status -->
-                        <p id="statusPropTarget"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Ticket Priority -->
-                        <p id="priorityPropTarget"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Ticket Submitter -->
-                        <p id="subPropTarget"></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Content type -->
-                        <p id="devPropTarget"></p>
-                    </div>
-                </div>
                 
+
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-link">Nice Button</button>
+                
                 <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
+</div> <!-- modal end -->
 
 <!-- to do list-->
 <!-------------------------
@@ -408,13 +443,13 @@
     4| structure modal,
     -------------------------------------->
 <script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/vue.js"></script>
 
 <script>
-    //How will I target this content????
-    //string break + rebuild of the id of the button (model passes a unique id to button)
+    
+    //listens for "details" button click
     $('.detailFire').click(function () {
-        //store the id of the button (has id nested inside of it)
+        //store the id of the button (has id nested inside of it from [notmapped] model property)
+        //the button id looks like this: 't{Ticket.Id}btn'
         var btnFullId = this.id;
         //split the characters of the id string into an array
         var idBreak = btnFullId.split('')
@@ -422,9 +457,9 @@
         idBreak.splice(idBreak.length - 3, 3);
         //take 't' from beginning of string
         idBreak.splice(0, 1);
-        //remaining values in 'idBreak' string is now solely the id of the ticket itself
+        //remaining values in 'idBreak' string is now solely the id of the ticket in the model
 
-        //rebuild the targetting strings out of the remaining value (the id) (these are unmapped but in the model itself)
+        //rebuild the targetting strings out of the remaining value (the id) (these are [notmapped] model properties)
         var idCellTarget = "t" + idBreak + "Id";
         var titleCellTarget = "t" + idBreak + "Title";
         var descrCellTarget = "t" + idBreak + "Desc";
@@ -436,6 +471,8 @@
         var priorCellTarget = "t" + idBreak + "Priority";
         var subCellTarget = "t" + idBreak + "Sub";
         var devCellTarget = "t" + idBreak + "Dev";
+        var commContainer = "t" + idBreak + "Comms";
+        var attachContainer = "t" + idBreak + "Attach";
 
         //pull data inside the cells into variables
         var idToDetails = document.getElementById(idCellTarget).innerText;
@@ -449,6 +486,8 @@
         var priorToDetails = document.getElementById(priorCellTarget).innerText;
         var subToDetails = document.getElementById(subCellTarget).innerText;
         var devToDetails = document.getElementById(devCellTarget).innerText;
+        var commentsToDetails = document.getElementById(commContainer).innerHTML;
+        var attachmentsToDetails = document.getElementById(attachContainer).innerHTML;
 
         //push that data back into the modal targeted elements
         $('#idPropTarget').text(idToDetails);
@@ -462,16 +501,13 @@
         $('#priorityPropTarget').text(priorToDetails);
         $('#subPropTarget').text(subToDetails);
         $('#devPropTarget').text(devToDetails);
-
+        $('#commentCollTarget').html(commentsToDetails);
+        $('#attachCollTarget').html(attachmentsToDetails);
+        
+        //(we are hiding the collections on the table but they do actually exist on the page for retrieval on the details button click)
 
 
 
     });
-
-
-
-
-
-
 
 </script>
