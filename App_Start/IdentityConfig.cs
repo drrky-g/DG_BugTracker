@@ -19,13 +19,56 @@ namespace DG_BugTracker
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+
+            await SendMailAsync(message);
+        }
+
+        //notifications for tickets
+        public async Task<bool> SendMailAsync(IdentityMessage message)
+        {
+            //set to private config
+            var GmailUserName = WebConfigurationManager.AppSettings["username"];
+            var GmailPassword = WebConfigurationManager.AppSettings["password"];
+            var host = WebConfigurationManager.AppSettings["host"];
+            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
+
+            var from = new MailAddress(WebConfigurationManager.AppSettings["emailto"], "BugTracker");
+            //email object
+            var email = new MailMessage(from, new MailAddress(message.Destination))
+            {
+                Subject = message.Subject,
+                Body = message.Body,
+                IsBodyHtml = true,
+            };
+
+            //set smtp object
+
+            using (var smtp = new SmtpClient(){
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(GmailUserName, GmailPassword)
+            })
+            {
+                try
+                {
+                    await smtp.SendMailAsync(email);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            };
         }
     }
 
+
+    //account password recovery
     public class PersonalEmail
     {
         public async Task SendAsync(MailMessage message)

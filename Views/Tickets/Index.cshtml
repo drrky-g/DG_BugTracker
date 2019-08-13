@@ -96,9 +96,15 @@
                                         }
                                         else
                                         {
-                                            <p>Not Assigned</p>
+                                            if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                            {
+                                                @Html.ActionLink("Assign Developer", "AssignTicket", new { Id = ticket.Id }, new { @class = "btn btn-warning btn-sm" })
+                                            }
+                                            else
+                                            {
+                                                <p class="text-danger">Unassigned</p>
+                                            }
                                         }
-
                                     </td>
                                     <td class="text-primary text-center">
                                         <!-- Link for details -->

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using DG_BugTracker.Models;
 using DG_BugTracker.Helpers;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 
 namespace DG_BugTracker.Controllers
 {
@@ -247,6 +248,56 @@ namespace DG_BugTracker.Controllers
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
             return View(ticket);
         }
+
+        //
+        // GET: Tickets/AssignTicket
+
+        public ActionResult AssignTicket(int? id)
+        {
+            var ticket = db.Tickets.Find(id);
+            var users = roleHelper.UsersInRole("Developer").ToList();
+
+            ViewBag.AssignedToUserId = new SelectList(users, "Id", "FullName", ticket.AssignedToUserId);
+
+            return View(ticket);
+        }
+
+        //
+        //POST: Tickets/AssignTicket
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<ActionResult> AssignTicket(Ticket model)
+        {
+            var ticket = db.Tickets.Find(model.Id);
+            ticket.AssignedToUserId = model.AssignedToUserId;
+            
+
+            db.SaveChanges();
+
+            var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
+
+            try
+            {
+                EmailService serve = new EmailService();
+                IdentityMessage msg = new IdentityMessage();
+                ApplicationUser user = db.Users.Find(model.AssignedToUserId);
+
+                msg.Body = "You have a new ticket <br /> <hr /> Please click the <a href=\"" + callbackUrl + "\">this link</a> to view the details.";
+                msg.Destination = user.Email;
+                msg.Subject = "New Ticket Assignment";
+
+                await serve.SendMailAsync(msg);
+            }
+            catch (Exception ex)
+            {
+                await Task.FromResult(0);
+            }
+
+            return RedirectToAction("Index", "Tickets");
+        }
+
+
 
         // GET: Tickets/Delete/5
         public ActionResult Delete(int? id)
