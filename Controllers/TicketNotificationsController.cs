@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DG_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DG_BugTracker.Controllers
 {
@@ -18,8 +19,34 @@ namespace DG_BugTracker.Controllers
         public ActionResult Index()
         {
             var ticketNotifications = db.TicketNotifications.Include(t => t.Reciever).Include(t => t.Sender).Include(t => t.Ticket);
+
             return View(ticketNotifications.ToList());
         }
+
+        //GET: MyNotifications
+        public ActionResult MyNotifications()
+        {
+            var me = User.Identity.GetUserId();
+            var myNotifications = db.TicketNotifications.Where(notification => notification.RecieverId == me).ToList();
+
+            return View( "Index", myNotifications);
+        }
+
+        //POST: MarkAsRead
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MarkAsRead(int id)
+        {
+            //grab the notification passed in the form
+            var notification = db.TicketNotifications.Find(id);
+            //change the read status to true when the "form" is submitted
+            notification.ReadStatus = true;
+            //save changes in db so it doesnt show in that list again
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+
 
         // GET: TicketNotifications/Details/5
         public ActionResult Details(int? id)

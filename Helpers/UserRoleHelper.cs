@@ -8,14 +8,8 @@ using System.Web;
 
 namespace DG_BugTracker.Helpers
 {
-    public class UserRoleHelper
+    public class UserRoleHelper : InstanceHelper
     {
-        //creates instance of UserManager and provides context for it
-        private UserManager<ApplicationUser> userManager = new
-        UserManager<ApplicationUser>(new UserStore<ApplicationUser>
-        (new ApplicationDbContext()));
-
-        private ApplicationDbContext db = new ApplicationDbContext();
 
         //Checks to see if a user is in a specified role
         public bool IsUserInRole(string userId, string roleName)

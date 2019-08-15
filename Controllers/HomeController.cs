@@ -2,10 +2,8 @@
 using DG_BugTracker.Models;
 using DG_BugTracker.ViewModels;
 using Microsoft.AspNet.Identity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DG_BugTracker.Controllers

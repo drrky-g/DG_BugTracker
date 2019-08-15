@@ -1,18 +1,11 @@
 ﻿using DG_BugTracker.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace DG_BugTracker.Helpers
 {
-    public class UserProjectsHelper
+    public class UserProjectsHelper : InstanceHelper
     {
-        private UserManager<ApplicationUser> manager = new UserManager<ApplicationUser>(new
-            UserStore<ApplicationUser>(new ApplicationDbContext()));
-        private ApplicationDbContext db = new ApplicationDbContext();
 
         public bool IsOnProject (string userId, int projectId)
         {

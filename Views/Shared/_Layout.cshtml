@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@using DG_BugTracker.Helpers
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -19,6 +20,19 @@
     <!-- dataTables CSS-->
     <!-- default:-->
     <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <style>
+
+        .bell-icon{
+            position: relative;
+        }
+        .bell-badge{
+            position: absolute;
+            top: 10px;
+
+        }
+
+    </style>
+
 </head>
 
 <body class="dark-edition">
@@ -57,7 +71,6 @@
                     @if (User.IsInRole("Submitter"))
                     {
                         <li class="nav-item">
-
                             @Html.ActionLink("Create a new ticket", "Create", "Ticket", null, new { @class = "nav-link" })
                         </li>
                     }
@@ -88,7 +101,6 @@
             <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
                 <div class="container-fluid">
                     <div class="navbar-wrapper">
-                        
                         @Html.ActionLink("Dashboard", "Index", "Home",null, htmlAttributes: new { @class = "navbar-brand"})
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,9 +111,11 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-end">
                         <ul class="navbar-nav">
+                            <!-- notifications button-->
                             <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0)">
-                                    <i class="material-icons">notifications</i>
+                                    <i class="material-icons bell-icon">notifications</i>
+                                    <span class="badge badge-danger bell-badge">5</span>
                                     <p class="d-lg-none d-md-block">
                                         Notifications
                                     </p>
@@ -109,6 +123,43 @@
                             </li>
                             <!-- your navbar here -->
                         </ul>
+                        <!-- notification list-->
+                        <div>
+                            <ul>
+                                
+                            @foreach(var notification in NotificationHelper.MyUnreadNotifications())
+                            {
+                                <li>
+                                    <hr />
+                                    @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("Id", notification.Id)
+
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img src="@notification.Sender.AvatarPath" alt="@notification.Sender.FullName" class="img-fluid img-raised rounded-circle" width="25" height="25" />
+                                            </div>
+                                            <div class="col-md-10">
+                                                @notification.Sender.FullName
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p class="text-left">@notification.NotificationBody</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-link btn-info">Read</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </li>
+                            }
+                                
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </nav>

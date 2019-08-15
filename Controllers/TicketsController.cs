@@ -17,10 +17,8 @@ namespace DG_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRoleHelper roleHelper = new UserRoleHelper();
         private ProjectHelper projectHelper = new ProjectHelper();
-        
-        
 
-
+        
 
         // GET: Tickets
         public ActionResult Index()
@@ -230,10 +228,19 @@ namespace DG_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,Updated,TicketTypeId,ProjectId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
+            
+
             if (ModelState.IsValid)
             {
+                //store old tickets value for comparison with logic of helper methods
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                ticket.Updated = DateTimeOffset.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
+                //calls notificationhelper to see which notification needs to be sent for the assignment.
+                NotificationHelper.CreateAssignmentNotification(oldTicket, ticket);
+
                 return RedirectToAction("Index");
             }
 

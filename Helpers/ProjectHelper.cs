@@ -6,11 +6,8 @@ using System.Web;
 
 namespace DG_BugTracker.Helpers
 {
-    public class ProjectHelper
+    public class ProjectHelper : InstanceHelper
     {
-        ApplicationDbContext db = new ApplicationDbContext();
-        UserRoleHelper roleHelper = new UserRoleHelper();
-
         public List<string> UsersInRoleOnProject(int projectId, string roleName)
         {
             var people = new List<string>();
