@@ -41,6 +41,7 @@ namespace DG_BugTracker.Controllers
             return RedirectToAction("Index");
         }
 
+
         //GET: MyNotifications
         public ActionResult MyNotifications()
         {

@@ -42,7 +42,7 @@
             </div>
             <div class="card-footer">
                 <div class="stats">
-                    <i class="material-icons">access_time</i> Submitted on: @Model.Created
+                    <i class="material-icons">access_time</i> Submitted on: @Model.Created.ToString("MM/dd/yyyy h:mm tt")
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
             </div>
             <div class="card-footer">
                 <div class="stats">
-                    <i class="material-icons">update</i>Updated on: @Html.DisplayFor(model => model.Updated)
+                    <i class="material-icons">update</i>Updated on: @Html.DisplayFor(model => model.Updated))
                 </div>
             </div>
         </div>

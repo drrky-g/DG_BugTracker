@@ -90,19 +90,68 @@ namespace DG_BugTracker.Helpers
             return db.TicketNotifications.Where(notification => notification.RecieverId == me && !notification.ReadStatus).ToList();
         }
 
+        public static int UnreadNotificationCount()
+        {
+            var me = HttpContext.Current.User.Identity.GetUserId();
+            var myCount = db.TicketNotifications.Where(n => n.RecieverId == me && !n.ReadStatus).Count();
+            return myCount;
+        }
+
+        public static List<TicketNotification> MyReadNotifications()
+        {
+            var me = HttpContext.Current.User.Identity.GetUserId();
+
+            return db.TicketNotifications.Where(notification => notification.RecieverId == me && notification.ReadStatus).ToList();
+        }
+
+        public static int ReadNotificationsCount()
+        {
+            var me = HttpContext.Current.User.Identity.GetUserId();
+            var myCount = db.TicketNotifications.Where(notification => notification.RecieverId == me && notification.ReadStatus).Count();
+
+            return myCount; 
+        }
+
         private static void CreateEditNotification(Ticket origin, Ticket edit)
         {
-            var entry = new StringBuilder();
+            var body = new StringBuilder();
 
             foreach (var property in WebConfigurationManager.AppSettings["ticketproperties"].Split(','))
             {
                 var old = origin.GetType().GetProperty(property).GetValue(origin, null);
                 var nu = edit.GetType().GetProperty(property).GetValue(edit, null);
 
+                
+
                 if (old != nu)
                 {
-                    entry.AppendLine
+                    body.AppendLine(new string('-', 30));
+                    body.AppendLine($"A change was made to {property}:");
+                    body.AppendLine($"From :{old.ToString()}");
+                    body.AppendLine($"To: {nu.ToString()}");
                 }
+            }
+
+            if (!string.IsNullOrEmpty(body.ToString()))
+            {
+                var entry = new StringBuilder();
+                body.AppendLine($"One of your tickets has been modifed ({edit.Updated})");
+                entry.AppendLine(body.ToString());
+                var sender = HttpContext.Current.User.Identity.GetUserId();
+
+                var notification = new TicketNotification
+                {
+                    TicketId = edit.Id,
+                    Created = DateTime.Now,
+                    RecieverId = edit.AssignedToUserId,
+                    SenderId = sender,
+                    NotificationBody = entry.ToString(),
+                    ReadStatus = false
+
+                };
+
+                db.TicketNotifications.Add(notification);
+                db.SaveChanges();
             }
         }
     }

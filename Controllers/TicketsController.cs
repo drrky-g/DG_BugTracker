@@ -239,7 +239,7 @@ namespace DG_BugTracker.Controllers
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
                 //calls notificationhelper to see which notification needs to be sent for the assignment.
-                NotificationHelper.CreateAssignmentNotification(origin, ticket);
+                NotificationHelper.ManageNotifications(origin, ticket);
 
                 return RedirectToAction("Index");
             }

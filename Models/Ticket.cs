@@ -27,6 +27,7 @@ namespace DG_BugTracker.Models
         [Display(Name = "Assigned Developer")]
         public string AssignedToUserId { get; set; } //targetted
 
+
         //-------virtual------------------------------------
 
         // foreign--------------------------------------------
