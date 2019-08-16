@@ -15,12 +15,30 @@ namespace DG_BugTracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        //let one notification show all changes that are applied in an instance of an edit?
+        //reflection: when looking at an object, find what "kind of object" i am, spin through the properties, and compare the changes to the properties
+
+
         // GET: TicketNotifications
         public ActionResult Index()
         {
             var ticketNotifications = db.TicketNotifications.Include(t => t.Reciever).Include(t => t.Sender).Include(t => t.Ticket);
 
             return View(ticketNotifications.ToList());
+        }
+        
+        //GET : DeleteAll
+
+        [Authorize]
+        public ActionResult DeleteAll()
+        {
+            foreach (var notification in db.TicketNotifications)
+            {
+                db.TicketNotifications.Remove(notification);
+            }
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
         //GET: MyNotifications
@@ -119,6 +137,8 @@ namespace DG_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+
+
                 db.Entry(ticketNotification).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

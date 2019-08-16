@@ -233,13 +233,13 @@ namespace DG_BugTracker.Controllers
             if (ModelState.IsValid)
             {
                 //store old tickets value for comparison with logic of helper methods
-                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+                var origin = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
                 ticket.Updated = DateTimeOffset.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
                 //calls notificationhelper to see which notification needs to be sent for the assignment.
-                NotificationHelper.CreateAssignmentNotification(oldTicket, ticket);
+                NotificationHelper.CreateAssignmentNotification(origin, ticket);
 
                 return RedirectToAction("Index");
             }
@@ -273,7 +273,6 @@ namespace DG_BugTracker.Controllers
         //POST: Tickets/AssignTicket
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<ActionResult> AssignTicket(Ticket model)
         {
             var ticket = db.Tickets.Find(model.Id);

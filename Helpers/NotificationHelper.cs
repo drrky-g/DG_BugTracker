@@ -3,7 +3,9 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
+using System.Web.Configuration;
 
 namespace DG_BugTracker.Helpers
 {
@@ -12,6 +14,11 @@ namespace DG_BugTracker.Helpers
     {
 
         
+        public static void ManageNotifications(Ticket origin, Ticket edit)
+        {
+            CreateAssignmentNotification(origin, edit);
+            CreateEditNotification(origin, edit);
+        }
 
         //determines which notification to send
         public static void CreateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
@@ -39,7 +46,7 @@ namespace DG_BugTracker.Helpers
             }
         }
 
-
+        //Unassignment Notification
         public static void GenerateUnassignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
@@ -57,6 +64,7 @@ namespace DG_BugTracker.Helpers
             db.SaveChanges();
         }
 
+        //Assignment Notification
         public static void GenerateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
             var notification = new TicketNotification
@@ -81,6 +89,21 @@ namespace DG_BugTracker.Helpers
 
             return db.TicketNotifications.Where(notification => notification.RecieverId == me && !notification.ReadStatus).ToList();
         }
-    }
 
+        private static void CreateEditNotification(Ticket origin, Ticket edit)
+        {
+            var entry = new StringBuilder();
+
+            foreach (var property in WebConfigurationManager.AppSettings["ticketproperties"].Split(','))
+            {
+                var old = origin.GetType().GetProperty(property).GetValue(origin, null);
+                var nu = edit.GetType().GetProperty(property).GetValue(edit, null);
+
+                if (old != nu)
+                {
+                    entry.AppendLine
+                }
+            }
+        }
+    }
 }
