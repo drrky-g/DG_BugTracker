@@ -28,60 +28,125 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6 ml-auto mr-auto">
                     <div class="card card-login">
-                        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form", role = "form" }))
-                        {
-
-
-
-                            @Html.AntiForgeryToken()
-
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <!-- 3rd party OAuth buttons -->
-                            <div class="card-header card-header-primary text-center">
-                                <h4 class="card-title">Login</h4>
-                            </div>
-                            <p class="description text-center">If You Have An Account...</p>
-                            <!-- actual form -->
-                            <div class="card-body">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="material-icons">mail_outline</i>
-                                        </span>
-                                    </div>
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
-                                </div>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="material-icons">lock_outline</i>
-                                        </span>
-                                    </div>
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                        <div class="card-header card-header-primary text-center">
+                            <h3 class="card-title">Login</h3>
+                        </div>
+                        <!-- body / form-->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button data-toggle="popover" data-trigger="hover" title="Roles:" data-html="true" data-content="<dl><dt><b>Admin</b></dt><dd>Most control. You can do everything except submit tickets.</dd><dt><b>Project Manager</b></dt><dd>Manage a team of submitters and developers on the projects the admin puts you on.</dd><dt><b>Developer</b></dt><dd>Edit tickets you're assigned to. View the projects and tickets you're on.</dd><dt><b>Submitter</b></dt><dd>Submit tickets to the projects you're assigned to.</dd></dl>"class="btn btn-link btn-primary btn-sm">
+                                        Which role does what?
+                                    </button>
                                 </div>
                             </div>
-                            <div class="row text-danger">
-                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h6 class="description text-center">
+                                        Demo Users:
+                                    </h6>
+                                </div>
                             </div>
-                            <div class="footer text-center">
-
-                                <button type="submit" class="btn btn-wd btn-lg btn-link btn-primary">Log In</button>
-
+                            <div class="row">
+                                <span class="col-md-2"></span>
+                                <!-- Demo Users -->
+                                <div class="col-md-2 text-center">
+                                    <!-- Admin Log-In -->
+                                    @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("demoEmail", "demoAdmin")
+                                        <button type="submit" data-toggle="tooltip" data-placement="left" title="Admin Role" data-container="body" class="btn btn-link btn-just-icon btn-round">
+                                            <img src="~/Avatars/fury.jpeg" class="img-circle rounded-circle" style="width: 40px; height: 40px;" />
+                                        </button>
+                                    }
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <!-- PM Login -->
+                                    @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("demoEmail", "demoPM")
+                                        <button type="submit" data-toggle="tooltip" data-placement="top" title="Project Manager Role" data-container="body" class="btn btn-link btn-just-icon btn-round">
+                                            <img src="~/Avatars/ironman.jpg" class="img-circle rounded-circle" style="width: 40px; height: 40px;" />
+                                        </button>
+                                    }
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <!-- Developer Login -->
+                                    @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("demoEmail", "demoDev")
+                                        <button type="submit" data-toggle="tooltip" data-placement="top" title="Developer Role"class="btn btn-link btn-just-icon btn-round">
+                                            <img src="~/Avatars/hulk.jpg" class="img-circle rounded-circle" style="width: 40px; height: 40px;" />
+                                        </button>
+                                    }
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <!-- Submitter Login -->
+                                    @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("demoEmail", "demoSub")
+                                        <button type="submit" data-toggle="tooltip" data-placement="right" title="Submitter Role" class="btn btn-link btn-just-icon btn-round">
+                                            <img src="~/Avatars/spiderman.png" class="img-circle rounded-circle" style="width: 40px; height: 40px;" />
+                                        </button>
+                                    }
+                                </div>
+                                <span class="col-md-2"></span>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h6 class="description text-center" style="margin-bottom:0px; margin-top: 20px;">Sign in with your account:</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary("", new { @class = "text-danger text-center" })
 
-                        }
-                    </div>
-                    <!-- Send to Register form -->
-                    <div class="text-center has-white">
-                        @Html.ActionLink("Create An Account", "Register", "Account", new { @class = "btn btn-primary btn-wd" })
-                    </div>
-                    <!-- Password Reset Link-->
-                    <div class="text-center has-white">
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account", new { @class = "btn btn-white btn-wd text-primary" })
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="material-icons">mail_outline</i>
+                                                </span>
+                                            </div>
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="material-icons">lock_outline</i>
+                                                </span>
+                                            </div>
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                                        </div>
+                                        <div class="footer text-center">
+                                            <button type="submit" class="btn btn-wd btn-lg btn-link btn-primary">Log In</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    @Html.ActionLink("Create An Account", "Register", "Account", new { @class = "btn btn-primary btn-sm" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    @Html.ActionLink("Forgot your password?", "ForgotPassword", "Account", new { @class = "btn btn-white btn-sm text-primary" })
+                </div>
+            </div>
         </div>
+    </div>
+    <div>
         <footer class="footer">
             <div class="container">
 
@@ -97,9 +162,19 @@
     <script src="~/Content/LogInAndRegisterAssets/js/core/popper.min.js"></script>
     <script src="~/Content/LogInAndRegisterAssets/js/core/bootstrap-material-design.min.js"></script>
     <script src="~/Content/LogInAndRegisterAssets/js/plugins/moment.min.js"></script>
-
-
     <script src="~/Content/LogInAndRegisterAssets/js/material-kit.js"></script>
+    <script>
+        
+        $(document).ready(function () {
+            //Enable tooltips for demo users
+            $('[data-toggle="tooltip"]').tooltip();
+            //Enable pop-up to describe roles
+            $('[data-toggle="popover"]').popover();
+        })
+
+        
+
+    </script>
 </body>
 
 </html>

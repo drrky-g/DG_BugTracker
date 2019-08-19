@@ -16600,9 +16600,9 @@ footer .pull-center {
   padding-bottom: 7px;
   margin: 27px 0 0 0;
 }
-
+/*Login Card Height*/
 .card-login .form {
-  min-height: 300px;
+  min-height: 200px;
 }
 
 
