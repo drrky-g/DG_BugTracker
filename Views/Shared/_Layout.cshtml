@@ -64,7 +64,9 @@
                             @Html.ActionLink("View all projects", "Index", "Projects", null, new { @class= "nav-link"})
                         </li>
                     }
-
+                    <li class="nav-item">
+                        @Html.ActionLink("History Entries","Index", "TicketHistories")
+                    </li>
                     <li class="nav-item">
                         @Html.ActionLink("Change Your Password", "ChangePassword", "Manage", null, new { @class = "nav-link" })
                     </li>
@@ -115,7 +117,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="javascript:void(0)">
                                     <i class="material-icons bell-icon">notifications</i>
-                                    <span class="badge badge-danger bell-badge">5</span>
+                                    <span class="badge badge-danger bell-badge">@NotificationHelper.UnreadNotificationCount()</span>
                                     <p class="d-lg-none d-md-block">
                                         Notifications
                                     </p>
@@ -124,40 +126,48 @@
                             <!-- your navbar here -->
                         </ul>
                         <!-- notification list-->
+                        <!-- make this collapse based on click of notification icon-->
                         <div>
                             <ul>
-                                
-                            @foreach(var notification in NotificationHelper.MyUnreadNotifications())
-                            {
-                                <li>
-                                    <hr />
-                                    @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                @if (NotificationHelper.MyUnreadNotifications().Count == 0)
+                                {
+                                    <li>You have no new notifications</li>
+                                }
+                                else
+                                {
+                                    foreach (var notification in NotificationHelper.MyUnreadNotifications().ToList())
                                     {
-                                        @Html.AntiForgeryToken()
-                                        @Html.Hidden("Id", notification.Id)
+                                        <li>
+                                            <hr />
+                                            @using (Html.BeginForm("MarkAsRead", "TicketNotifications"))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                @Html.Hidden("Id", notification.Id)
 
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <img src="@notification.Sender.AvatarPath" alt="@notification.Sender.FullName" class="img-fluid img-raised rounded-circle" width="25" height="25" />
-                                            </div>
-                                            <div class="col-md-10">
-                                                @notification.Sender.FullName
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p class="text-left">@notification.NotificationBody</p>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <button class="btn btn-link btn-info">Read</button>
-                                            </div>
-                                        </div>
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <img src="@notification.Sender.AvatarPath" alt="@notification.Sender.FullName" class="img-fluid img-raised rounded-circle" width="25" height="25" />
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        @notification.Sender.FullName
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <p class="text-left">@notification.NotificationBody</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <button type="submit" class="btn btn-link btn-info">Read</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </li>
                                     }
-                                </li>
-                            }
-                                
+                                }
+
+
                             </ul>
                         </div>
                     </div>

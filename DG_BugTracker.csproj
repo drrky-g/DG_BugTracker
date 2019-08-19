@@ -184,6 +184,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EmailModel.cs" />
+    <Compile Include="Helpers\HistoryHelper.cs" />
+    <Compile Include="Helpers\HistoryListModel.cs" />
     <Compile Include="Helpers\ImageUploader.cs" />
     <Compile Include="Helpers\InstanceHelper.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
@@ -212,6 +214,28 @@
     <Content Include="android-chrome-192x192.png" />
     <Content Include="android-chrome-512x512.png" />
     <Content Include="apple-touch-icon.png" />
+    <Content Include="Avatars\antman.jpg" />
+    <Content Include="Avatars\cap.jpg" />
+    <Content Include="Avatars\danvers.jpg" />
+    <Content Include="Avatars\falcon.jpg" />
+    <Content Include="Avatars\fury.jpeg" />
+    <Content Include="Avatars\hawkeye.jpg" />
+    <Content Include="Avatars\hulk.jpg" />
+    <Content Include="Avatars\ironman.jpg" />
+    <Content Include="Avatars\mantis.png" />
+    <Content Include="Avatars\nat.jpg" />
+    <Content Include="Avatars\pepperpotts.jpg" />
+    <Content Include="Avatars\rocket.jpg" />
+    <Content Include="Avatars\scarletwitch.jpg" />
+    <Content Include="Avatars\shuri.png" />
+    <Content Include="Avatars\spiderman.png" />
+    <Content Include="Avatars\starlord.jpg" />
+    <Content Include="Avatars\strange.jpg" />
+    <Content Include="Avatars\tchalla.jpg" />
+    <Content Include="Avatars\thor.jpg" />
+    <Content Include="Avatars\vision.jpg" />
+    <Content Include="Avatars\warmachine.jpg" />
+    <Content Include="Avatars\wintesoldier.jpg" />
     <Content Include="Content\assets\css\material-dashboard.css" />
     <Content Include="Content\assets\css\material-dashboard.min.css" />
     <Content Include="Content\assets\css\partials\dashboard\core\bootstrap\scss\bootstrap-grid.css" />
@@ -766,7 +790,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Attachments\" />
-    <Folder Include="Avatars\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

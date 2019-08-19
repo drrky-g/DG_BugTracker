@@ -240,6 +240,7 @@ namespace DG_BugTracker.Controllers
                 db.SaveChanges();
                 //calls notificationhelper to see which notification needs to be sent for the assignment.
                 NotificationHelper.ManageNotifications(origin, ticket);
+                HistoryHelper.RecordHistory(origin, ticket);
 
                 return RedirectToAction("Index");
             }
@@ -262,9 +263,12 @@ namespace DG_BugTracker.Controllers
         public ActionResult AssignTicket(int? id)
         {
             var ticket = db.Tickets.Find(id);
+            var origin = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
             var users = roleHelper.UsersInRole("Developer").ToList();
 
             ViewBag.AssignedToUserId = new SelectList(users, "Id", "FullName", ticket.AssignedToUserId);
+
+           
 
             return View(ticket);
         }
@@ -276,10 +280,15 @@ namespace DG_BugTracker.Controllers
         public async Task<ActionResult> AssignTicket(Ticket model)
         {
             var ticket = db.Tickets.Find(model.Id);
+            var origin = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
             ticket.AssignedToUserId = model.AssignedToUserId;
             
 
             db.SaveChanges();
+
+            //calls notificationhelper to see which notification needs to be sent for the assignment.
+            NotificationHelper.ManageNotifications(origin, ticket);
+            HistoryHelper.RecordHistory(origin, ticket);
 
             var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
 
@@ -299,7 +308,7 @@ namespace DG_BugTracker.Controllers
             {
                 await Task.FromResult(0);
             }
-
+            
             return RedirectToAction("Index", "Tickets");
         }
 

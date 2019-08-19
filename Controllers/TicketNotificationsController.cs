@@ -51,6 +51,8 @@ namespace DG_BugTracker.Controllers
             return View( "Index", myNotifications);
         }
 
+        
+
         //POST: MarkAsRead
         [HttpPost]
         [ValidateAntiForgeryToken]

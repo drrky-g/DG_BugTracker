@@ -102,6 +102,7 @@ namespace DG_BugTracker.Migrations
             var avengerPassword = WebConfigurationManager.AppSettings["avengerspassword"];
             #endregion
 
+            //users on DB
             //Add Avengers User Accounts (still need to add avatars)
             #region Add Avengers as users.
             if (!context.Users.Any(u => u.Email == "derrickwg17@gmail.com"))
@@ -113,7 +114,8 @@ namespace DG_BugTracker.Migrations
                     Email = "derrickwg17@gmail.com",
                     FirstName = "Derrick",
                     LastName = "Gordon",
-                    DisplayName = "Derrick"
+                    DisplayName = "Derrick",
+                    
                 }, myPassword);
             }
 
@@ -126,7 +128,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Fury@Mailinator.com",
                     FirstName = "Nick",
                     LastName = "Fury",
-                    DisplayName = "Fury"
+                    DisplayName = "Fury",
+                    AvatarPath = "/Avatars/fury.jpeg"
                 }, demoPassword);
             }
 
@@ -139,7 +142,8 @@ namespace DG_BugTracker.Migrations
                     Email = "IronMan@Mailinator.com",
                     FirstName = "Tony",
                     LastName = "Stark",
-                    DisplayName = "Iron Man"
+                    DisplayName = "Iron Man",
+                    AvatarPath = "/Avatars/ironman.jpg"
                 }, demoPassword);
             }
 
@@ -152,7 +156,8 @@ namespace DG_BugTracker.Migrations
                     Email = "CaptainAmerica@Mailinator.com",
                     FirstName = "Steve",
                     LastName = "Rogers",
-                    DisplayName = "Captain America"
+                    DisplayName = "Captain America",
+                    AvatarPath = "/Avatars/cap.jpg"
                 }, avengerPassword);
             }
 
@@ -165,7 +170,8 @@ namespace DG_BugTracker.Migrations
                     Email = "BlackWidow@Mailinator.com",
                     FirstName = "Natasha",
                     LastName = "Romanov",
-                    DisplayName = "Black Widow"
+                    DisplayName = "Black Widow",
+                    AvatarPath = "Avatars/nat.jpg"
                 }, avengerPassword);
             }
 
@@ -178,7 +184,8 @@ namespace DG_BugTracker.Migrations
                     Email = "CaptainMarvel@Mailinator.com",
                     FirstName = "Carol",
                     LastName = "Danvers",
-                    DisplayName = "Captain Marvel"
+                    DisplayName = "Captain Marvel",
+                    AvatarPath = "/Avatars/danvers.jpg"
                 }, avengerPassword);
             }
 
@@ -191,7 +198,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Thor@Mailinator.com",
                     FirstName = "Thor",
                     LastName = "Odinson",
-                    DisplayName = "Thor"
+                    DisplayName = "Thor",
+                    AvatarPath = "/Avatars/thor.jpg"
                 }, avengerPassword);
             }
 
@@ -204,7 +212,8 @@ namespace DG_BugTracker.Migrations
                     Email = "BlackPanther@Mailinator.com",
                     FirstName = "T'Challa",
                     LastName = "T'Chaka",
-                    DisplayName = "Black Panther"
+                    DisplayName = "Black Panther",
+                    AvatarPath = "/Avatars/tchalla.jpg"
                 }, avengerPassword);
             }
 
@@ -217,7 +226,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Hulk@Mailinator.com",
                     FirstName = "Bruce",
                     LastName = "Banner",
-                    DisplayName = "Hulk"
+                    DisplayName = "Hulk",
+                    AvatarPath = "/Avatars/hulk.jpg"
                 }, demoPassword);
             }
 
@@ -230,7 +240,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Vision@Mailinator.com",
                     FirstName = "Victor",
                     LastName = "Shade",
-                    DisplayName = "Vision"
+                    DisplayName = "Vision",
+                    AvatarPath = "/Avatars/vision.jpg"
                 }, avengerPassword);
             }
 
@@ -243,7 +254,8 @@ namespace DG_BugTracker.Migrations
                     Email = "AntMan@Mailinator.com",
                     FirstName = "Scott",
                     LastName = "Lang",
-                    DisplayName = "AntMan"
+                    DisplayName = "AntMan",
+                    AvatarPath = "/Avatars/antman.jpg"
                 }, avengerPassword);
             }
 
@@ -256,7 +268,8 @@ namespace DG_BugTracker.Migrations
                     Email = "DrStrange@Mailinator.com",
                     FirstName = "Steven",
                     LastName = "Strange",
-                    DisplayName = "Dr. Strange"
+                    DisplayName = "Dr. Strange",
+                    AvatarPath = "/Avatars/strange.jpg"
                 }, avengerPassword);
             }
 
@@ -269,7 +282,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Rocket@Mailinator.com",
                     FirstName = "Rocket",
                     LastName = "Raccoon",
-                    DisplayName = "Rocket"
+                    DisplayName = "Rocket",
+                    AvatarPath = "/Avatars/rocket.jpg"
                 }, avengerPassword);
             }
 
@@ -282,7 +296,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Shuri@Mailinator.com",
                     FirstName = "Shuri",
                     LastName = "T'Chaka",
-                    DisplayName = "Shuri"
+                    DisplayName = "Shuri",
+                    AvatarPath = "/Avatars/shuri.png"
                 }, avengerPassword);
             }
 
@@ -295,7 +310,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Hawkeye@Mailinator.com",
                     FirstName = "Clint",
                     LastName = "Barton",
-                    DisplayName = "Hawkeye"
+                    DisplayName = "Hawkeye",
+                    AvatarPath = "/Avatars/hawkeye.jpg"
                 }, avengerPassword);
             }
 
@@ -308,7 +324,8 @@ namespace DG_BugTracker.Migrations
                     Email = "SpiderMan@Mailinator.com",
                     FirstName = "Peter",
                     LastName = "Parker",
-                    DisplayName = "Spider Man"
+                    DisplayName = "Spider Man",
+                    AvatarPath = "/Avatars/spiderman.png"
                 }, demoPassword);
             }
 
@@ -321,7 +338,8 @@ namespace DG_BugTracker.Migrations
                     Email = "StarLord@Mailinator.com",
                     FirstName = "Peter",
                     LastName = "Quill",
-                    DisplayName = "Star Lord"
+                    DisplayName = "Star Lord",
+                    AvatarPath = "/Avatars/starlord.jpg"
                 }, avengerPassword);
             }
 
@@ -334,7 +352,8 @@ namespace DG_BugTracker.Migrations
                     Email = "WarMachine@Mailinator.com",
                     FirstName = "James",
                     LastName = "Rhodes",
-                    DisplayName = "War Machine"
+                    DisplayName = "War Machine",
+                    AvatarPath = "/Avatars/warmachine.jpg"
                 }, avengerPassword);
             }
 
@@ -347,7 +366,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Mantis@Mailinator.com",
                     FirstName = "Mandy",
                     LastName = "Celestine",
-                    DisplayName = "Mantis"
+                    DisplayName = "Mantis",
+                    AvatarPath = "/Avatars/mantis.png"
                 }, avengerPassword);
             }
 
@@ -360,7 +380,8 @@ namespace DG_BugTracker.Migrations
                     Email = "ScarletWitch@Mailinator.com",
                     FirstName = "Wanda",
                     LastName = "Maximoff",
-                    DisplayName = "Scarlet Witch"
+                    DisplayName = "Scarlet Witch",
+                    AvatarPath = "/Avatars/scarletwitch.jpg"
                 }, avengerPassword);
             }
 
@@ -373,7 +394,8 @@ namespace DG_BugTracker.Migrations
                     Email = "WinterSoldier@Mailinator.com",
                     FirstName = "James",
                     LastName = "Buchanan",
-                    DisplayName = "Winter Soldier"
+                    DisplayName = "Winter Soldier",
+                    AvatarPath = "/Avatars/wintersoldier.jpg"
                 }, avengerPassword);
             }
 
@@ -386,7 +408,8 @@ namespace DG_BugTracker.Migrations
                     Email = "Pepper@Mailinator.com",
                     FirstName = "Virginia",
                     LastName = "Potts",
-                    DisplayName = "Pepper"
+                    DisplayName = "Pepper",
+                    AvatarPath = "/Avatars/pepperpotts.jpg"
                 }, avengerPassword);
             }
 
@@ -399,13 +422,14 @@ namespace DG_BugTracker.Migrations
                     Email = "Falcon@Mailinator.com",
                     FirstName = "Sam",
                     LastName = "Wilson",
-                    DisplayName = "Falcon"
+                    DisplayName = "Falcon",
+                    AvatarPath = "/Avatars/falcon.jpg"
                 }, avengerPassword);
             }
             context.SaveChanges();
             #endregion
 
-
+            //role assignments on DB
             //Assign Avengers their roles
             #region Assign Avengers roles
             //Admins
@@ -484,20 +508,23 @@ namespace DG_BugTracker.Migrations
             context.SaveChanges();
             #endregion
 
+            //on DB
             //Seed the models below, if you want to wipe and restart your database//
             #region Seeded Projects
             context.Projects.AddOrUpdate(
                 project => project.Name,
-                new Project { Id = 1, Name = "Bug Tracker", Description = "Debugging application to track and manage a software teams debugging efforts.", Created = DateTimeOffset.Now},
-                new Project { Id = 2, Name = "Drrk.io", Description = "Portfolio website of Derrick Gordon, an ASP .NET Developer.", Created = DateTimeOffset.Now },
-                new Project { Id = 3, Name = "Blog Website", Description = "A personal blog for Derrick Gordon.", Created = DateTimeOffset.Now },
-                new Project { Id = 4, Name = "Mythos Website", Description = "An educational website about mythology.", Created = DateTimeOffset.Now }
+                new Project { Name = "Bug Tracker", Description = "Debugging application to track and manage a software teams debugging efforts.", Created = DateTimeOffset.Now },
+                new Project { Name = "Drrk.io", Description = "Portfolio website of Derrick Gordon, an ASP .NET Developer.", Created = DateTimeOffset.Now },
+                new Project { Name = "Blog Website", Description = "A personal blog for Derrick Gordon.", Created = DateTimeOffset.Now },
+                new Project { Name = "Mythos Website", Description = "An educational website about mythology.", Created = DateTimeOffset.Now }
                 );
             context.SaveChanges();
             #endregion
 
             #region Project Assignments
             // assign each id to a variable
+
+            //ProjectIds
             var blogId = context.Projects.FirstOrDefault(proj => proj.Name == "Blog Website").Id;
             var trackerId = context.Projects.FirstOrDefault(proj => proj.Name == "Bug Tracker").Id;
             var portfolioId = context.Projects.FirstOrDefault(proj => proj.Name == "Drrk.io").Id;
@@ -532,65 +559,102 @@ namespace DG_BugTracker.Migrations
 
             #endregion
 
-
+            ////on DB
             #region  Seeded Ticket Types
-            context.TicketTypes.AddOrUpdate(
-                type => type.Name,
-                new TicketType { Id = 1, Name = "Bug/Defect" },
-                new TicketType { Id = 2, Name = "CSS/Javascript Issue" },
-                new TicketType { Id = 3, Name = "Controller Issue" },
-                new TicketType { Id = 4, Name = "View Issue" },
-                new TicketType { Id = 5, Name = "ViewModel Issue" },
-                new TicketType { Id = 6, Name = "Model Issue" },
-                new TicketType { Id = 7, Name = "Documentation Request" },
-                new TicketType { Id = 8, Name = "Feature Request" }
-                );
-            context.SaveChanges();
-            #endregion
+            //context.TicketTypes.AddOrUpdate(
+            //    type => type.Name,
+            //    new TicketType { Name = "Bug/Defect" },
+            //    new TicketType { Name = "CSS/Javascript Issue" },
+            //    new TicketType { Name = "Controller Issue" },
+            //    new TicketType { Name = "View Issue" },
+            //    new TicketType { Name = "ViewModel Issue" },
+            //    new TicketType { Name = "Model Issue" },
+            //    new TicketType { Name = "Documentation Request" },
+            //    new TicketType { Name = "Feature Request" }
+            //    );
 
-            #region Seeded Ticket Priorities
-            context.TicketPriorities.AddOrUpdate(
-                prior => prior.Name,
-                new TicketPriority { Id = 1, Name = "Low" },
-                new TicketPriority { Id = 2, Name = "Medium" },
-                new TicketPriority { Id = 3, Name = "High" },
-                new TicketPriority { Id = 4, Name = "Urgent" }
-                );
-            context.SaveChanges();
-            #endregion
 
-            #region Seeded Ticket Statuses
-            context.TicketStatuses.AddOrUpdate(
-                status => status.Name,
-                new TicketStatus { Id = 1, Name = "New" },
-                new TicketStatus { Id = 2, Name = "Assigned" },
-                new TicketStatus { Id = 3, Name = "In Progress" },
-                new TicketStatus { Id = 4, Name = "On Hold" },
-                new TicketStatus { Id = 5, Name = "Ready for Review" },
-                new TicketStatus { Id = 6, Name = "Archived" }
-                );
-            context.SaveChanges();
+
+            //context.SaveChanges();
+            //#endregion
+            ////on DB
+            //#region Seeded Ticket Priorities
+            //context.TicketPriorities.AddOrUpdate(
+            //    prior => prior.Name,
+            //    new TicketPriority { Name = "Low" },
+            //    new TicketPriority { Name = "Medium" },
+            //    new TicketPriority { Name = "High" },
+            //    new TicketPriority { Name = "Urgent" }
+            //    );
+
+
+
+            //context.SaveChanges();
+            //#endregion
+            ////on DB
+            //#region Seeded Ticket Statuses
+            //context.TicketStatuses.AddOrUpdate(
+            //    status => status.Name,
+            //    new TicketStatus { Name = "New" },
+            //    new TicketStatus { Name = "Assigned" },
+            //    new TicketStatus { Name = "In Progress" },
+            //    new TicketStatus { Name = "On Hold" },
+            //    new TicketStatus { Name = "Ready for Review" },
+            //    new TicketStatus { Name = "Archived" }
+            //    );
+
+
+
+
+            //context.SaveChanges();
             #endregion
 
 
             #region Seeded Tickets 
+
+            //foreign key variables
+            #region Variables for foreign keys
+            //Types
+            var bug = context.TicketTypes.FirstOrDefault(type => type.Name == "Bug/Defect").Id;
+            var style = context.TicketTypes.FirstOrDefault(type => type.Name == "CSS/Javascript Issue").Id;
+            var controller = context.TicketTypes.FirstOrDefault(type => type.Name == "Controller Issue").Id;
+            var view = context.TicketTypes.FirstOrDefault(type => type.Name == "View Issue").Id;
+            var viewmodel = context.TicketTypes.FirstOrDefault(type => type.Name == "ViewModel Issue").Id;
+            var model = context.TicketTypes.FirstOrDefault(type => type.Name == "Model Issue").Id;
+            var docuRequest = context.TicketTypes.FirstOrDefault(type => type.Name == "Documentation Request");
+            var featureReq = context.TicketTypes.FirstOrDefault(type => type.Name == "Feature Request").Id;
+
+            //Priorities
+            var lowPriority = context.TicketPriorities.FirstOrDefault(prior => prior.Name == "Low").Id;
+            var medPriority = context.TicketPriorities.FirstOrDefault(prior => prior.Name == "Medium").Id;
+            var highPriority = context.TicketPriorities.FirstOrDefault(prior => prior.Name == "High").Id;
+            var urgentPriority = context.TicketPriorities.FirstOrDefault(prior => prior.Name == "Urgent").Id;
+
+            //Statuses
+            var nu = context.TicketStatuses.FirstOrDefault(status => status.Name == "New").Id;
+            var assigned = context.TicketStatuses.FirstOrDefault(status => status.Name == "Assigned").Id;
+            var inprog = context.TicketStatuses.FirstOrDefault(status => status.Name == "In Progress").Id;
+            var hold = context.TicketStatuses.FirstOrDefault(status => status.Name == "On Hold").Id;
+            var review = context.TicketStatuses.FirstOrDefault(status => status.Name == "Ready for Review").Id;
+            var archived = context.TicketStatuses.FirstOrDefault(status => status.Name == "Archived").Id;
+            #endregion
             context.Tickets.AddOrUpdate(
                 ticket => ticket.Title,
-                /* bugtracker ticket */ new Ticket { Id = 1, Title = "Notification Dropdown", Description = "Set CSS for Notification drop down styling", Created = DateTimeOffset.Now, TicketTypeId = 2, ProjectId = 1, TicketPriorityId = 2, TicketStatusId = 2, OwnerUserId = "spiderman", AssignedToUserId = "drstrange"},
-                /* bugtracker ticket */ new Ticket { Id = 2, Title = "Ticket History Helper", Description = "Write helper to help assign properties to ticket history", Created = DateTimeOffset.Now, TicketTypeId = 3, ProjectId = 1, TicketPriorityId = 3, TicketStatusId = 2, OwnerUserId = "starlord", AssignedToUserId = "antman" },
-                /* bugtracker ticket */ new Ticket { Id = 3, Title = "Details Modal Design", Description = "Finish designing ticket details modal feature", Created = DateTimeOffset.Now, TicketTypeId = 2, ProjectId = 1, TicketPriorityId = 3, TicketStatusId = 2, OwnerUserId = "starlord", AssignedToUserId = "drstrange" },
-                /* bugtracker ticket */ new Ticket { Id = 4, Title = "Abstract to Helpers", Description = "Abstract access methods to their own helper class", Created = DateTimeOffset.Now, TicketTypeId = 3, ProjectId = 1, TicketPriorityId = 2, TicketStatusId = 2, OwnerUserId = "spiderman", AssignedToUserId = "antman" },
+                /* bugtracker ticket */ new Ticket {  Title = "Notification Dropdown", Description = "Set CSS for Notification drop down styling", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "spiderman", AssignedToUserId = "drstrange"},
+                /* bugtracker ticket */ new Ticket {  Title = "Ticket History Helper", Description = "Write helper to help assign properties to ticket history", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = highPriority, TicketStatusId = assigned, OwnerUserId = "starlord", AssignedToUserId = "antman" },
+                /* bugtracker ticket */ new Ticket {  Title = "Details Modal Design", Description = "Finish designing ticket details modal feature", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = highPriority, TicketStatusId = assigned, OwnerUserId = "starlord", AssignedToUserId = "drstrange" },
+                /* bugtracker ticket */ new Ticket {  Title = "Abstract to Helpers", Description = "Abstract access methods to their own helper class", Created = DateTimeOffset.Now, TicketTypeId = controller, ProjectId = trackerId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "spiderman", AssignedToUserId = "antman" },
                 
-                /* blog ticket */ new Ticket { Id = 6, Title = "Impliment Kit", Description = "Add Material UI kit to site instead of current template", Created = DateTimeOffset.Now, TicketTypeId = 2, ProjectId = 3, TicketPriorityId = 2, TicketStatusId = 2, OwnerUserId = "warmachine", AssignedToUserId = "thehulk" },
-                /* blog ticket */ new Ticket { Id = 7, Title = "Scroll Bar", Description = "Add custom scroll bar to blog", Created = DateTimeOffset.Now, TicketTypeId = 8, ProjectId = 3, TicketPriorityId = 1, TicketStatusId = 2, OwnerUserId = "scarletwitch", AssignedToUserId = "thehulk" },
+                /* blog ticket */ new Ticket {  Title = "Impliment Kit", Description = "Add Material UI kit to site instead of current template", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = blogId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "warmachine", AssignedToUserId = "thehulk" },
+                /* blog ticket */ new Ticket {  Title = "Scroll Bar", Description = "Add custom scroll bar to blog", Created = DateTimeOffset.Now, TicketTypeId = featureReq, ProjectId = blogId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "scarletwitch", AssignedToUserId = "thehulk" },
                 
-                /* mythos ticket */ new Ticket { Id = 8, Title = "Schema Design", Description = "Lay out database structure and modeling", Created = DateTimeOffset.Now, TicketTypeId = 6, ProjectId = 4, TicketPriorityId = 1, TicketStatusId = 2, OwnerUserId = "mantis", AssignedToUserId = "rocket" },
-                /* mythos ticket */ new Ticket { Id = 9, Title = "Layout", Description = "Build Layout UI for site", Created = DateTimeOffset.Now, TicketTypeId = 2, ProjectId = 4, TicketPriorityId = 1, TicketStatusId = 2, OwnerUserId = "mantis", AssignedToUserId = "rocket" },
+                /* mythos ticket */ new Ticket {  Title = "Schema Design", Description = "Lay out database structure and modeling", Created = DateTimeOffset.Now, TicketTypeId = model, ProjectId = mythosId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "mantis", AssignedToUserId = "rocket" },
+                /* mythos ticket */ new Ticket {  Title = "Layout", Description = "Build Layout UI for site", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = mythosId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "mantis", AssignedToUserId = "rocket" },
 
-                /* portfolio ticket */ new Ticket { Id = 10, Title = "Blackjack Cards", Description = "Add cards to blackjack script game", Created = DateTimeOffset.Now, TicketTypeId = 2, ProjectId = 2, TicketPriorityId = 2, TicketStatusId = 2, OwnerUserId = "falcon", AssignedToUserId = "vision" },
-                /* portfolio ticket */ new Ticket { Id = 11, Title = "About Me Section", Description = "Impliment blockquote for text, change image to rectangle instead of circle", Created = DateTimeOffset.Now, TicketTypeId = 2, ProjectId = 2, TicketPriorityId = 1, TicketStatusId = 2, OwnerUserId = "pepperpotts", AssignedToUserId = "shuri" },
-                /* portfolio ticket */ new Ticket { Id = 12, Title = "Particles.js", Description = "Impliment particles framework to header or background", Created = DateTimeOffset.Now, TicketTypeId = 2, ProjectId = 2, TicketPriorityId = 1, TicketStatusId = 2, OwnerUserId = "pepperpotts", AssignedToUserId = "vision" },
-                /* portfolio ticket */ new Ticket { Id = 5, Title = "Header Styling", Description = "Add SVG gradient effect to header", Created = DateTimeOffset.Now, TicketTypeId = 2, ProjectId = 2, TicketPriorityId = 1, TicketStatusId = 2, OwnerUserId = "falcon", AssignedToUserId = "shuri" }
+                /* portfolio ticket */ new Ticket {  Title = "Blackjack Cards", Description = "Add cards to blackjack script game", Created = DateTimeOffset.Now, TicketTypeId = featureReq, ProjectId = portfolioId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "falcon", AssignedToUserId = "vision" },
+                /* portfolio ticket */ new Ticket {  Title = "About Me Section", Description = "Impliment blockquote for text, change image to rectangle instead of circle", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "pepperpotts", AssignedToUserId = "shuri" },
+                /* portfolio ticket */ new Ticket {  Title = "Particles.js", Description = "Impliment particles framework to header or background", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "pepperpotts", AssignedToUserId = "vision" },
+                /* portfolio ticket */ new Ticket {  Title = "Header Styling", Description = "Add SVG gradient effect to header", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "falcon", AssignedToUserId = "shuri" }
                 );
             context.SaveChanges();
             #endregion

@@ -34,7 +34,7 @@ namespace DG_BugTracker.Helpers
 
             if (assignment)
             {
-                GenerateUnassignmentNotification(oldTicket, newTicket);
+                GenerateAssignmentNotification(oldTicket, newTicket);
             } else if (unassignment)
             {
                 GenerateUnassignmentNotification(oldTicket, newTicket);
@@ -120,8 +120,6 @@ namespace DG_BugTracker.Helpers
             {
                 var old = origin.GetType().GetProperty(property).GetValue(origin, null);
                 var nu = edit.GetType().GetProperty(property).GetValue(edit, null);
-
-                
 
                 if (old != nu)
                 {

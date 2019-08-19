@@ -2,106 +2,41 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using DG_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DG_BugTracker.Helpers
 {
     public class HistoryHelper : InstanceHelper
     {
-        //were changes made to the ticket?
-        public bool ChangesWereMade(Ticket origin, Ticket edit)
+        
+        public static void RecordHistory(Ticket origin, Ticket edit)
         {
-            if(origin != edit)
+            foreach (var property in WebConfigurationManager.AppSettings["ticketproperties"].Split(','))
             {
-                return true;
+                var oldVal = origin.GetType().GetProperty(property).GetValue(origin, null).ToString();
+                var newVal = edit.GetType().GetProperty(property).GetValue(edit, null).ToString();
+
+                if(oldVal != newVal)
+                {
+                    var createHistory = new TicketHistory
+                    {
+                        Property = property,
+                        OldValue = oldVal,
+                        NewValue = newVal,
+                        UserId = HttpContext.Current.User.Identity.GetUserId(),
+                        Changed = DateTimeOffset.Now
+                    };
+                    db.TicketHistories.Add(createHistory);
+                }
             }
-            else
-            {
-                return false;
-            }  
+            db.SaveChanges();
         }
-       
-
-        public List<List<string>> OrganizeChangedProperties(Ticket origin, Ticket edit)
-        {
-            if(ChangesWereMade(origin, edit))
-            {
-                var master = new List<List<string>>();
-                var properties = new List<string>();
-                var oldValues = new List<string>();
-                var newValues = new List<string>();
-
-                if (origin.Title != edit.Title)
-                {
-                    properties.Add("Title");
-                    newValues.Add(edit.Title);
-                    oldValues.Add(origin.Title);
-                }
-                if (origin.Description != edit.Description)
-                {
-                    properties.Add("Description");
-                    newValues.Add(edit.Description);
-                    oldValues.Add(origin.Description);
-                }
-                if (origin.TicketTypeId != edit.TicketTypeId)
-                {
-                    properties.Add("Type");
-                    newValues.Add(edit.TicketType.Name);
-                    oldValues.Add(origin.TicketType.Name);
-                }
-                if (origin.TicketStatusId != edit.TicketStatusId)
-                {
-                    properties.Add("Status");
-                    newValues.Add(edit.TicketStatus.Name);
-                    oldValues.Add(origin.TicketStatus.Name);
-                }
-                if (origin.TicketPriorityId != edit.TicketPriorityId)
-                {
-                    properties.Add("Priority");
-                    newValues.Add(edit.TicketStatus.Name);
-                    oldValues.Add(origin.TicketStatus.Name);
-                }
-                if (origin.AssignedToUserId != edit.AssignedToUserId)
-                {
-                    properties.Add("Assigned Developer");
-                    newValues.Add(edit.Title);
-                    oldValues.Add(origin.Title);
-                }
-                master.Add(properties);
-                master.Add(newValues);
-                master.Add(oldValues);
-
-                return master;
-
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        //Now that i have my information organized... how will i use it to send a notification and create a history entry?
-
-        public void GenerateHistoryEntries(List<List<string>> master)
-        {
-            //this will unpackage my master list of lists into seperate lists again
-            var properties = master.FirstOrDefault();
-            var newValues = master.Skip(1).FirstOrDefault();
-            var oldValues = master.Skip(2).FirstOrDefault();
-
-
-
-            //generate history entries seperately
-            foreach(var item in master)
-            {
-                var history = new TicketHistory
-                {
-
-                };
-            }
-
-
-
-        }
+        
+        
+        
+        
+        
     }
 }
