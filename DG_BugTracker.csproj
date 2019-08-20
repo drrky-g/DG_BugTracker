@@ -260,7 +260,8 @@
     <Content Include="Content\assets\img\sidebar-2.jpg" />
     <Content Include="Content\assets\img\sidebar-3.jpg" />
     <Content Include="Content\assets\img\sidebar-4.jpg" />
-    <Content Include="Content\dataTable-override.css" />
+    <Content Include="Content\dataTables.bootstrap4.min.css" />
+    <Content Include="Content\datatables.css" />
     <Content Include="Content\LogInAndRegisterAssets\css\material-kit.css" />
     <Content Include="Content\LogInAndRegisterAssets\css\material-kit.min.css" />
     <Content Include="Content\LogInAndRegisterAssets\img\apple-icon.png" />
@@ -304,11 +305,14 @@
     <Content Include="Content\LogInAndRegisterAssets\js\plugins\jquery.sharrre.js" />
     <Content Include="Content\LogInAndRegisterAssets\js\plugins\moment.min.js" />
     <Content Include="Content\LogInAndRegisterAssets\js\plugins\nouislider.min.js" />
+    <Content Include="Content\main.css" />
     <Content Include="favicon-16x16.png" />
     <Content Include="favicon-32x32.png" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Images\sort_asc.png" />
     <Content Include="Images\sort_both.png" />
+    <Content Include="Scripts\dataTables.bootstrap4.min.js" />
+    <Content Include="Scripts\datatables.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\js\core\bootstrap-material-design.min.js" />
     <Content Include="Scripts\js\core\jquery.min.js" />
@@ -786,6 +790,8 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Home\AccessError.cshtml" />
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
+    <Content Include="Views\Shared\OldLayout.cshtml" />
+    <Content Include="Views\Home\OldDashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

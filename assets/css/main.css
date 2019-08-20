@@ -1,0 +1,47 @@
+/* Custom style rules + UI Kit Overrides*/
+
+#aboutMeAvatar {
+    margin-bottom: 50px;
+}
+
+
+/*
+    vertical gradient:
+    background: linear-gradient(0deg, #E42C64 3%, #121B74 88%);
+
+    horizontal gradient:
+    background: linear-gradient(90deg, #E42C64 3%, #121B74 88%);
+
+
+*/
+.bg-brand-full {
+    background: linear-gradient(0deg, #E42C64 3%, #121B74 88%) !important;
+}
+
+.bg-brand-primary {
+    background: linear-gradient(90deg, #E430B9 3%, #E42C64 88%) !important;
+}
+
+.bg-brand-secondary {
+    background: linear-gradient(90deg, #614AD3 2%, #121B74 100%) !important;
+}
+
+.bg-brand-teritary {
+    background: linear-gradient(90deg, #E42C64 2%, #614AD3 100%) !important;
+}
+
+.brand-primary-color {
+    /*Pink*/
+    color: #e42c64 !important;
+}
+
+.brand-secondary-color {
+    /*Dark Purple*/
+    color: #121b74 !important;
+}
+
+.brand-teritary-color {
+    /*Lavander*/
+    color: #614ad3 !important;
+}
+

@@ -79,5 +79,47 @@ namespace DG_BugTracker.Controllers
 
             return View(myAssignments);
         }
+
+        public ActionResult OldDashboard()
+        {
+            //create a single page that has your tickets and projects
+            //this view will dynamically render details "views" and forms via modal
+
+            var userId = User.Identity.GetUserId();
+            var myRole = rH.ListUserRoles(userId).FirstOrDefault();
+            var myTickets = new List<Ticket>();
+            var myProjects = pH.ListUserProjects(userId);
+
+
+
+
+            //role switch...need to abstract to helper method.
+            switch (myRole)
+            {
+                case "Developer":
+                    myTickets = dB.Tickets.Where(ticket => ticket.AssignedToUserId == userId).ToList();
+                    break;
+                case "Submitter":
+                    myTickets = dB.Tickets.Where(ticket => ticket.OwnerUserId == userId).ToList();
+                    break;
+                case "Project Manager":
+                    myTickets = dB.Users.Find(userId).Projects.SelectMany(ticket => ticket.Tickets).ToList();
+                    break;
+                case "Admin":
+                    myProjects = dB.Projects.ToList();
+                    myTickets = dB.Tickets.ToList();
+                    break;
+            }
+
+
+
+            var myAssignments = new MyDashboard
+            {
+                MyTickets = myTickets,
+                MyProjects = myProjects
+            };
+
+            return View(myAssignments);
+        }
     }
 }

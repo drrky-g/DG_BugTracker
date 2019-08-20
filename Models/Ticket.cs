@@ -40,6 +40,22 @@ namespace DG_BugTracker.Models
         public virtual ApplicationUser AssignedToUser { get; set; }
         //---------------- id targetting strings ------------------------------------
         [NotMapped]
+        public string DevAvatarTarget
+        {
+            get
+            {
+                return $"t{Id}devpic";
+            }
+        }
+        public string SubAvatarTarget
+        {
+            get
+            {
+                return $"t{Id}subpic";
+            }
+        }
+
+        [NotMapped]
         public string RowTarget
         {
             get
