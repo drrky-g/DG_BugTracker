@@ -1,8 +1,11 @@
-﻿<nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
+﻿
+
+
+<nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
     <div class="container">
         <div class="navbar-translate">
             <!-- Nav Branding -->
-            <a class="navbar-brand" href="#top">
+            <a class="navbar-brand" href="@Url.Action("Dashboard", "Home")">
                 <i class="material-icons">bug_report</i>
                 BugTracker
             </a>
@@ -18,19 +21,19 @@
             <!-- Nav List -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="@Url.Action("Dashboard", "Home")" class="nav-link">
                         <i class="material-icons">home</i>
                         Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="@Url.Action("Archive", "Tickets")" class="nav-link">
                         <i class="material-icons">list</i>
                         Ticket Archive
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="@Url.Action("UserIndex", "RoleManagement")" class="nav-link">
                         <i class="material-icons">supervisor_account</i>
                         User Index
                     </a>
@@ -41,9 +44,18 @@
                         Notifications
                     </a>
                 </li>
+           @if (User.Identity.IsAuthenticated)
+            {
                 <li class="nav-item">
-                    <a href="#aboutme" class="nav-link">
-                        <img src="~/Content/LogInAndRegisterAssets/img/faces/avatar.jpg" class="img-raised rounded-circle img-fluid" style="height: 30px; width: 30px; margin-right: 7px;" />
+                    <a href="@Url.Action("LogOff", "Account")" class="nav-link">
+                        <i class="material-icons">exit_to_app</i>
+                        Log Off
+                    </a>
+                </li>
+            }
+                <li class="nav-item">
+                    <a href="@Url.Action("Profile", "Account")" class="nav-link">
+                        <img src="@Model.AvatarPath" class="img-raised rounded-circle img-fluid" style="height: 30px; width: 30px; margin-right: 7px;" />
                         Account
                     </a>
                 </li>

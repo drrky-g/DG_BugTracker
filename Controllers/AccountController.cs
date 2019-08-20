@@ -22,6 +22,8 @@ namespace DG_BugTracker.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public AccountController()
         {
         }
@@ -462,6 +464,15 @@ namespace DG_BugTracker.Controllers
             return View(model);
         }
 
+        [ChildActionOnly]
+        [Authorize]
+        public PartialViewResult NavRender()
+        {
+            var me = User.Identity.GetUserId();
+            var myModel = db.Users.Find(me);
+
+            return PartialView("_NavPartial", myModel);
+        }
         //
         // POST: /Account/LogOff
         // (Removed [HttpPost] & [ValidateAntiForgeryToken] )

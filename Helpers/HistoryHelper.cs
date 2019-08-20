@@ -27,6 +27,7 @@ namespace DG_BugTracker.Helpers
                         NewValue = newVal,
                         UserId = HttpContext.Current.User.Identity.GetUserId(),
                         Changed = DateTimeOffset.Now
+                        //if its a nullable DateTimeOffset do 'DateTimeOffset.Now.GetValueOrDefault()'
                     };
                     db.TicketHistories.Add(createHistory);
                 }

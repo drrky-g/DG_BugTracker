@@ -8,20 +8,12 @@ namespace DG_BugTracker.ViewModels
 {
     public class MyDashboard
     {
-        //List of projects where your userId is a member of  ICol<Users> of project
 
-            public ICollection<Project> MyProjects { get; set; }
+        //List of projects where your userId is a member of  ICol<Users> of project
+        public ICollection<Project> MyProjects { get; set; }
 
         //List of tickets
-
-            //If user is Dev, this list will be of tickets where their userId = assignedUserId
-
-            //if user is Submitter, this list will be of tickets where their userId = ownerId
-
-            //If user is PM, this list will be of tickets where they belong
-            //to the project which has the same id as this tickets projectId property
-
-            public ICollection<Ticket> MyTickets { get; set; }
+        public ICollection<Ticket> MyTickets { get; set; }
 
 
 

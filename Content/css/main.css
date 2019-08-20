@@ -26,6 +26,10 @@
     background: linear-gradient(90deg, #614AD3 2%, #121B74 100%) !important;
 }
 
+.bg-brand-secondary-solid {
+    background: #121B74 !important;
+}
+
 .bg-brand-teritary {
     background: linear-gradient(90deg, #E42C64 2%, #614AD3 100%) !important;
 }
@@ -43,5 +47,9 @@
 .brand-teritary-color {
     /*Lavander*/
     color: #614ad3 !important;
+}
+
+.whitebg {
+    background: #fff !important;
 }
 

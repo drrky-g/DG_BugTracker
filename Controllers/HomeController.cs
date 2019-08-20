@@ -44,10 +44,11 @@ namespace DG_BugTracker.Controllers
             //this view will dynamically render details "views" and forms via modal
 
             var userId = User.Identity.GetUserId();
+            var myProfile = dB.Users.Find(userId);
             var myRole = rH.ListUserRoles(userId).FirstOrDefault();
             var myTickets = new List<Ticket>();
             var myProjects = pH.ListUserProjects(userId);
-
+            var myTicketCount = new int();
             
 
 
@@ -56,26 +57,36 @@ namespace DG_BugTracker.Controllers
             {
                 case "Developer":
                     myTickets = dB.Tickets.Where(ticket => ticket.AssignedToUserId == userId).ToList();
+                    myTicketCount = myTickets.Count();
                     break;
                 case "Submitter":
                     myTickets = dB.Tickets.Where(ticket => ticket.OwnerUserId == userId).ToList();
+                    myTicketCount = myTickets.Count();
                     break;
                 case "Project Manager":
                     myTickets = dB.Users.Find(userId).Projects.SelectMany(ticket => ticket.Tickets).ToList();
+                    myTicketCount = myTickets.Count();
                     break;
                 case "Admin":
                     myProjects = dB.Projects.ToList();
                     myTickets = dB.Tickets.ToList();
+                    myTicketCount = myTickets.Count();
                     break;
             }
 
+            var myProjectCount = myProfile.Projects.Count();
+
             
+
 
             var myAssignments = new MyDashboard
             {
                 MyTickets = myTickets,
                 MyProjects = myProjects
             };
+
+            ViewBag.Header = $"Welcome back, {myProfile.FirstName}";
+            ViewBag.Subheader = $"You're assigned to {myProjectCount} projects and {myTicketCount} tickets";
 
             return View(myAssignments);
         }

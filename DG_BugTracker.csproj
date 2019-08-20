@@ -217,6 +217,7 @@
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\material-kit.css" />
     <Content Include="Content\css\material-kit.min.css" />
+    <Content Include="Scripts\modalinject.js" />
     <Content Include="Scripts\KitScripts\core\bootstrap-material-design.min.js" />
     <Content Include="Scripts\KitScripts\core\jquery.min.js" />
     <Content Include="Scripts\KitScripts\core\popper.min.js" />

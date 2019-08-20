@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>BugTracker</title>
     <!-- Meta -->
@@ -17,20 +16,20 @@
 
 <body id="top" class="bg-brand-full">
     <!-- Nav -->
-    @Html.Partial("_NavPartial")
+    @{Html.RenderAction("NavRender", "Account");}
     <!-- Header -->
     <div class="page-header" data-parallax="true" style="height: 600px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <!-- ViewBag Header -->
-                    <h1 class="text-left"><b> Welcome back, Derrick.</b></h1>
+                    <h1 class="text-left"><b>@ViewBag.Header</b></h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <!-- ViewBag Subheader -->
-                    <h3 class="text-left"> You're currently on 6 tickets and 4 projects.</h3>
+                    <h3 class="text-left">@ViewBag.SubHeader</h3>
                 </div>
             </div>
         </div>
@@ -60,21 +59,14 @@
                 </script> - Derrick Gordon
             </div>
         </div>
-        @RenderSection("modal", required: false)
-        
-
+        @RenderSection("modals", required: false)
         <!-- Scripts -->
         <!-- jQ -->
         @Scripts.Render("~/bundles/jquery")
-
-
         <!-- DataTables -->
         @Scripts.Render("~/Scripts/DataTables")
-
         <!-- UI kit scripts -->
         @Scripts.Render("~/bundles/materialkit")
-
-
         <!-- initialize -->
         <script type="text/javascript">
             //collapse all open accordions when modal closes
