@@ -8,23 +8,41 @@ namespace DG_BugTracker
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
-
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
-            bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            //--------------------------------------------------------------
+
+            //my jquery bundle
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
+                "~/Scripts/KitScripts/core/jquery.min.js"));
+
+
+
+            //UI kit + main styling
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                "~/Content/css/material-kit.css",
+                "~/Content/css/main.css"));
+
+            //UI kit scripts
+            bundles.Add(new ScriptBundle("~/bundles/materialkit").Include(
+                "~/Scripts/KitScripts/core/popper.min.js",
+                "~/Scripts/KitScripts/core/bootstrap-material-design.min.js",
+                "~/Scripts/KitScripts/material-kit.min.js"));
+
+            //data tables plugin styles bundle
+            bundles.Add(new StyleBundle("~/Content/DataTables").Include(
+                "~/Content/DataTables/datatables.css",
+                "~/Content/DataTables/dataTables.bootstrap4.min.css"));
+            
+
+            //data tables plugin script bundle
+            bundles.Add(new ScriptBundle("~/Scripts/DataTables").Include(
+                "~/Scripts/DataTables/dataTables.js",
+                "~/Scripts/DataTables/dataTables.bootstrap4.min.js"
+                ));
         }
     }
 }

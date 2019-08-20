@@ -7,83 +7,30 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <!--     Fonts and icons     -->
+    <!-- Fonts and icons (CDNs) -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-    <!-- Material Kit CSS -->
-    <link href="~/Content/LogInAndRegisterAssets/css/material-kit.css" rel="stylesheet" />
-    <!-- Kit Overrides/Custom CSS-->
-    <link href="~/Content/main.css" rel="stylesheet" />
+    <!-- CSS -->
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/DataTables")
 </head>
 
 <body id="top" class="bg-brand-full">
     <!-- Nav -->
-    <nav class="navbar navbar-color-on-scroll navbar-transparent fixed-top navbar-expand-lg" color-on-scroll="100">
-        <div class="container">
-            <div class="navbar-translate">
-                <!-- Nav Branding -->
-                <a class="navbar-brand" href="#top">
-                    <i class="material-icons">bug_report</i>
-                    BugTracker
-                </a>
-                <!-- Responsive Toggle -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="navbar-toggler-icon"></span>
-                    <span class="navbar-toggler-icon"></span>
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse">
-                <!-- Nav List -->
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="material-icons">home</i>
-                            Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="material-icons">list</i>
-                            Ticket Archive
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="material-icons">supervisor_account</i>
-                            User Index
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="material-icons">notifications</i>
-                            Notifications
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#aboutme" class="nav-link">
-                            <img src="~/Content/LogInAndRegisterAssets/img/faces/avatar.jpg" class="img-raised rounded-circle img-fluid" style="height: 30px; width: 30px; margin-right: 7px;" />
-                            Account
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    @Html.Partial("_NavPartial")
     <!-- Header -->
     <div class="page-header" data-parallax="true" style="height: 600px;">
         <!-- style="background: linear-gradient(0deg, #E42C64 3%, #121B74 88%);"-->
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <!-- ViewBag Greeting -->
+                    <!-- ViewBag Header -->
                     <h1 class="text-left"><b> Welcome back, Derrick.</b></h1>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <!-- ViewBag Counts -->
+                    <!-- ViewBag Subheader -->
                     <h3 class="text-left"> You're currently on 6 tickets and 4 projects.</h3>
                 </div>
             </div>
@@ -116,26 +63,23 @@
         </div>
 
         <!-- Scripts -->
-        <!-- jQ-->
-        <script src="~/Content/LogInAndRegisterAssets/js/core/jquery.min.js"></script>
-        <!-- popper -->
-        <script src="~/Content/LogInAndRegisterAssets/js/core/popper.min.js"></script>
-        <!-- material kit -->
-        <script src="~/Content/LogInAndRegisterAssets/js/core/bootstrap-material-design.min.js"></script>
-        <script src="~/Content/LogInAndRegisterAssets/js/material-kit.min.js"></script>
+        <!-- jQ -->
+        @Scripts.Render("~/bundles/jquery")
+        <!-- UI kit scripts -->
+        @Scripts.Render("~/bundles/materialkit")
+        <!-- DataTables -->
+        @Scripts.Render("~/Scripts/DataTables")
+        <!-- initialize -->
         <script type="text/javascript">
             //collapse all open accordions when modal closes
             $('#detailTargetWindow').on('hidden.bs.modal', function () {
                 $('.collapse').collapse('hide');
             })
+            //initiate dataTables
+            $('.table').DataTable();
         </script>
-        <!-- dataTables -->
-        <script src="~/Scripts/jquery.dataTables.min.js"></script>
-        <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
-        <script>
-            //format all tables with "table" class
-            $(".table").DataTable();
-        </script>
+
+        @RenderSection("scripts", required: false)
     </footer>
 </body>
 
