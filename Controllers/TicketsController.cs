@@ -240,7 +240,7 @@ namespace DG_BugTracker.Controllers
                 db.SaveChanges();
                 //calls notificationhelper to see which notification needs to be sent for the assignment.
                 NotificationHelper.ManageNotifications(origin, ticket);
-                HistoryHelper.RecordHistory(origin, ticket);
+                HistoryHelper.CreateHistoryEntries(origin, ticket);
 
                 return RedirectToAction("Index");
             }
