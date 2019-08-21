@@ -17,6 +17,7 @@ namespace DG_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private UserRoleHelper roleHelper = new UserRoleHelper();
         private ProjectHelper projectHelper = new ProjectHelper();
+        private AccessHelper accessHelper = new AccessHelper();
 
         
 
@@ -30,42 +31,18 @@ namespace DG_BugTracker.Controllers
         //[Authorize (Roles = "Project Manager, Developer, Submitter")]
         public ActionResult MyIndex()
         {
-            //View where the authenticated user only sees tickets theyre associated with
-            //Submitter - any ticket theyve created will show here
-            //Dev - any ticket theyve been assigned will show here
-
-            //store userId
-            var userId = User.Identity.GetUserId();
-
-            //store user role
-            var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
-
-            //ticket sets
-            var myTickets = new List<Ticket>();
-
-            switch (myRole)
-            {
-                case "Developer":
-                    //Dev index
-                    //shows tickets you have be assigned to by your PM
-                    myTickets = db.Tickets.Where(ticket => ticket.AssignedToUserId == userId).ToList();
-                    break;
-
-                case "Submitter":
-                    //Submitter index
-                    //show tickets you have submitted
-                    myTickets = db.Tickets.Where(ticket => ticket.OwnerUserId == userId).ToList();
-                    break;
-
-                case "Project Manager":
-                    //PM index
-                    //show tickets for any project you are managing
-                    myTickets = db.Users.Find(userId).Projects.SelectMany(t => t.Tickets).ToList();
-                    break;
-            }
+            var myTickets = accessHelper.GetMyTickets();
 
 
             return View("Index", myTickets);
+        }
+
+        public ActionResult ArchiveIndex()
+        {
+
+            var archivedTickets = db.Tickets.Where(tkt => tkt.TicketStatus.Name == "Archived").ToList();
+
+            return View("Index", archivedTickets);
         }
 
         // GET: Tickets/Details/5
@@ -73,24 +50,7 @@ namespace DG_BugTracker.Controllers
         {
 
             Ticket ticket = db.Tickets.Find(id);
-             
-            //compare logged in user to users assigned the ticket, if they match, allow access
-            var loggedInUser = User.Identity.GetUserId();
-
-            //get project id
-            var projectId = ticket.ProjectId;
-
-            //check to see if PM is the PM of the projectId
-            var isOnProject = projectHelper.IsUserOnProject(loggedInUser, projectId);
-
-            //store assigned dev
-            var assignedDev = ticket.AssignedToUserId;
-
-            //store submitter
-            var assignedSubmitter = ticket.OwnerUserId;
-
-            
-
+          
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -105,58 +65,28 @@ namespace DG_BugTracker.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+
+            if(accessHelper.CanSeeDetails(ticket))
+            {
+                return View(ticket);
+            }
             else
             {
-                //get user role
-                var myRole = roleHelper.ListUserRoles(loggedInUser).FirstOrDefault();
-
-                switch (myRole)
-                {
-                    case "Project Manager":
-                        //Only allow PM of associated project
-                        if (!isOnProject)
-                        {
-                            return RedirectToAction("NotAllowedTicket", "Home");
-                        }
-                        break;
-                    case "Developer":
-                        //Compare AssignedToUser property to logged in user
-                        if (loggedInUser != assignedDev)
-                        {
-                            return RedirectToAction("NotAllowedTicket", "Home");
-                        }
-                        break;
-                    case "Submitter":
-                        //Compare OwnerUser property to logged in user
-                        if (loggedInUser != assignedSubmitter)
-                        {
-                            return RedirectToAction("NotAllowedTicket", "Home");
-                        }
-                        break;
-                    case "Admin":
-                        //Automatic Access
-                        return View(ticket);
-                }
+                return RedirectToAction("NotAllowedTicket", "Home");
             }
-
-            
-            return View(ticket);
         }
 
         // GET: Tickets/Create
         //[Authorize (Roles = "Submitter")]
         public ActionResult Create()
         {
-            //variable to only show Devs in assign field
-            var allDevs = roleHelper.UsersInRole("Developer");
+            var myProjects = projectHelper.ListUserProjects(User.Identity.GetUserId());
 
-            ViewBag.AssignedToUserId = new SelectList(allDevs, "Id", "FirstName");
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName");
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name");
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name");
-            
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses.Where(status => status.Name != "Archived"), "Id", "Name");
+
             return View();
         }
 
@@ -169,11 +99,6 @@ namespace DG_BugTracker.Controllers
         public ActionResult Create([Bind(Include = "Id,Title,Description,Updated,TicketTypeId,ProjectId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
 
-            //variable to only show Devs in assign field
-            var allDevs = roleHelper.UsersInRole("Developer");
-
-            ViewBag.AssignedToUserId = new SelectList(allDevs, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
@@ -181,12 +106,14 @@ namespace DG_BugTracker.Controllers
 
             if (ModelState.IsValid)
             {
+                //automatic new status
                 ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New").Id;
                 //automate created field
                 ticket.Created = DateTimeOffset.Now;
 
                 //automate submitter field
                 ticket.OwnerUserId = User.Identity.GetUserId();
+                
 
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
@@ -264,9 +191,19 @@ namespace DG_BugTracker.Controllers
         {
             var ticket = db.Tickets.Find(id);
             var origin = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-            var users = roleHelper.UsersInRole("Developer").ToList();
+            //get list of all devs
+            var devList = roleHelper.UsersInRole("Developer").ToList();
+            //if a dev is not on this project, they are removed from the list
+            foreach(var dev in devList)
+            {
+                if(projectHelper.IsUserOnProject(dev.Id, ticket.ProjectId) == false)
+                {
+                    devList.Remove(dev);
+                }
+            }
 
-            ViewBag.AssignedToUserId = new SelectList(users, "Id", "FullName", ticket.AssignedToUserId);
+
+            ViewBag.AssignedToUserId = new SelectList(devList, "Id", "FullName", ticket.AssignedToUserId);
 
            
 
@@ -288,7 +225,7 @@ namespace DG_BugTracker.Controllers
 
             //calls notificationhelper to see which notification needs to be sent for the assignment.
             NotificationHelper.ManageNotifications(origin, ticket);
-            HistoryHelper.RecordHistory(origin, ticket);
+            HistoryHelper.CreateHistoryEntries(origin, ticket);
 
             var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
 
