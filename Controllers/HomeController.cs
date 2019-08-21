@@ -13,6 +13,7 @@ namespace DG_BugTracker.Controllers
         private ApplicationDbContext dB = new ApplicationDbContext();
         private UserRoleHelper rH = new UserRoleHelper();
         private ProjectHelper pH = new ProjectHelper();
+        private AccessHelper access = new AccessHelper();
 
         public ActionResult Index()
         {
@@ -38,46 +39,23 @@ namespace DG_BugTracker.Controllers
             return View("AccessError");
         }
 
+        public ActionResult ChangesNotSaved()
+        {
+            ViewBag.Message = "There was an error updating your profile";
+
+            return View("AccessError");
+        }
+
         public ActionResult Dashboard()
         {
-            //create a single page that has your tickets and projects
-            //this view will dynamically render details "views" and forms via modal
-
-            var userId = User.Identity.GetUserId();
-            var myProfile = dB.Users.Find(userId);
-            var myRole = rH.ListUserRoles(userId).FirstOrDefault();
-            var myTickets = new List<Ticket>();
-            var myProjects = pH.ListUserProjects(userId);
-            var myTicketCount = new int();
-            
 
 
-            //role switch...need to abstract to helper method.
-            switch (myRole)
-            {
-                case "Developer":
-                    myTickets = dB.Tickets.Where(ticket => ticket.AssignedToUserId == userId).ToList();
-                    myTicketCount = myTickets.Count();
-                    break;
-                case "Submitter":
-                    myTickets = dB.Tickets.Where(ticket => ticket.OwnerUserId == userId).ToList();
-                    myTicketCount = myTickets.Count();
-                    break;
-                case "Project Manager":
-                    myTickets = dB.Users.Find(userId).Projects.SelectMany(ticket => ticket.Tickets).ToList();
-                    myTicketCount = myTickets.Count();
-                    break;
-                case "Admin":
-                    myProjects = dB.Projects.ToList();
-                    myTickets = dB.Tickets.ToList();
-                    myTicketCount = myTickets.Count();
-                    break;
-            }
-
-            var myProjectCount = myProfile.Projects.Count();
-
-            
-
+            var myProjects = pH.ListUserProjects();
+            var myProjectCount = myProjects.Count();
+            var myTickets = access.GetMyTickets();
+            var myTicketCount = myTickets.Count();
+            //unfortunately i still to use this to grab my users name for the viewbag
+            var user = dB.Users.Find(User.Identity.GetUserId());
 
             var myAssignments = new MyDashboard
             {
@@ -85,7 +63,8 @@ namespace DG_BugTracker.Controllers
                 MyProjects = myProjects
             };
 
-            ViewBag.Header = $"Welcome back, {myProfile.FirstName}";
+            //TODO: make it so that 'projects' and 'tickets' will switch to singular if they dont have more than 1
+            ViewBag.Header = $"Welcome back, {user.FirstName}.";
             ViewBag.Subheader = $"You're assigned to {myProjectCount} projects and {myTicketCount} tickets";
 
             return View(myAssignments);
@@ -99,7 +78,7 @@ namespace DG_BugTracker.Controllers
             var userId = User.Identity.GetUserId();
             var myRole = rH.ListUserRoles(userId).FirstOrDefault();
             var myTickets = new List<Ticket>();
-            var myProjects = pH.ListUserProjects(userId);
+            var myProjects = pH.ListUserProjects();
 
 
 

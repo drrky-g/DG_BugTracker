@@ -1,4 +1,5 @@
 ﻿using DG_BugTracker.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,12 @@ namespace DG_BugTracker.Helpers
             return (flag);
         }
 
-        public ICollection<Project> ListUserProjects(string userId)
+        public ICollection<Project> ListUserProjects()
         {
-            ApplicationUser user = db.Users.Find(userId);
-            var projects = user.Projects.ToList();
+            var myId = HttpContext.Current.User.Identity.GetUserId();
+            var me = db.Users.Find(myId);
+
+            var projects = me.Projects.ToList();
             return (projects);
         }
 

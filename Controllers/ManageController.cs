@@ -7,6 +7,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DG_BugTracker.Models;
+using DG_BugTracker.ViewModels;
+using DG_BugTracker.Helpers;
+using System.IO;
 
 namespace DG_BugTracker.Controllers
 {
@@ -15,6 +18,7 @@ namespace DG_BugTracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -239,11 +243,48 @@ namespace DG_BugTracker.Controllers
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 //return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
-                return RedirectToAction ("Index", "Home");
+                return RedirectToAction ("Dashboard", "Home");
             }
             AddErrors(result);
             //return View(model);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Dashboard", "Home");
+        }
+
+        //
+        // POST: /Manage/ChangeUserProfile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public  ActionResult ChangeUserProfile ([Bind(Include = "Id,FirstName,LastName,AvatarPath,Email")]UserProfileViewModel model, HttpPostedFileBase AvatarPath)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = db.Users.Find(model.Id);
+
+                //Avatar Validator
+                //profile picture setting
+                if (ImageUploader.IsWebFriendlyImage(AvatarPath))
+                {
+                    var fileName = Path.GetFileName(AvatarPath.FileName);
+                    AvatarPath.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
+                    model.AvatarPath = "/Avatars/" + fileName;
+                }
+                else
+                {
+                    model.AvatarPath = model.AvatarPath;
+                }
+
+                currentUser.FirstName = model.FirstName;
+                currentUser.LastName = model.LastName;
+                currentUser.AvatarPath = model.AvatarPath;
+                currentUser.Email = model.Email;
+                db.SaveChanges();
+                return RedirectToAction("Dashboard", "Home");
+            }
+            else
+            {
+                return RedirectToAction("ChangesNotSaved", "Home");
+            }
+            
         }
 
         //

@@ -13,6 +13,7 @@ using System.Web.Configuration;
 using System.Net.Mail;
 using DG_BugTracker.Helpers;
 using System.IO;
+using DG_BugTracker.ViewModels;
 
 namespace DG_BugTracker.Controllers
 {
@@ -469,10 +470,21 @@ namespace DG_BugTracker.Controllers
         public PartialViewResult NavRender()
         {
             var me = User.Identity.GetUserId();
-            var myModel = db.Users.Find(me);
+            var myUser = db.Users.Find(me);
+
+            var myModel = new UserProfileViewModel
+            {
+                Id = myUser.Id,
+                FirstName = myUser.FirstName,
+                LastName = myUser.LastName,
+                AvatarPath = myUser.AvatarPath,
+                Email = myUser.Email
+            };
 
             return PartialView("_NavPartial", myModel);
         }
+
+
         //
         // POST: /Account/LogOff
         // (Removed [HttpPost] & [ValidateAntiForgeryToken] )

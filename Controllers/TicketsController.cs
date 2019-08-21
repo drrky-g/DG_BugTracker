@@ -80,7 +80,7 @@ namespace DG_BugTracker.Controllers
         //[Authorize (Roles = "Submitter")]
         public ActionResult Create()
         {
-            var myProjects = projectHelper.ListUserProjects(User.Identity.GetUserId());
+            var myProjects = projectHelper.ListUserProjects());
 
             ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
@@ -102,7 +102,7 @@ namespace DG_BugTracker.Controllers
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "Name", ticket.TicketStatusId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses.Where(status => status.Name != "Archived"), "Id", "Name", ticket.TicketStatusId);
 
             if (ModelState.IsValid)
             {

@@ -140,7 +140,7 @@ namespace DG_BugTracker.Controllers
         //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult ManageUsersMultipleProjects(string userId)
         {
-            var myProjects = projectHelper.ListUserProjects(userId).Select(proj => proj.Id);
+            var myProjects = projectHelper.ListUserProjects().Select(proj => proj.Id);
             ViewBag.UserId = userId;
             ViewBag.ProjectIds = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
             return View();
@@ -153,7 +153,7 @@ namespace DG_BugTracker.Controllers
         //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult ManageUsersMultipleProjects(string userId, List<int> projectIds)
         {
-            foreach(var project in projectHelper.ListUserProjects(userId))
+            foreach(var project in projectHelper.ListUserProjects())
             {
                 projectHelper.RemoveUserFromProject(userId, project.Id);
             }
