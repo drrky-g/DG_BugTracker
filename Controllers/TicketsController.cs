@@ -33,7 +33,6 @@ namespace DG_BugTracker.Controllers
         {
             var myTickets = accessHelper.GetMyTickets();
 
-
             return View("Index", myTickets);
         }
 
@@ -80,7 +79,7 @@ namespace DG_BugTracker.Controllers
         //[Authorize (Roles = "Submitter")]
         public ActionResult Create()
         {
-            var myProjects = projectHelper.ListUserProjects());
+            var myProjects = projectHelper.ListUserProjects();
 
             ViewBag.ProjectId = new SelectList(myProjects, "Id", "Name");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name");
@@ -167,7 +166,6 @@ namespace DG_BugTracker.Controllers
                 db.SaveChanges();
                 //calls notificationhelper to see which notification needs to be sent for the assignment.
                 NotificationHelper.ManageNotifications(origin, ticket);
-                HistoryHelper.CreateHistoryEntries(origin, ticket);
 
                 return RedirectToAction("Index");
             }
@@ -223,11 +221,10 @@ namespace DG_BugTracker.Controllers
 
             db.SaveChanges();
 
-            //calls notificationhelper to see which notification needs to be sent for the assignment.
+            //calls notificationhelper to see which notification needs to be sent for the assignment
             NotificationHelper.ManageNotifications(origin, ticket);
-            HistoryHelper.CreateHistoryEntries(origin, ticket);
 
-            var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
+            var callbackUrl = Url.Action("Dashboard", "Home", null, protocol: Request.Url.Scheme);
 
             try
             {

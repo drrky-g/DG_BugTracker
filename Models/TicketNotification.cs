@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace DG_BugTracker.Models
 {
@@ -12,6 +13,7 @@ namespace DG_BugTracker.Models
         public string RecieverId { get; set; }
         public string SenderId { get; set; }
         public DateTimeOffset Created { get; set; }
+        
         public string NotificationBody { get; set; }
         public bool ReadStatus { get; set; }
 

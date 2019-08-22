@@ -49,17 +49,19 @@ namespace DG_BugTracker.Helpers
         //Unassignment Notification
         public static void GenerateUnassignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
+            HistoryHelper.AddHistory("Developer Reassignment", oldTicket.AssignedToUser.FullName, newTicket.AssignedToUser.FullName, oldTicket.Id);
+            db.SaveChanges();
+
             var notification = new TicketNotification
             {
                 Created = DateTime.Now,
-                //Subject = $"You were unassigned from Ticket {newTicket.Id} on {DateTime.Now.ToString("MM/dd/yyyy h:mm tt")}",
                 ReadStatus = false,
                 RecieverId = oldTicket.AssignedToUserId,
                 SenderId = HttpContext.Current.User.Identity.GetUserId(),
                 NotificationBody = $"You were unassigned from Ticket {newTicket.Id} on {DateTime.Now.ToString("MM/dd/yyyy h:mm tt")}.",
                 TicketId = newTicket.Id
             };
-
+            
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
         }
@@ -77,9 +79,105 @@ namespace DG_BugTracker.Helpers
                 NotificationBody = $"You were assigned to Ticket {oldTicket.Id} on {DateTime.Now.ToString("MM/dd/yyyy h:mm tt")}.",
                 TicketId = oldTicket.Id
             };
+            if (string.IsNullOrEmpty(oldTicket.AssignedToUserId))
+            {
+                HistoryHelper.AddHistory("Developer Assignment", "Unassigned", newTicket.AssignedToUser.FullName, newTicket.Id);
+            }
 
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
+        }
+        
+        //my version of creating edit notifications
+        private static void CreateEditNotification(Ticket origin, Ticket edit)
+        {
+            var properties = new Stack<string>();
+            var oldValues = new Stack<string>();
+            var newValues = new Stack<string>();
+            var ticker = new List<int>();
+
+            if(origin.Title != edit.Title)
+            {
+                properties.Push("Title");
+                oldValues.Push(origin.Title);
+                newValues.Push(edit.Title);
+                ticker.Add(1);
+            }
+            if (origin.Description != edit.Description)
+            {
+                properties.Push("Description");
+                oldValues.Push(origin.Description);
+                newValues.Push(edit.Description);
+                ticker.Add(1);
+            }
+            if (origin.TicketTypeId != edit.TicketTypeId)
+            {
+                properties.Push("Type");
+                oldValues.Push(origin.TicketType.Name);
+                newValues.Push(edit.TicketType.Name);
+                ticker.Add(1);
+            }
+            if (origin.TicketPriorityId != edit.TicketPriorityId)
+            {
+                properties.Push("Priority");
+                oldValues.Push(origin.TicketPriority.Name);
+                newValues.Push(edit.TicketPriority.Name);
+                ticker.Add(1);
+            }
+            if (origin.TicketStatusId != edit.TicketStatusId)
+            {
+                properties.Push("Status");
+                oldValues.Push(origin.TicketStatus.Name);
+                newValues.Push(edit.TicketStatus.Name);
+                ticker.Add(1);
+            }
+
+            //now, for each edit.. we will create a new string and add it to a stringbuilder object
+            var body = new StringBuilder();
+
+            foreach(var item in ticker)
+            {
+                var prop = properties.Pop();
+                var old = oldValues.Pop();
+                var nu = newValues.Pop();
+
+                //this creates history entries each time this loops
+                HistoryHelper.AddHistory(prop, old, nu, edit.Id);
+
+                //for each change, we make a section and add it to the StringBuilder body instance
+                body.AppendLine("");//line break
+                body.AppendLine($"{prop} changed from {old} to {nu}.");//property change summary
+                body.AppendLine("");//line break
+
+                
+            }
+            //saves history entries to db
+            db.SaveChanges();
+            //clear ticker counter when loop is over
+            ticker.Clear();
+
+            if (!string.IsNullOrEmpty(body.ToString())){
+
+                //combine header with body
+                var entry = new StringBuilder();
+                entry.AppendLine($"Ticket {edit.Id} was modified ({DateTime.Now})");
+                entry.AppendLine("");
+                entry.AppendLine("");
+                entry.AppendLine(body.ToString());
+
+                //create notification
+                var notification = new TicketNotification
+                {
+                    TicketId = edit.Id,
+                    Created = DateTime.Now,
+                    RecieverId = edit.AssignedToUserId,
+                    SenderId = HttpContext.Current.User.Identity.GetUserId(),
+                    NotificationBody = entry.ToString(),
+                    ReadStatus = false
+                };
+                db.TicketNotifications.Add(notification);
+                db.SaveChanges();
+            }
         }
 
         //list of notifications for user
@@ -89,68 +187,27 @@ namespace DG_BugTracker.Helpers
 
             return db.TicketNotifications.Where(notification => notification.RecieverId == me && !notification.ReadStatus).ToList();
         }
-
+        //unread notification count
         public static int UnreadNotificationCount()
         {
             var me = HttpContext.Current.User.Identity.GetUserId();
             var myCount = db.TicketNotifications.Where(n => n.RecieverId == me && !n.ReadStatus).Count();
             return myCount;
         }
-
+        //list of read notifications
         public static List<TicketNotification> MyReadNotifications()
         {
             var me = HttpContext.Current.User.Identity.GetUserId();
 
             return db.TicketNotifications.Where(notification => notification.RecieverId == me && notification.ReadStatus).ToList();
         }
-
+        //read notifications count
         public static int ReadNotificationsCount()
         {
             var me = HttpContext.Current.User.Identity.GetUserId();
             var myCount = db.TicketNotifications.Where(notification => notification.RecieverId == me && notification.ReadStatus).Count();
 
-            return myCount; 
-        }
-
-        private static void CreateEditNotification(Ticket origin, Ticket edit)
-        {
-            var body = new StringBuilder();
-
-            foreach (var property in WebConfigurationManager.AppSettings["ticketproperties"].Split(','))
-            {
-                var old = origin.GetType().GetProperty(property).GetValue(origin, null);
-                var nu = edit.GetType().GetProperty(property).GetValue(edit, null);
-
-                if (old != nu)
-                {
-                    body.AppendLine(new string('-', 30));
-                    body.AppendLine($"A change was made to {property}:");
-                    body.AppendLine($"From :{old.ToString()}");
-                    body.AppendLine($"To: {nu.ToString()}");
-                }
-            }
-
-            if (!string.IsNullOrEmpty(body.ToString()))
-            {
-                var entry = new StringBuilder();
-                body.AppendLine($"One of your tickets has been modifed ({edit.Updated})");
-                entry.AppendLine(body.ToString());
-                var sender = HttpContext.Current.User.Identity.GetUserId();
-
-                var notification = new TicketNotification
-                {
-                    TicketId = edit.Id,
-                    Created = DateTime.Now,
-                    RecieverId = edit.AssignedToUserId,
-                    SenderId = sender,
-                    NotificationBody = entry.ToString(),
-                    ReadStatus = false
-
-                };
-
-                db.TicketNotifications.Add(notification);
-                db.SaveChanges();
-            }
+            return myCount;
         }
     }
 }

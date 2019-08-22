@@ -69,12 +69,29 @@
         @Scripts.Render("~/bundles/materialkit")
         <!-- initialize -->
         <script type="text/javascript">
-            //collapse all open accordions when modal closes
-            $('#detailTargetWindow').on('hidden.bs.modal', function () {
-                $('.collapse').collapse('hide');
+            //on document readt
+            $(document).ready(function () {
+                //enable popover script for notifications
+                //$('[data-toggle="popover"]').popover({
+                //    html: true,
+                //    content: function () {
+                //        var content = $(this).attr("data-popover-content");
+                //        return $(content).children(".popover-body").html();
+                //    },
+                //    title: function () {
+                //        var title = $(this).attr("data-popover-content");
+                //        return $(title).children(".popover-heading").html();
+                //    }
+                //})
+                $('[data-toggle="popover"]').popover();
+                //collapse all open collapsable elements when modal closes
+                $('#detailTargetWindow').on('hidden.bs.modal', function () {
+                    $('.collapse').collapse('hide');
+                })
+                //initiate dataTables
+                $('.table').DataTable();
             })
-            //initiate dataTables
-            $('.table').DataTable();
+            
         </script>
 
         @RenderSection("scripts", required: false)

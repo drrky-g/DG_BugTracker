@@ -478,7 +478,8 @@ namespace DG_BugTracker.Controllers
                 FirstName = myUser.FirstName,
                 LastName = myUser.LastName,
                 AvatarPath = myUser.AvatarPath,
-                Email = myUser.Email
+                Email = myUser.Email,
+                MyNotifications = NotificationHelper.MyUnreadNotifications()
             };
 
             return PartialView("_NavPartial", myModel);

@@ -11,7 +11,6 @@ namespace DG_BugTracker.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext dB = new ApplicationDbContext();
-        private UserRoleHelper rH = new UserRoleHelper();
         private ProjectHelper pH = new ProjectHelper();
         private AccessHelper access = new AccessHelper();
 
@@ -23,10 +22,14 @@ namespace DG_BugTracker.Controllers
 
         public ActionResult AccessError()
         {
+            ViewBag.Header = "Access Error";
+
+
             return View();
         }
         public ActionResult NotAllowedTicket()
         {
+            ViewBag.Header = "Ticket Access Error";
             ViewBag.Message = "You're not assigned to this ticket.";
 
             return View("AccessError");
@@ -34,6 +37,7 @@ namespace DG_BugTracker.Controllers
 
         public ActionResult NotAllowedProject()
         {
+            ViewBag.Header = "Project Access Error";
             ViewBag.Message = "You're not assigned to this project.";
 
             return View("AccessError");
@@ -41,6 +45,7 @@ namespace DG_BugTracker.Controllers
 
         public ActionResult ChangesNotSaved()
         {
+            ViewBag.Header = "Profile Update Error";
             ViewBag.Message = "There was an error updating your profile";
 
             return View("AccessError");
@@ -70,46 +75,6 @@ namespace DG_BugTracker.Controllers
             return View(myAssignments);
         }
 
-        public ActionResult OldDashboard()
-        {
-            //create a single page that has your tickets and projects
-            //this view will dynamically render details "views" and forms via modal
-
-            var userId = User.Identity.GetUserId();
-            var myRole = rH.ListUserRoles(userId).FirstOrDefault();
-            var myTickets = new List<Ticket>();
-            var myProjects = pH.ListUserProjects();
-
-
-
-
-            //role switch...need to abstract to helper method.
-            switch (myRole)
-            {
-                case "Developer":
-                    myTickets = dB.Tickets.Where(ticket => ticket.AssignedToUserId == userId).ToList();
-                    break;
-                case "Submitter":
-                    myTickets = dB.Tickets.Where(ticket => ticket.OwnerUserId == userId).ToList();
-                    break;
-                case "Project Manager":
-                    myTickets = dB.Users.Find(userId).Projects.SelectMany(ticket => ticket.Tickets).ToList();
-                    break;
-                case "Admin":
-                    myProjects = dB.Projects.ToList();
-                    myTickets = dB.Tickets.ToList();
-                    break;
-            }
-
-
-
-            var myAssignments = new MyDashboard
-            {
-                MyTickets = myTickets,
-                MyProjects = myProjects
-            };
-
-            return View(myAssignments);
-        }
+        
     }
 }

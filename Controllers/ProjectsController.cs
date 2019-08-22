@@ -32,7 +32,7 @@ namespace DG_BugTracker.Controllers
             var loggedInUser = User.Identity.GetUserId();
             //if user in project, assign to myProjects
             //return myProjects to view
-            var myProjects = projectHelper.ListUserProjects(loggedInUser);
+            var myProjects = projectHelper.ListUserProjects();
 
             return View("Index", myProjects);
         }

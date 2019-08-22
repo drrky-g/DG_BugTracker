@@ -19,5 +19,7 @@ namespace DG_BugTracker.Helpers
         protected static UserManager<ApplicationUser> userManager = new
        UserManager<ApplicationUser>(new UserStore<ApplicationUser>
        (new ApplicationDbContext()));
+
+        protected static HistoryHelper historyHelper = new HistoryHelper();
     }
 }
