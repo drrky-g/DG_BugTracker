@@ -13,6 +13,7 @@ namespace DG_BugTracker.Controllers
         private ApplicationDbContext dB = new ApplicationDbContext();
         private ProjectHelper pH = new ProjectHelper();
         private AccessHelper access = new AccessHelper();
+        private DashboardHelper dashboard = new DashboardHelper();
 
         public ActionResult Index()
         {
@@ -53,26 +54,37 @@ namespace DG_BugTracker.Controllers
 
         public ActionResult Dashboard()
         {
-
-
-            var myProjects = pH.ListUserProjects();
-            var myProjectCount = myProjects.Count();
-            var myTickets = access.GetMyTickets();
-            var myTicketCount = myTickets.Count();
-            //unfortunately i still to use this to grab my users name for the viewbag
-            var user = dB.Users.Find(User.Identity.GetUserId());
-
-            var myAssignments = new MyDashboard
+            var myDashboard = new MyDashboard
             {
-                MyTickets = myTickets,
-                MyProjects = myProjects
+                MyTickets = dashboard.MyTicketList(),
+                MyProjects = dashboard.MyProjectsList(),
+                LowCount = dashboard.MyLowPriorityCount(),
+                MediumCount = dashboard.MyMediumPriorityCount(),
+                HighCount = dashboard.MyHighPriorityCount(),
+                UrgentCount = dashboard.MyUrgentPriorityCount(),
+                NewCount = dashboard.MyNewStatusCount(),
+                AssignedCount = dashboard.MyAssignedStatusCount(),
+                InProgressCount = dashboard.MyInProgressStatusCount(),
+                OnHoldCount = dashboard.MyOnHoldStatusCount(),
+                ReadyForReviewCount = dashboard.MyReviewStatusCount(),
+                BugCount = dashboard.MyBugTypeCount(),
+                FECount = dashboard.MyFETypeCount(),
+                ControllerCount = dashboard.MyControllerTypeCount(),
+                ViewCount = dashboard.MyViewTypeCount(),
+                VMCount = dashboard.MyVMTypeCount(),
+                ModelCount = dashboard.MyModelTypeCount(),
+                DocReqCount = dashboard.MyDocReqTypeCount(),
+                FeatureReqCount = dashboard.MyFeatureReqTypeCount(),
+                MyTicketCount = dashboard.MyTicketCount(),
+                MyProjectCount = dashboard.MyProjectCount(),
+                RecentComments = dashboard.FiveRecentComments(),
+                RecentAttachments = dashboard.FiveRecentAttachments(),
+                RecentNotifications = dashboard.FiveRecentNotifications(),
+                UserName = dB.Users.Find(User.Identity.GetUserId()).FirstName
             };
+            
 
-            //TODO: make it so that 'projects' and 'tickets' will switch to singular if they dont have more than 1
-            ViewBag.Header = $"Welcome back, {user.FirstName}.";
-            ViewBag.Subheader = $"You're assigned to {myProjectCount} projects and {myTicketCount} tickets";
-
-            return View(myAssignments);
+            return View(myDashboard);
         }
 
         

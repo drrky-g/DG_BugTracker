@@ -41,18 +41,7 @@
                         </a>
                     </li>
                 }
-                <!-- notification section-->
-                <li class="nav-item">
-                    <!-- try and make 'data-popover-content' attribute work-->
-                    <a href="#" class="nav-link" data-toggle="modal" data-target="#myNotifications">
-                        <i class="material-icons">notifications</i>
-                        Notifications
-                    </a>
-                </li>
-                <!--------------------------------------------------------------------------------------------------------------
-                        I need to make a span that shows the users unread notification count that anchors off of this button
-                        I need to make a collapse that anchors off of this button that contains all of the users notifications
-                    ----------------------------------------------------------------------------------------------------------->
+                
                 <li class="nav-item">
                     <a href="#" data-toggle="modal" data-target="#profileModal" class="nav-link">
                         <img src="@Model.AvatarPath" class="img-raised rounded-circle img-fluid" style="height: 30px; width: 30px; margin-right: 8px;" />
@@ -73,48 +62,6 @@
         </div>
     </div>
 </nav>
-<div class="modal fade" id="myNotifications" tabindex="-1" role="alert">
-    <div class="modal-dialog modal-lg" role="alertdialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                My Unread Notifications
-            </div>
-            <div class="modal-body">
-                @if (Model.MyNotifications.Count() == 0)
-                {
-                    <p class="text-muted">You have no new notifications</p>
-                }
-                else
-                {
-                    foreach (var unread in Model.MyNotifications)
-                    {
-                        <div class="alert alert-info">
-                            <div class="container bg-brand-primary">
-                                @using (Html.BeginForm("MarkAsRead", "TicketNotifications", FormMethod.Post))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    @Html.Hidden("Id", unread.Id)
-                                    <div class="alert-icon">
-                                        <img src="@unread.Sender.AvatarPath"  alt="@unread.Sender.FirstName"style="height: 20px; width:20px;" />
-                                    </div>
-                                    <button type="submit" class="close">
-                                        <span aria-hidden="true"><i class="material-icons">check</i></span>
-                                    </button>
-                                    <b>@unread.Sender.FullName</b> @unread.NotificationBody.PadLeft(5)
-                                }
-
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-            <div class="modal-footer">
-                @Html.ActionLink("View Notifications", "MyNotifications", "TicketNotifications", null, new { @class = "btn btn-link brand-teritary-color"})
-                <button class="btn btn-link btn-danger" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- profile edit modal -->
 <div class="modal fade" id="profileModal" tabindex="-1" role="dialog">
@@ -141,7 +88,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <!-- input -->
-                            @Html.TextArea(Model.FirstName, new { @class = "form-control", rows = "1" })
+                            @Html.TextAreaFor(model => model.FirstName, new { @class = "form-control", rows = "1", placeholder = Model.FirstName })
                         </div>
                     </div>
                     <div class="row">
@@ -152,7 +99,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <!-- input -->
-                            @Html.TextArea(Model.LastName, new { @class = "form-control", rows = "1" })
+                            @Html.TextAreaFor(model => model.LastName, new { @class = "form-control", rows = "1", placeholder = Model.LastName })
                         </div>
                     </div>
                     <div class="row">
@@ -163,7 +110,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <!-- input -->
-                            @Html.TextArea(Model.Email, new { @class = "form-control", rows = "1" })
+                            @Html.TextAreaFor(model => model.Email, new { @class = "form-control", rows = "1",placeholder = Model.Email})
                         </div>
                     </div>
                     <div class="row">
@@ -172,7 +119,7 @@
                         </label>
                         <div class="col-md-12">
                             <!-- input -->
-                            <input id="AvatarPath" class="form-control" type="file" />
+                            @Html.TextAreaFor(model => model.AvatarPath, new { @class="form-control", rows="1", type="file", placeholder = Model.AvatarPath})
                         </div>
                     </div>
                 </div>

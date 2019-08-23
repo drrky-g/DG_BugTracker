@@ -254,29 +254,27 @@ namespace DG_BugTracker.Controllers
         // POST: /Manage/ChangeUserProfile
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  ActionResult ChangeUserProfile ([Bind(Include = "Id,FirstName,LastName,AvatarPath,Email")]UserProfileViewModel model, HttpPostedFileBase AvatarPath)
+        public  ActionResult ChangeUserProfile ([Bind (Include = "Id,FirstName,LastName,AvatarPath,Email")]UserProfileViewModel profile, HttpPostedFileBase AvatarPath)
         {
             if (ModelState.IsValid)
             {
-                var currentUser = db.Users.Find(model.Id);
-
+                var currentUser = db.Users.Find(profile.Id);
                 //Avatar Validator
                 //profile picture setting
                 if (ImageUploader.IsWebFriendlyImage(AvatarPath))
                 {
                     var fileName = Path.GetFileName(AvatarPath.FileName);
                     AvatarPath.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
-                    model.AvatarPath = "/Avatars/" + fileName;
+                    currentUser.AvatarPath = "/Avatars/" + fileName;
                 }
                 else
                 {
-                    model.AvatarPath = model.AvatarPath;
+                    currentUser.AvatarPath = currentUser.AvatarPath;
                 }
 
-                currentUser.FirstName = model.FirstName;
-                currentUser.LastName = model.LastName;
-                currentUser.AvatarPath = model.AvatarPath;
-                currentUser.Email = model.Email;
+                currentUser.FirstName = profile.FirstName;
+                currentUser.LastName = profile.LastName;
+                currentUser.Email = profile.Email;
                 db.SaveChanges();
                 return RedirectToAction("Dashboard", "Home");
             }

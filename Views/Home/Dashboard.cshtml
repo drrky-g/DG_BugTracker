@@ -3,6 +3,13 @@
 @model MyDashboard
 
 @{
+
+    
+}
+
+@{ 
+    ViewBag.Header = $"Welcome back, {Model.UserName}.";
+    ViewBag.Subheader = $"You're assigned to {Model.MyProjectCount} project(s) and {Model.MyTicketCount} ticket(s).";
     var rH = new UserRoleHelper();
 }
 

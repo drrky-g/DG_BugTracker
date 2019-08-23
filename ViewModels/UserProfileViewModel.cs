@@ -30,9 +30,6 @@ namespace DG_BugTracker.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Display(Name = "Notifications")]
-        public ICollection<TicketNotification> MyNotifications { get; set; }
-
         public IEnumerable<SelectListItem> CurrentRole { get; set; }
         public IEnumerable<SelectListItem> CurrentProjects { get; set; }
 
