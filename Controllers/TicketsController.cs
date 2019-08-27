@@ -189,19 +189,19 @@ namespace DG_BugTracker.Controllers
         {
             var ticket = db.Tickets.Find(id);
             var origin = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+            var projectDevs = new List<ApplicationUser>();
             //get list of all devs
             var devList = roleHelper.UsersInRole("Developer").ToList();
-            //if a dev is not on this project, they are removed from the list
             foreach(var dev in devList)
             {
-                if(projectHelper.IsUserOnProject(dev.Id, ticket.ProjectId) == false)
+                if(projectHelper.IsUserOnProject(dev.Id, ticket.ProjectId) == true)
                 {
-                    devList.Remove(dev);
+                    projectDevs.Add(dev);
                 }
             }
 
 
-            ViewBag.AssignedToUserId = new SelectList(devList, "Id", "FullName", ticket.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(projectDevs, "Id", "FullName", ticket.AssignedToUserId);
 
            
 
@@ -281,6 +281,54 @@ namespace DG_BugTracker.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        //
+        //POST: Ticket/InProgress
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetTicketInProgress(int id)
+        {
+            var me = User.Identity.GetUserId();
+            var ticket = db.Tickets.Find(id);
+            var origin = db.Tickets.AsNoTracking().FirstOrDefault(tkt => tkt.Id == ticket.Id);
+
+            if(ticket.AssignedToUserId == me)
+            {
+                ticket.TicketStatusId = db.TicketStatuses.Where(status => status.Name == "In Progress").FirstOrDefault().Id;
+                ticket.Updated = DateTimeOffset.Now;
+                db.SaveChanges();
+                NotificationHelper.CreateEditNotification(origin, ticket);
+                return RedirectToAction("Dashboard", "Home");
+            }
+            else
+            {
+                //maybe make new action where message is "Only Developers can do that"
+                return RedirectToAction("DeveloperOnly", "Home");
+            }
+            
+        }
+
+        //POST: Ticket/OnHold
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SetTicketOnHold(int id)
+        {
+            var me = User.Identity.GetUserId();
+            var ticket = db.Tickets.Find(id);
+            var origin = db.Tickets.AsNoTracking().FirstOrDefault(tkt => tkt.Id == ticket.Id);
+
+            if(ticket.AssignedToUserId == me)
+            {
+                ticket.TicketStatusId = db.TicketStatuses.Where(status => status.Name == "On Hold").FirstOrDefault().Id;
+                ticket.Updated = DateTimeOffset.Now;
+                db.SaveChanges();
+                NotificationHelper.ManageNotifications(origin, ticket);
+                return RedirectToAction("Dashboard", "Home");
+            }
+            else
+            {
+                return RedirectToAction("DeveloperOnly", "Home");
+            }
         }
     }
 }

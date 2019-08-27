@@ -8,9 +8,6 @@ namespace DG_BugTracker.Helpers
 {
     public class HistoryHelper : InstanceHelper
     {
-        
-        
-
         public static void AddHistory(string property, string oldValue, string newValue, int ticketId)
         {
             var nuHistory = new TicketHistory
@@ -22,7 +19,7 @@ namespace DG_BugTracker.Helpers
                 UserId = HttpContext.Current.User.Identity.GetUserId(),
                 TicketId = ticketId
             };
-            db.TicketHistories.Add(nuHistory); 
+            db.TicketHistories.Add(nuHistory);
         }
 
         public static string OldDeveloperWord(Ticket origin)
@@ -42,9 +39,6 @@ namespace DG_BugTracker.Helpers
         public static void RecordDeveloperAssignment(Ticket origin, Ticket edit)
         {
             var ticketId = origin.Id;
-
-
-
             var history = new TicketHistory
             {
                 Property = "Developer Assignment",

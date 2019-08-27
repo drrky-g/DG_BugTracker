@@ -52,6 +52,14 @@ namespace DG_BugTracker.Controllers
             return View("AccessError");
         }
 
+        public ActionResult DeveloperOnly()
+        {
+            ViewBag.Header = "Error";
+            ViewBag.Subheader = "Only this ticket's developer can do that.";
+
+            return View("AccessError");
+        }
+
         public ActionResult Dashboard()
         {
             var myDashboard = new MyDashboard
@@ -82,8 +90,6 @@ namespace DG_BugTracker.Controllers
                 RecentNotifications = dashboard.FiveRecentNotifications(),
                 UserName = dB.Users.Find(User.Identity.GetUserId()).FirstName
             };
-            
-
             return View(myDashboard);
         }
 

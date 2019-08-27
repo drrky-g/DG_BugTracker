@@ -59,7 +59,7 @@
                 {
                     if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
                     {
-                        @Html.ActionLink("ASSIGN DEV", "Edit", "Tickets", new { id = Model.Id }, htmlAttributes: new { @class = "text-danger"})
+                        @Html.ActionLink("ASSIGN DEV", "Edit", "Tickets", new { id = Model.Id }, htmlAttributes: new { @class = "text-danger" })
                     }
                     else
                     {
@@ -101,7 +101,7 @@
             </div>
             <div class="card-footer">
                 <div class="stats">
-                    @Html.ActionLink("View all" ,"Index", "TicketTypes", htmlAttributes: new { @class = "btn-link btn-sm btn-warning"})
+                    @Html.ActionLink("View all", "Index", "TicketTypes", htmlAttributes: new { @class = "btn-link btn-sm btn-warning" })
                 </div>
             </div>
         </div>
@@ -158,7 +158,7 @@
                         <i class="material-icons" style="color: white;">note_add</i>
                     </button>
                 </h4>
-                
+
             </div>
             <div class="card-body">
                 @if (Model.TicketComments.Count == 0)
@@ -186,7 +186,7 @@
                         <i class="material-icons" style="color: white;">note_add</i>
                     </button>
                 </h4>
-                
+
             </div>
             <div class="card-body">
                 @if (Model.TicketAttachments.Count == 0)
@@ -251,7 +251,7 @@
                 }
                 else
                 {
-                    foreach(var ticketHistory in Model.TicketHistories.OrderByDescending(history => history.Changed))
+                    foreach (var ticketHistory in Model.TicketHistories.OrderByDescending(history => history.Changed))
                     {
                         <div class="row">
                             <div class="col-md-3 col-lg-3 col-sm-3">
@@ -281,147 +281,149 @@
     </div>
 </div>
 <!-- Form Modals -->
-
-<!-- Create | Ticket Attachment (To-Do) -->
-<div class="modal fade" id="attachForm" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="form">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add an Attachment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!--body -->
-                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { @class = "form", enctype = "Multipart/form-data"}))
-                {
-                    @Html.AntiForgeryToken();
-                    @Html.Hidden("TicketId", Model.Id)
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
-                            @Html.ValidationSummary(true, "", new { @class= "text-danger"})
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12 col-sm-12">
-                            <!-- RENAME DESCRIPTION PROPERTY OR IT WILL ASSOCIATE WITH TICKET DESCRIPTION -->
-                            <input  type="text" name="attachmentDescription" id="attachmentDescription" class="form-control text-success" placeholder="Description"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12 col-sm-12">
-                            <input type="file" name="FilePath" id="filePath" class="form-control text-success" placeholder="Upload a file"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
-                            <button type="submit" class="btn btn-link btn-info">Upload Attachment</button>
-                        </div>
-                    </div>
-
-                }
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link">Nice Button</button>
-                <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Create | Ticket History (Done)-->
-<div class="modal fade" id="historyForm" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="form">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title has-white">Create a History Entry</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-            @using (Html.BeginForm("Create", "TicketHistories", FormMethod.Post))
-            {
+@section modals{
+    <!-- Create | Ticket Attachment (To-Do) -->
+    <div class="modal fade" id="attachForm" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add an Attachment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
                 <div class="modal-body">
+                    <!--body -->
+                    @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { @class = "form", enctype = "Multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken();
+                        @Html.Hidden("TicketId", Model.Id)
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("TicketId", Model.Id)
-                    <div class="row">
-                        <div class="col-md-12 col-sm-12 col-lg-12">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                <!-- RENAME DESCRIPTION PROPERTY OR IT WILL ASSOCIATE WITH TICKET DESCRIPTION -->
+                                <input type="text" name="attachmentDescription" id="attachmentDescription" class="form-control text-success" placeholder="Description" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <!-- property field-->
-                        <label class="col-md-12 control-label">
-                            Property:
-                        </label>
-                        <div class="col-lg-10 col-md-10 col-sm-10">
-                            <input name="property" class="form-control text-primary" placeholder="What was changed?"/>
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                <input type="file" name="FilePath" id="filePath" class="form-control text-success" placeholder="Upload a file" />
+                            </div>
                         </div>
-                    </div>
-                    <!-- old value field-->
-                    <div class="form-group">
-                        <label class="col-md-12 control-label">
-                            Old Value:
-                        </label>
-                        <div class="col-lg-10 col-md-10 col-sm-10">
-                            <input name="oldValue" class="form-control text-primary" placeholder="What was the original value?" />
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                <button type="submit" class="btn btn-link btn-info">Upload Attachment</button>
+                            </div>
                         </div>
-                    </div>
-                    <!-- new value field -->
-                    <div class="form-group">
-                        <label class="col-md-12 control-label">
-                            New Value:
-                        </label>
-                        <div class="col-lg-10 col-md-10 col-sm-10">
-                            <input name="newValue" class="form-control text-primary" placeholder="What did you change it to?" />
-                        </div>
-                    </div>
+
+                    }
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-link btn-success">Submit</button>
-                    <button class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-link">Nice Button</button>
+                    <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
                 </div>
-            }
+            </div>
         </div>
     </div>
-</div>
-<!-- Create | Ticket Comment (Done) -->
-<div class="modal fade" id="commentForm" tabindex="-1" role="dialog">
-    <div class="modal-dialog bg-dark" role="form">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add a Comment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="material-icons">clear</i>
-                </button>
-            </div>
-       @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
-        {
-        <div class="modal-body">
-            @Html.AntiForgeryToken()
-            @Html.Hidden("TicketId", Model.Id)
-            <div class="row">
-                <div class="col-md-12 col-sm-12 col-lg-12">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <!-- Create | Ticket History (Done)-->
+    <div class="modal fade" id="historyForm" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title has-white">Create a History Entry</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">clear</i>
+                    </button>
                 </div>
+                @using (Html.BeginForm("Create", "TicketHistories", FormMethod.Post))
+                {
+                    <div class="modal-body">
+
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- property field-->
+                            <label class="col-md-12 control-label">
+                                Property:
+                            </label>
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <input name="property" class="form-control text-primary" placeholder="What was changed?" />
+                            </div>
+                        </div>
+                        <!-- old value field-->
+                        <div class="form-group">
+                            <label class="col-md-12 control-label">
+                                Old Value:
+                            </label>
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <input name="oldValue" class="form-control text-primary" placeholder="What was the original value?" />
+                            </div>
+                        </div>
+                        <!-- new value field -->
+                        <div class="form-group">
+                            <label class="col-md-12 control-label">
+                                New Value:
+                            </label>
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <input name="newValue" class="form-control text-primary" placeholder="What did you change it to?" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-link btn-success">Submit</button>
+                        <button class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                }
             </div>
-            <!-- body field field-->
-            <div class="form-group">
-                <label class="col-md-12 control-label">
-                    Comment:
-                </label>
-                <div class="col-lg-10 col-md-10 col-sm-10">
-                    <input name="commentBody" class="form-control text-primary" placeholder="Write a comment.." />
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-success btn-link">Submit</button>
-            <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
-        </div>
-        }
         </div>
     </div>
-</div>
+    <!-- Create | Ticket Comment (Done) -->
+    <div class="modal fade" id="commentForm" tabindex="-1" role="dialog">
+        <div class="modal-dialog bg-dark" role="form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add a Comment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">clear</i>
+                    </button>
+                </div>
+                @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                {
+                    <div class="modal-body">
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("TicketId", Model.Id)
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-lg-12">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <!-- body field field-->
+                        <div class="form-group">
+                            <label class="col-md-12 control-label">
+                                Comment:
+                            </label>
+                            <div class="col-lg-10 col-md-10 col-sm-10">
+                                <input name="commentBody" class="form-control text-primary" placeholder="Write a comment.." />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-link">Submit</button>
+                        <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+

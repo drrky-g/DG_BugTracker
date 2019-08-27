@@ -60,10 +60,6 @@ namespace DG_BugTracker.Controllers
                     ticketAttachment.FilePath = "/Attachments/" + fileName;
                 }
 
-
-
-
-
                 db.TicketAttachments.Add(ticketAttachment);
                 db.SaveChanges();
                 return RedirectToAction("Index");

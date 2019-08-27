@@ -26,6 +26,10 @@
     background: #121B74 !important;
 }
 
+.bg-brand-teritary-solid {
+    background: #614ad3 !important;
+}
+
 .bg-brand-teritary {
     background: linear-gradient(90deg, #E42C64 2%, #614AD3 100%) !important;
 }
@@ -33,6 +37,10 @@
 .brand-primary-color {
     /*Pink*/
     color: #e42c64 !important;
+}
+
+.bg-brand-primary-solid{
+    background: #e43089 !important;
 }
 
 .brand-secondary-color {

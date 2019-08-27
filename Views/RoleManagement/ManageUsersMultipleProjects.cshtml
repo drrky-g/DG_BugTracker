@@ -1,29 +1,39 @@
-﻿
-
-<h2>ManageUsersMultipleProjects</h2>
-
+﻿@using DG_BugTracker.ViewModels;
+@model ManageMultipleProjectsVM
 
 
-this is where i will manage the projets a user is assigned to.
+<!-----------------------------
+    Manage user projects view model:
+    User Id
+    User Name
+    User Avatar
+    User Email
+    User Role
+    List of Users current projects
+    MultiSelectList for form
+    ------------------------------->
+@{ 
+    ViewBag.Header = "Manage Projects";
+    ViewBag.Subheader = $"Assign projects for {Model.FullName}";
+}
 
 
 @using (Html.BeginForm("ManageUsersMultipleProjects", "RoleManagement", FormMethod.Post, null))
 {
     <div class="card col-md-9">
-        <div class="card-header card-header-success">
+        <div class="card-header">
             <div class="row">
                 <div class="col-md-8">
-                    <h4 class="card-title ">Assign Projects</h4>
-                    <p class="card-category">Assign This Team Member to Projects</p>
+                    <h4 class="card-title ">Select Projects<small>(Ctrl + Click to select multiple Projects)</small></h4>
                 </div>
             </div>
         </div>
         <div class="card-body">
             @Html.AntiForgeryToken()
-            @Html.Hidden("UserId", (string)ViewBag.UserId)
+            @Html.Hidden("UserId", Model.Id)
             <div class="row">
                 <div class="col-md-8" id="multiselect">
-                    @Html.ListBox("ProjectIds", null, htmlAttributes: new { @class = "form-control", size = "25", style = "height: 125px" })
+                    @Html.ListBox("ProjectSelect", null, htmlAttributes: new { @class = "form-control", size = "25", style = "height: 125px" })
                 </div>
                 <button type="submit" class="btn btn-wd btn-success">Assign Project(s)</button>
             </div>

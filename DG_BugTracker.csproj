@@ -187,7 +187,6 @@
     <Compile Include="Helpers\DashboardHelper.cs" />
     <Compile Include="Helpers\EmailModel.cs" />
     <Compile Include="Helpers\HistoryHelper.cs" />
-    <Compile Include="Helpers\HistoryListModel.cs" />
     <Compile Include="Helpers\ImageUploader.cs" />
     <Compile Include="Helpers\InstanceHelper.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
@@ -209,6 +208,7 @@
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ManageMultipleProjectsVM.cs" />
     <Compile Include="ViewModels\MyDashboard.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>

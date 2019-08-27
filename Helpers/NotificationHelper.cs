@@ -49,9 +49,7 @@ namespace DG_BugTracker.Helpers
         //Unassignment Notification
         public static void GenerateUnassignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
-            HistoryHelper.AddHistory("Developer Reassignment", oldTicket.AssignedToUser.FullName, newTicket.AssignedToUser.FullName, oldTicket.Id);
-            db.SaveChanges();
-
+            HistoryHelper.RecordDeveloperAssignment(oldTicket, newTicket);
             var notification = new TicketNotification
             {
                 Created = DateTime.Now,
@@ -69,6 +67,8 @@ namespace DG_BugTracker.Helpers
         //Assignment Notification
         public static void GenerateAssignmentNotification(Ticket oldTicket, Ticket newTicket)
         {
+
+            HistoryHelper.RecordDeveloperAssignment(oldTicket, newTicket);
             var notification = new TicketNotification
             {
                 Created = DateTime.Now,
@@ -79,17 +79,14 @@ namespace DG_BugTracker.Helpers
                 NotificationBody = $"You were assigned to Ticket {oldTicket.Id} on {DateTime.Now.ToString("MM/dd/yyyy h:mm tt")}.",
                 TicketId = oldTicket.Id
             };
-            if (string.IsNullOrEmpty(oldTicket.AssignedToUserId))
-            {
-                HistoryHelper.AddHistory("Developer Assignment", "Unassigned", newTicket.AssignedToUser.FullName, newTicket.Id);
-            }
+
 
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
         }
         
         //my version of creating edit notifications
-        private static void CreateEditNotification(Ticket origin, Ticket edit)
+        public static void CreateEditNotification(Ticket origin, Ticket edit)
         {
             var properties = new Stack<string>();
             var oldValues = new Stack<string>();
@@ -161,7 +158,6 @@ namespace DG_BugTracker.Helpers
                 //combine header with body
                 var entry = new StringBuilder();
                 entry.AppendLine($"Ticket {edit.Id} was modified ({DateTime.Now})");
-                entry.AppendLine("");
                 entry.AppendLine("");
                 entry.AppendLine(body.ToString());
 

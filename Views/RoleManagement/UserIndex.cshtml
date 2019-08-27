@@ -4,94 +4,99 @@
 
 @{ 
     var roleHelper = new UserRoleHelper();
-}
+    ViewBag.Header = "Team Management";
+    if (User.IsInRole("Admin"))
+    {
+        ViewBag.Subheader = "Assign team members to projects and roles.";
+    }
+    else
+    {
+        ViewBag.Subheader = "Assign team members to projects.";
+    }
+    }
+    
+    <div class="section ">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-left">The Team:</h3>
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Manage All User Roles", "ManageMultipleRoles", null, htmlAttributes: new { @class = "btn  bg-brand-primary float-right", style = "margin-top: -47px;" });
+                }
 
-<div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-danger">
-
-                    <div class="row">
-                        <div class="col-md-10">
-                            <h4 class="card-title ">User Index</h4>
-                            <p class="card-category">This table contains all registered application users.</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2" id="manageAllRoles">
-                            @Html.ActionLink("Manage All User Roles", "ManageMultipleRoles", "RoleManagement", null, new { @class = "btn btn-white btn-sm text-danger" })
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <i class="material-icons">perm_identity</i>
+                                </th>
+                                <th>
+                                    Id
+                                </th>
+                                <th>
+                                    Email Address
+                                </th>
+                                <th>
+                                    First Name
+                                </th>
+                                <th>
+                                    Last Name
+                                </th>
+                                <th>
+                                    Role
+                                </th>
+                                <th class="text-center">
+                                    Options
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model)
+                            {
                                 <tr>
-                                    <th>
-                                        <i class="material-icons">perm_identity</i>
-                                    </th>
-                                    <th>
-                                        Id
-                                    </th>
-                                    <th>
-                                        Email Address
-                                    </th>
-                                    <th>
-                                        First Name
-                                    </th>
-                                    <th>
-                                        Last Name
-                                    </th>
-                                    <th>
-                                        Role
-                                    </th>
-                                    <th class="text-center">
-                                        Options
-                                    </th>
+                                    <td>
+                                        <img src="@user.AvatarPath" style="width: 30px; height: 30px; border-radius: 40px;" />
+                                    </td>
+                                    <td>
+                                        @user.Id
+                                    </td>
+                                    <td>
+                                        @user.Email
+                                    </td>
+                                    <td>
+                                        @user.FirstName
+                                    </td>
+                                    <td>
+                                        @user.LastName
+                                    </td>
+                                    <td>
+                                        @roleHelper.ListUserRoles(user.Id).FirstOrDefault()
+                                    </td>
+                                    <td class="text-center">
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            @Html.ActionLink("Manage Role", "ManageSingleRole", "RoleManagement", new { userId = user.Id }, new { @class = "btn bg-brand-primary-solid btn-sm" });
+                                            
+                                        }
+                                        @Html.ActionLink("Manage Projects", "ManageUsersMultipleProjects", "RoleManagement", new { userId = user.Id }, new { @class = "btn bg-brand-teritary-solid btn-sm" });
+
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var user in Model)
-                                {
-                                    <tr>
-                                        <td>
-                                            <img src="@user.AvatarPath" style="width: 30px; height: 30px; border-radius: 40px;" />
-                                        </td>
-                                        <td class="text-white">
-                                            @user.Id
-                                        </td>
-                                        <td class="text-white">
-                                            @user.Email
-                                        </td>
-                                        <td class="text-white">
-                                            @user.FirstName
-                                        </td>
-                                        <td class="text-white">
-                                            @user.LastName
-                                        </td>
-                                        <td class="text-white">
-                                            @roleHelper.ListUserRoles(user.Id).FirstOrDefault()
-                                        </td>
-                                        <td class="text-primary text-center">
-                                            <!-- Link for Assigning Role -->
-                                            @Html.ActionLink("Manage Role", "ManageSingleRole", "RoleManagement", new { userId = user.Id }, new { @class = "btn btn-success btn-sm" })
-                                            <!-- Link for Assigning Projects -->
-                                            @Html.ActionLink("Manage Projects", "ManageUsersMultipleProjects", "RoleManagement", new { userId = user.Id }, new { @class = "btn btn-warning btn-sm" })
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
-<style>
-    #manageAllRoles {
-        margin-bottom: -35px;
-    }
-
-</style>
+        <style>
+            #manageAllRoles {
+                margin-bottom: -35px;
+            }
+        </style>

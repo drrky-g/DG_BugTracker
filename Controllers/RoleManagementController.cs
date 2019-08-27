@@ -24,8 +24,9 @@ namespace DG_BugTracker.Controllers
         //   2:  property used in post communication, 
         //   3:  property displayed in control,
         //   4:  default selection (usually indicates some sort of pre-existing relationship.
-        //                          for example: if a ticket is already assigned to a developer, it would show here)
-        //                             );
+        //       for example: if a ticket is already assigned to a developer, it would show here)
+        //   );                        
+
 
         //
         // GET: RoleManagement
@@ -134,17 +135,29 @@ namespace DG_BugTracker.Controllers
             return RedirectToAction("ManageMultipleRoles");
         }
 
-       
+
         //
         //GET: ManageUsersMultipleProjects
         //[Authorize(Roles = "Admin, Project Manager")]
         public ActionResult ManageUsersMultipleProjects(string userId)
         {
-            var myProjects = projectHelper.ListUserProjects().Select(proj => proj.Id);
-            ViewBag.UserId = userId;
-            ViewBag.ProjectIds = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
-            return View();
+            var thisUser = db.Users.Find(userId);
+            var allProjects = db.Projects.ToList();
+            var userProjects = projectHelper.ListUserProjects().Select(proj => proj.Id);
+            var thisUserModel = new ManageMultipleProjectsVM
+            {
+                Id = userId,
+                FullName = thisUser.FullName,
+                AvatarPath = thisUser.AvatarPath,
+                Email = thisUser.Email,
+                Role = roleHelper.ListUserRoles(userId).FirstOrDefault(),
+                ProjectSelect = new MultiSelectList(allProjects, "Id", "Name", userProjects)
+            };
+            return View(thisUserModel);
         }
+
+        //ViewBag.UserId = userId;
+        //ViewBag.ProjectIds = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
 
         //
         //POST: ManageUsersMultipleProjects

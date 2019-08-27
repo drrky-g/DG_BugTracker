@@ -10,15 +10,19 @@ namespace DG_BugTracker.Helpers
 {
     public  class DashboardHelper : InstanceHelper
     {
-        //instances
-        private AccessHelper access = new AccessHelper();
-
         //Get My Projects
         public ICollection<Project> MyProjectsList()
         {
             var me = HttpContext.Current.User.Identity.GetUserId();
             var user = db.Users.Find(me);
-            return user.Projects.ToList();
+
+            var myProjects = user.Projects.ToList();
+            if (HttpContext.Current.User.IsInRole("Admin"))
+            {
+                myProjects = db.Projects.ToList();
+            }
+
+            return myProjects;
         }
 
         //My Project Count
@@ -30,7 +34,28 @@ namespace DG_BugTracker.Helpers
         //Get My Tickets
         public ICollection<Ticket> MyTicketList()
         {
-            return access.GetMyTickets();
+            var me = HttpContext.Current.User.Identity.GetUserId();
+
+            var myRole = roleHelper.ListUserRoles(me).FirstOrDefault();
+
+            var myTickets = new List<Ticket>();
+
+            switch (myRole)
+            {
+                case "Admin":
+                    myTickets = db.Tickets.ToList();
+                    break;
+                case "Project Manager":
+                    myTickets = db.Users.Find(me).Projects.SelectMany(project => project.Tickets).ToList();
+                    break;
+                case "Developer":
+                    myTickets = db.Tickets.AsNoTracking().Where(tkt => tkt.AssignedToUserId == me).ToList();
+                    break;
+                case "Submitter":
+                    myTickets = db.Tickets.AsNoTracking().Where(tkt => tkt.OwnerUserId == me).ToList();
+                    break;
+            }
+            return myTickets;
         }
 
         //My Ticket Count
@@ -133,8 +158,7 @@ namespace DG_BugTracker.Helpers
         #endregion
 
         //5 Most Recents...
-
-        //Ticket Comments
+        #region 5 Most Recents
         public ICollection<TicketComment> FiveRecentComments()
         {
             var allComments = db.TicketComments.ToList();
@@ -178,5 +202,7 @@ namespace DG_BugTracker.Helpers
             var me = HttpContext.Current.User.Identity.GetUserId();
             return db.TicketNotifications.Where(notif => notif.RecieverId == me).OrderByDescending(notif => notif.Created).Take(5).ToList(); 
         }
+        #endregion
+
     }
 }

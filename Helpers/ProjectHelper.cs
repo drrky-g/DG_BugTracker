@@ -37,6 +37,11 @@ namespace DG_BugTracker.Helpers
             var me = db.Users.Find(myId);
 
             var projects = me.Projects.ToList();
+            if (HttpContext.Current.User.IsInRole("Admin"))
+            {
+                projects = db.Projects.ToList();
+            }
+
             return (projects);
         }
 

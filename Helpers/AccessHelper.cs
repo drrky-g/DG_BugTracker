@@ -156,13 +156,13 @@ namespace DG_BugTracker.Helpers
                     myTickets = db.Tickets.ToList();
                     break;
                 case "Project Manager":
-                    myTickets = db.Users.Find(me).Projects.SelectMany(tkt => tkt.Tickets).ToList();
+                    myTickets = db.Users.Find(me).Projects.SelectMany(project => project.Tickets).ToList();
                     break;
                 case "Developer":
-                    myTickets = db.Tickets.Where(tkt => tkt.AssignedToUserId == me).ToList();
+                    myTickets = db.Tickets.AsNoTracking().Where(tkt => tkt.AssignedToUserId == me).ToList();
                     break;
                 case "Submitter":
-                    myTickets = db.Tickets.Where(tkt => tkt.OwnerUserId == me).ToList();
+                    myTickets = db.Tickets.AsNoTracking().Where(tkt => tkt.OwnerUserId == me).ToList();
                     break;
             }
             return myTickets;

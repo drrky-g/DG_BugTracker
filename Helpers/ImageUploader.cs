@@ -43,15 +43,10 @@ namespace DG_BugTracker.Helpers
             try
             {
                 if (file == null)
-                {
                     return false;
-                }
 
-                if(file.ContentLength > 5 * 1024 * 1024 || file.ContentLength < 1024)
-                {
+                if(file.ContentLength > 5 * 1024 * 1024)
                     return false;
-                }
-                var valid = IsWebFriendlyImage(file);
 
                 var extensionValid = false;
 
