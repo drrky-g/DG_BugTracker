@@ -10,6 +10,7 @@ using DG_BugTracker.Models;
 
 namespace DG_BugTracker.Controllers
 {
+    [Authorize(Roles = "Admin, Project Manager, Developer, Submitter")]
     public class TicketPrioritiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

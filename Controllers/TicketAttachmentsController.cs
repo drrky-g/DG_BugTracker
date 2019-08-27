@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace DG_BugTracker.Controllers
 {
+    [Authorize(Roles = "Admin, Project Manager, Developer, Submitter")]
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

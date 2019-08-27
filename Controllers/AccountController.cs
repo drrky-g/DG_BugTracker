@@ -17,7 +17,6 @@ using DG_BugTracker.ViewModels;
 
 namespace DG_BugTracker.Controllers
 {
-    //[Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

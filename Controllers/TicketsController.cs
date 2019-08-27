@@ -28,7 +28,7 @@ namespace DG_BugTracker.Controllers
             return View(tickets.ToList());
         }
 
-        //[Authorize (Roles = "Project Manager, Developer, Submitter")]
+        [Authorize (Roles = "Project Manager, Developer, Submitter")]
         public ActionResult MyIndex()
         {
             var myTickets = accessHelper.GetMyTickets();
@@ -45,6 +45,7 @@ namespace DG_BugTracker.Controllers
         }
 
         // GET: Tickets/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
 
@@ -76,7 +77,7 @@ namespace DG_BugTracker.Controllers
         }
 
         // GET: Tickets/Create
-        //[Authorize (Roles = "Submitter")]
+        [Authorize (Roles = "Submitter")]
         public ActionResult Create()
         {
             var myProjects = projectHelper.ListUserProjects();
@@ -94,7 +95,7 @@ namespace DG_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize (Roles = "Submitter")]
+        [Authorize (Roles = "Submitter")]
         public ActionResult Create([Bind(Include = "Id,Title,Description,Updated,TicketTypeId,ProjectId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
 
@@ -116,7 +117,7 @@ namespace DG_BugTracker.Controllers
 
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Dashboard", "Home");
             }
 
             return View(ticket);
@@ -167,7 +168,7 @@ namespace DG_BugTracker.Controllers
                 //calls notificationhelper to see which notification needs to be sent for the assignment.
                 NotificationHelper.ManageNotifications(origin, ticket);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Dashboard", "Home");
             }
 
             //variable to only show Devs in assign field
@@ -243,7 +244,7 @@ namespace DG_BugTracker.Controllers
                 await Task.FromResult(0);
             }
             
-            return RedirectToAction("Index", "Tickets");
+            return RedirectToAction("Dashboard", "Home");
         }
 
 
@@ -322,7 +323,7 @@ namespace DG_BugTracker.Controllers
                 ticket.TicketStatusId = db.TicketStatuses.Where(status => status.Name == "On Hold").FirstOrDefault().Id;
                 ticket.Updated = DateTimeOffset.Now;
                 db.SaveChanges();
-                NotificationHelper.ManageNotifications(origin, ticket);
+                NotificationHelper.CreateEditNotification(origin, ticket);
                 return RedirectToAction("Dashboard", "Home");
             }
             else

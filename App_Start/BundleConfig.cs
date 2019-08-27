@@ -9,10 +9,6 @@ namespace DG_BugTracker
         public static void RegisterBundles(BundleCollection bundles)
         {
 
-
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
-
             //--------------------------------------------------------------
 
             //my jquery bundle
@@ -22,7 +18,7 @@ namespace DG_BugTracker
 
 
             //UI kit + main styling
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/bundles/css").Include(
                 "~/Content/css/material-kit.css",
                 "~/Content/css/main.css"));
 
@@ -33,13 +29,13 @@ namespace DG_BugTracker
                 "~/Scripts/KitScripts/material-kit.min.js"));
 
             //data tables plugin styles bundle
-            bundles.Add(new StyleBundle("~/Content/DataTables").Include(
+            bundles.Add(new StyleBundle("~/bundles/Content/DataTables").Include(
                 "~/Content/DataTables/datatables.css",
                 "~/Content/DataTables/dataTables.bootstrap4.min.css"));
             
 
             //data tables plugin script bundle
-            bundles.Add(new ScriptBundle("~/Scripts/DataTables").Include(
+            bundles.Add(new ScriptBundle("~/bundles/Scripts/DataTables").Include(
                 "~/Scripts/DataTables/dataTables.js",
                 "~/Scripts/DataTables/dataTables.bootstrap4.min.js"
                 ));

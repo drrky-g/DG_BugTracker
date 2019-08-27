@@ -8,20 +8,30 @@ namespace DG_BugTracker.Models
     public class Ticket
     {
         public int Id { get; set; } //targetted
+        [Required]
         [Display(Name = "Name")]
-        //[StringLength(50, ErrorMessage = "The title must be between {2} and {1} characters long", MinimumLength = 5)]
+        [StringLength(50, ErrorMessage = "The title must be between {2} and {1} characters long", MinimumLength = 5)]
         public string Title { get; set; } //targetted
+        [Required]
+        [Display(Name ="Description")]
+        [StringLength(200, ErrorMessage = "The description must be below 200 characters.")]
         public string Description { get; set; } //targetted
+        [Required]
         public DateTimeOffset Created { get; set; } //targetted
         public DateTimeOffset? Updated { get; set; } //targetted
+        [Required]
         [Display(Name = "Type")]
         public int TicketTypeId { get; set; } //targetted
+        [Required]
         [Display(Name = "Project")]
         public int ProjectId { get; set; } //targetted
+        [Required]
         [Display(Name = "Priority")]
         public int TicketPriorityId { get; set; } //targetted
+        [Required]
         [Display(Name = "Status")]
         public int TicketStatusId { get; set; } //targetted
+        [Required]
         [Display(Name = "Submitter")]
         public string OwnerUserId { get; set; } //targetted
         [Display(Name = "Assigned Developer")]

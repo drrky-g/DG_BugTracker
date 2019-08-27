@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace DG_BugTracker.Controllers
 {
+    [Authorize(Roles = "Admin, Project Manager, Developer, Submitter")]
     public class ProjectsController : Controller
     {
         private UserRoleHelper roleHelper = new UserRoleHelper();

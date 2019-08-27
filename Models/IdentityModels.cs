@@ -6,15 +6,25 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace DG_BugTracker.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [Required]
+        [Display (Name = "First Name" )]
+        [StringLength(25, ErrorMessage = "First name can't exceed 25 characters." )]
         public string FirstName { get; set; }
+        [Required]
+        [Display (Name = "Last Name" )]
+        [StringLength(35, ErrorMessage = "Last Name can't exceed 35 characters.")]
         public string LastName { get; set; }
+        [Display (Name = "Profile Picture")]
         public string AvatarPath { get; set; }
+        [Display (Name = "Display Name")]
+        [StringLength(25, ErrorMessage = "Display Name can't exceed 25 characters.")]
         public string DisplayName { get; set; }
 
         [NotMapped]

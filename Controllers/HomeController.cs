@@ -8,18 +8,13 @@ using System.Web.Mvc;
 
 namespace DG_BugTracker.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private ApplicationDbContext dB = new ApplicationDbContext();
         private ProjectHelper pH = new ProjectHelper();
         private AccessHelper access = new AccessHelper();
         private DashboardHelper dashboard = new DashboardHelper();
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
 
         public ActionResult AccessError()
         {
@@ -56,7 +51,6 @@ namespace DG_BugTracker.Controllers
         {
             ViewBag.Header = "Error";
             ViewBag.Subheader = "Only this ticket's developer can do that.";
-
             return View("AccessError");
         }
 

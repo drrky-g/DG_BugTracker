@@ -1,477 +1,592 @@
 ﻿@using DG_BugTracker.ViewModels
 @using DG_BugTracker.Helpers
 @model MyDashboard
-@{ 
+@{
     ViewBag.Header = $"Welcome back, {Model.UserName}.";
     ViewBag.Subheader = $"You're assigned to {Model.MyProjectCount} project(s) and {Model.MyTicketCount} ticket(s).";
     var rH = new UserRoleHelper();
 }
 
-    <!-- progress bar-->
-    <div class="row">
+<!-- progress bars -->
+<div class="row">
+        <!-- labels-->
         <div class="col-md-4">
-            <!-- labels-->
+            <!-- status -->
+            <div class="row">
+                <p>Your Tickets by Status</p>
+            </div>
+            <!-- type-->
+            <div class="row">
+                <p>Your Tickets by Type</p>
+            </div>
+            <!-- priority -->
+            <div class="row">
+                <p>Your Tickets by Priority</p>
+            </div>
         </div>
+        <!-- progress bars -->
         <div class="col-md-8">
-            <!-- progress bars -->
+            <!-- status -->
+            <div class="row">
+                <div id="statusBar" class="progress">
+                    <!-- new -->
+                    <div  id="newStatusBar"class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.NewCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- assigned -->
+                    <div id="assignedStatusBar"class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.AssignedCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- in progress -->
+                    <div id="inProgressStatusBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.InProgressCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- on hold -->
+                    <div id="onHoldStatusBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.OnHoldCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- ready for review -->
+                    <div id="reviewStatusBar"class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.ReadyForReviewCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                </div>
+            </div>
+            <!-- type -->
+            <div class="row">
+                <div id="typeBar" class="progress">
+                    <!-- bug/defect -->
+                    <div id="bugTypeBar"class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.BugCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- front end -->
+                    <div id="frontEndTypeBar"class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.FECount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- controller -->
+                    <div id="controllerTypeBar"class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.ControllerCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- view -->
+                    <div id="viewTypeBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.ViewCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- viewmodel -->
+                    <div id="viewModelTypeBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.VMCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- model -->
+                    <div id="modelTypeBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.ModelCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- document req -->
+                    <div id="docRequestTypeBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.DocReqCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- feature req -->
+                    <div id="featureReqTypeBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.FeatureReqCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                </div>
+            </div>
+            <!-- priority -->
+            <div class="row">
+                <div  id="priorityBar" class="progress">
+                    <!-- low -->
+                    <div id="lowBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.LowCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- medium -->
+                    <div id="mediumBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.MediumCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- high -->
+                    <div id="highBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.HighCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                    <!-- urgent -->
+                    <div id="urgentBar" class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="@Model.UrgentCount" aria-valuemin="0" aria-valuemax="@Model.MyTicketCount"></div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="section col-md-12">
-            <div class="card card-nav-tabs card-plain">
-                <div class="card-header bg-brand-secondary">
-                    <div class="nav-tabs-navigation">
-                        <div class="nav-tabs-wrapper">
-                            <ul class="nav nav-tabs" data-tabs="tabs">
-                                <!-- tab navigation -->
-                                <li class="nav-item">
-                                    <a class="nav-link active show" href="#ticketSection" data-toggle="tab">Tickets<div class="ripple-container"></div></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#projectSection" data-toggle="tab">Projects<div class="ripple-container"></div></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#recentActivity" data-toggle="tab">Recent Activity<div class="ripple-container"></div></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#statBreakdown" data-toggle="tab">Breakdown<div class="ripple-container"></div></a>
-                                </li>
-                            </ul>
-                        </div>
+
+   
+
+<div class="row">
+    <div class="section col-md-12">
+        <div class="card card-nav-tabs card-plain">
+            <div class="card-header bg-brand-secondary">
+                <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                        <ul class="nav nav-tabs" data-tabs="tabs">
+                            <!-- tab navigation -->
+                            <li class="nav-item">
+                                <a class="nav-link active show" href="#ticketSection" data-toggle="tab">Tickets<div class="ripple-container"></div></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#projectSection" data-toggle="tab">Projects<div class="ripple-container"></div></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#recentActivity" data-toggle="tab">Recent Activity<div class="ripple-container"></div></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#statBreakdown" data-toggle="tab">Breakdown<div class="ripple-container"></div></a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="card-body ">
-                    <div class="tab-content text-center">
-                        <div class="tab-pane active show" id="ticketSection">
-                            <!-- ticket table-->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table id="ticketTable" class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    Project
-                                                </th>
-                                                <th>
-                                                    Id
-                                                </th>
-                                                <th>
-                                                    Title
-                                                </th>
-                                                <th>
-                                                    Description
-                                                </th>
-                                                <th>
-                                                    Created
-                                                </th>
-                                                <th>
-                                                    Updated
-                                                </th>
-                                                <th>
-                                                    Type
-                                                </th>
-                                                <th>
-                                                    Priority
-                                                </th>
-                                                <th>
-                                                    Status
-                                                </th>
-                                                <th>
-                                                    Submitter
-                                                </th>
-                                                <th>
-                                                    Developer
-                                                </th>
-                                                <th hidden>
-                                                    Comments
-                                                </th>
-                                                <th hidden>
-                                                    Attachments
-                                                </th>
-                                                <th hidden>
-                                                    History
-                                                </th>
-                                                <th hidden>
-                                                    Notifications
-                                                </th>
-                                                <th hidden>
-                                                    Sub Avatar
-                                                </th>
-                                                <th hidden>
-                                                    Dev Avatar
-                                                </th>
-                                                <th>
-                                                    User Actions
-                                                </th>
-                                                <th>
-                                                    Details
-                                                </th>
+            </div>
+            <div class="card-body ">
+                <div class="tab-content text-center">
+                    <div class="tab-pane active show" id="ticketSection">
+                        <!-- ticket table-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="ticketTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Project
+                                            </th>
+                                            <th>
+                                                Id
+                                            </th>
+                                            <th>
+                                                Title
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Created
+                                            </th>
+                                            <th>
+                                                Updated
+                                            </th>
+                                            <th>
+                                                Type
+                                            </th>
+                                            <th>
+                                                Priority
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+                                            <th>
+                                                Submitter
+                                            </th>
+                                            <th>
+                                                Developer
+                                            </th>
+                                            <th hidden>
+                                                Comments
+                                            </th>
+                                            <th hidden>
+                                                Attachments
+                                            </th>
+                                            <th hidden>
+                                                History
+                                            </th>
+                                            <th hidden>
+                                                Notifications
+                                            </th>
+                                            <th hidden>
+                                                Sub Avatar
+                                            </th>
+                                            <th hidden>
+                                                Dev Avatar
+                                            </th>
+                                            <th>
+                                                User Actions
+                                            </th>
+                                            <th>
+                                                Details
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var ticket in Model.MyTickets)
+                                        {
+                                            <tr id="@ticket.RowTarget">
+                                                <td id="@ticket.ProjectTarget">
+                                                    @ticket.Project.Name
+                                                </td>
+                                                <td id="@ticket.IdTarget">
+                                                    @ticket.Id
+                                                </td>
+                                                <td id="@ticket.TitleTarget">
+                                                    @ticket.Title
+                                                </td>
+                                                <td id="@ticket.DescriptionTarget">
+                                                    @ticket.Description
+                                                </td>
+                                                <td id="@ticket.CreatedTarget">
+                                                    @ticket.Created.ToString("MM/dd/yyyy h:mm tt")
+                                                </td>
+                                                <td id="@ticket.UpdatedTarget">
+                                                    <!-- need to format this -->
+                                                    @ticket.Updated
+                                                </td>
+                                                <td id="@ticket.TypeTarget">
+                                                    @ticket.TicketType.Name
+                                                </td>
+                                                <td id="@ticket.PriorityTarget">
+                                                    @ticket.TicketPriority.Name
+                                                </td>
+                                                <td id="@ticket.StatusTarget">
+                                                    @ticket.TicketStatus.Name
+                                                </td>
+                                                <td id="@ticket.SubTarget">
+                                                    @ticket.OwnerUser.FullName <!-- maybe just user name or avatar? idk... -->
+                                                </td>
+                                                <td id="@ticket.DevTarget">
+                                                    @if (ticket.AssignedToUser != null)
+                                                    {
+                                                        @ticket.AssignedToUser.FullName
+                                                    }
+                                                    else
+                                                    {
+                                                        <p> Unassigned</p>
+                                                    }
+                                                    <!-- ^^ same as above ^^-->
+                                                </td>
+                                                <td hidden id="@ticket.CommentContainerTarget">
+                                                    <!-- comments? -->
+                                                    @foreach (var comment in ticket.TicketComments)
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                                @comment.Created.ToString("MM/dd/yyyy h:mm tt")
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                                @comment.User.FullName
+                                                            </div>
+                                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                                @comment.Body
+                                                            </div>
+                                                        </div>
+                                                        <hr />
+
+                                                    }
+                                                </td>
+                                                <td hidden id="@ticket.AttachmentContainerTarget">
+                                                    <!-- attachments? -->
+                                                    @foreach (var attachment in ticket.TicketAttachments)
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                                @attachment.Created.ToString("MM/dd/yyyy h:mm tt")
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                                @attachment.User.FullName
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                                @attachment.Description
+                                                            </div>
+                                                            <div class="col-lg-3 col-md-3 col-sm-3 float-right">
+                                                                <a href="@attachment.FilePath" target="_blank"><i class="material-icons brand-teritary-color">cloud_download</i></a>
+                                                            </div>
+                                                        </div>
+                                                        <hr />
+                                                    }
+                                                </td>
+                                                <td hidden id="@ticket.HistoryContainerTarget">
+                                                    <!-- histories? -->
+                                                    @foreach (var history in ticket.TicketHistories)
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                @history.User.FullName
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                @history.Property
+                                                            </div>
+                                                            <div>
+                                                                @history.OldValue
+                                                            </div>
+                                                            <div>
+                                                                @history.NewValue
+                                                            </div>
+                                                            <div>
+                                                                @history.User.FullName
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                <td hidden id="@ticket.NotifContainerTarget">
+                                                    <!-- notifications? -->
+
+                                                </td>
+                                                <td hidden id="@ticket.SubAvatarTarget">
+                                                    @ticket.OwnerUser.AvatarPath
+                                                </td>
+                                                <td hidden id="@ticket.DevAvatarTarget">
+                                                    @if (ticket.AssignedToUserId != null)
+                                                    {
+                                                        @ticket.AssignedToUser.AvatarPath
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>avatar-placeholder.png</p>
+                                                    }
+
+                                                </td>
+                                                <!-- conditional links for modal footer? -->
+                                                <td>
+                                                    <!-- links rendering based on users abilities-->
+                                                    @Html.ActionLink("Edit Ticket", "Edit", "Tickets", new { Id = ticket.Id }, new { @class = "btn btn-link" })
+                                                    <!--developer: accept ticket(set to in progress automatically/ set to on hold automatically)-->
+                                                    @using (Html.BeginForm("SetTicketInProgress", "Tickets", FormMethod.Post))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.Hidden("Id", ticket.Id)
+                                                        <button type="submit" class="btn btn-link">Set As "In Progress"</button>
+                                                    }
+                                                    @using (Html.BeginForm("SetTicketOnHold", "Tickets", FormMethod.Post))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+                                                        @Html.Hidden("Id", ticket.Id)
+                                                        <button type="submit" class="btn btn-link">Set As "On Hold"</button>
+                                                    }
+                                                    <!-- submitter: ???????? -->
+                                                    <!-- PM: assign a developer -->
+                                                    @Html.ActionLink("Assign Developer", "AssignTicket", "Tickets", new { Id = ticket.Id }, new { @class = "btn btn-link" })
+                                                </td>
+                                                <td>
+                                                    <button id="@ticket.BtnTarget" class="detailFire btn btn-sm btn-link btn-success" data-toggle="modal" data-target="#detailTargetWindow">
+                                                        Details
+                                                    </button>
+                                                </td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var ticket in Model.MyTickets)
-                                            {
-                                                <tr id="@ticket.RowTarget">
-                                                    <td id="@ticket.ProjectTarget">
-                                                        @ticket.Project.Name
-                                                    </td>
-                                                    <td id="@ticket.IdTarget">
-                                                        @ticket.Id
-                                                    </td>
-                                                    <td id="@ticket.TitleTarget">
-                                                        @ticket.Title
-                                                    </td>
-                                                    <td id="@ticket.DescriptionTarget">
-                                                        @ticket.Description
-                                                    </td>
-                                                    <td id="@ticket.CreatedTarget">
-                                                        @ticket.Created.ToString("MM/dd/yyyy h:mm tt")
-                                                    </td>
-                                                    <td id="@ticket.UpdatedTarget">
-                                                        <!-- need to format this -->
-                                                        @ticket.Updated
-                                                    </td>
-                                                    <td id="@ticket.TypeTarget">
-                                                        @ticket.TicketType.Name
-                                                    </td>
-                                                    <td id="@ticket.PriorityTarget">
-                                                        @ticket.TicketPriority.Name
-                                                    </td>
-                                                    <td id="@ticket.StatusTarget">
-                                                        @ticket.TicketStatus.Name
-                                                    </td>
-                                                    <td id="@ticket.SubTarget">
-                                                        @ticket.OwnerUser.FullName <!-- maybe just user name or avatar? idk... -->
-                                                    </td>
-                                                    <td id="@ticket.DevTarget">
-                                                        @if (ticket.AssignedToUser != null)
-                                                        {
-                                                            @ticket.AssignedToUser.FullName
-                                                        }
-                                                        else
-                                                        {
-                                                            <p> Unassigned</p>
-                                                        }
-                                                        <!-- ^^ same as above ^^-->
-                                                    </td>
-                                                    <td hidden id="@ticket.CommentContainerTarget">
-                                                        <!-- comments? -->
-                                                        @foreach (var comment in ticket.TicketComments)
-                                                        {
-                                                            <div class="row">
-                                                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                                                    @comment.Created.ToString("MM/dd/yyyy h:mm tt")
-                                                                </div>
-                                                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                                                    @comment.User.FullName
-                                                                </div>
-                                                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                                                    @comment.Body
-                                                                </div>
-                                                            </div>
-                                                            <hr />
-
-                                                        }
-                                                    </td>
-                                                    <td hidden id="@ticket.AttachmentContainerTarget">
-                                                        <!-- attachments? -->
-                                                        @foreach (var attachment in ticket.TicketAttachments)
-                                                        {
-                                                            <div class="row">
-                                                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                                                    @attachment.Created.ToString("MM/dd/yyyy h:mm tt")
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                                                    @attachment.User.FullName
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-3 col-sm-3">
-                                                                    @attachment.Description
-                                                                </div>
-                                                                <div class="col-lg-3 col-md-3 col-sm-3 float-right">
-                                                                    <a href="@attachment.FilePath" target="_blank" ><i class="material-icons brand-teritary-color">cloud_download</i></a>
-                                                                </div>
-                                                            </div>
-                                                            <hr />
-                                                        }
-                                                    </td>
-                                                    <td hidden id="@ticket.HistoryContainerTarget">
-                                                        <!-- histories? -->
-                                                        @foreach (var history in ticket.TicketHistories)
-                                                        {
-                                                            <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                    @history.User.FullName
-                                                                </div>
-                                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                    @history.Property
-                                                                </div>
-                                                                <div>
-                                                                    @history.OldValue
-                                                                </div>
-                                                                <div>
-                                                                    @history.NewValue
-                                                                </div>
-                                                                <div>
-                                                                    @history.User.FullName
-                                                                </div>
-                                                            </div>
-                                                        }
-                                                    </td>
-                                                    <td hidden id="@ticket.NotifContainerTarget">
-                                                        <!-- notifications? -->
-
-                                                    </td>
-                                                    <td hidden id="@ticket.SubAvatarTarget">
-                                                        @ticket.OwnerUser.AvatarPath
-                                                    </td>
-                                                    <td hidden id="@ticket.DevAvatarTarget">
-                                                        @if (ticket.AssignedToUserId != null)
-                                                        {
-                                                            @ticket.AssignedToUser.AvatarPath
-                                                        }
-                                                        else
-                                                        {
-                                                            <p>avatar-placeholder.png</p>
-                                                        }
-
-                                                    </td>
-                                                    <!-- conditional links for modal footer? -->
-                                                    <td>
-                                                        <!-- links rendering based on users abilities-->
-                                                        @Html.ActionLink("Edit Ticket", "Edit", "Tickets", new { Id = ticket.Id}, new { @class="btn btn-link"})
-                                                        <!--developer: accept ticket(set to in progress automatically/ set to on hold automatically)-->
-                                                        @using(Html.BeginForm("SetTicketInProgress", "Tickets", FormMethod.Post))
-                                                        {
-                                                            @Html.AntiForgeryToken()
-                                                            @Html.Hidden("Id", ticket.Id)
-                                                            <button type="submit" class="btn btn-link">Set As "In Progress"</button>
-                                                        }
-                                                        @using(Html.BeginForm("SetTicketOnHold", "Tickets", FormMethod.Post))
-                                                        {
-                                                            @Html.AntiForgeryToken()
-                                                            @Html.Hidden("Id", ticket.Id)
-                                                            <button type="submit" class="btn btn-link">Set As "On Hold"</button>
-                                                        }
-                                                        <!-- submitter: ???????? -->
-                                                        <!-- PM: assign a developer -->
-                                                        @Html.ActionLink("Assign Developer", "AssignTicket", "Tickets", new { Id = ticket.Id}, new { @class="btn btn-link"})
-                                                    </td>
-                                                    <td>
-                                                        <button id="@ticket.BtnTarget" class="detailFire btn btn-sm btn-link btn-success" data-toggle="modal" data-target="#detailTargetWindow">
-                                                            Details
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="tab-pane" id="projectSection">
-                            <!-- project table-->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table class="table">
-                                        <thead>
+                    </div>
+                    <div class="tab-pane" id="projectSection">
+                        <!-- project table-->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Id
+                                            </th>
+                                            <th>
+                                                Project Name
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Created
+                                            </th>
+                                            <th>
+                                                Team Members
+                                            </th>
+                                            <th>
+                                                Tickets
+                                            </th>
+                                            <th>
+                                                Details
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var project in Model.MyProjects)
+                                        {
                                             <tr>
-                                                <th>
-                                                    Id
-                                                </th>
-                                                <th>
-                                                    Project Name
-                                                </th>
-                                                <th>
-                                                    Description
-                                                </th>
-                                                <th>
-                                                    Created
-                                                </th>
-                                                <th>
-                                                    Team Members
-                                                </th>
-                                                <th>
-                                                    Tickets
-                                                </th>
-                                                <th>
-                                                    Details
-                                                </th>
+                                                <td id="@project.IdTarget">
+                                                    @project.Id
+                                                </td>
+                                                <td id="@project.NameTarget">
+                                                    @project.Name
+                                                </td>
+                                                <td id="@project.DescTarget">
+                                                    @project.Description
+                                                </td>
+                                                <td id="@project.CreatedTarget">
+                                                    @project.Created
+                                                </td>
+                                                <td>
+                                                    @foreach (var user in project.Users)
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <img src="@user.AvatarPath" style="width: 30px; height: 30px; border-radius: 40px;" />
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                @user.FullName
+                                                            </div>
+                                                            <div>
+                                                                @user.Email
+                                                            </div>
+                                                            <div>
+                                                                @if (rH.ListUserRoles(user.Id).FirstOrDefault() != null)
+                                                                {
+                                                                    @rH.ListUserRoles(user.Id).FirstOrDefault()
+                                                                }
+                                                                else
+                                                                {
+                                                                    <p> Unassigned to a Role</p>
+                                                                }
+
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <!-- team members? -->
+                                                </td>
+                                                <td>
+                                                    @foreach (var ticket in project.Tickets)
+                                                    {
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                @ticket.Id
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                @ticket.Title
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                @ticket.Description
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                                <a href="#@ticket.RowTarget">Go To Ticket</a>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                <td><!-- details buttons / other buttons? --></td>
                                             </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var project in Model.MyProjects)
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- recent activity -->
+                    <div class="tab-pane" id="recentActivity">
+                        <!-- recent activity accordion-->
+                        <div class="accordion" id="recentActivity">
+                            <!-- notifications -->
+                            <div class="card">
+                                <div class="card-header whitebg" id="recentNotificationsHeader" data-toggle="collapse" data-target="#recentNotifications" aria-expanded="true" aria-controls="recentNotifications">
+                                    Notifications
+                                </div>
+                                <div id="recentNotifications" class="collapse show" data-parent="#recentActivity">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            @foreach (var notification in Model.RecentNotifications)
                                             {
-                                                <tr>
-                                                    <td id="@project.IdTarget">
-                                                        @project.Id
-                                                    </td>
-                                                    <td id="@project.NameTarget">
-                                                        @project.Name
-                                                    </td>
-                                                    <td id="@project.DescTarget">
-                                                        @project.Description
-                                                    </td>
-                                                    <td id="@project.CreatedTarget">
-                                                        @project.Created
-                                                    </td>
-                                                    <td>
-                                                        @foreach (var user in project.Users)
-                                                        {
-                                                            <div class="row">
-                                                                <div class="col-md-4">
-                                                                    <img src="@user.AvatarPath" style="width: 30px; height: 30px; border-radius: 40px;" />
-                                                                </div>
-                                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                    @user.FullName
-                                                                </div>
-                                                                <div>
-                                                                    @user.Email
-                                                                </div>
-                                                                <div>
-                                                                    @if (rH.ListUserRoles(user.Id).FirstOrDefault() != null)
-                                                                    {
-                                                                        @rH.ListUserRoles(user.Id).FirstOrDefault()
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <p> Unassigned to a Role</p>
-                                                                    }
+                                                if (notification.ReadStatus == true)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <img src="@notification.Sender.AvatarPath" class="img-fluid img-raised rounded-circle" style="height: 25px; width: 25px;" />
+                                                        </div>
+                                                        <div class="col-md-5 text-left">
+                                                            @notification.Sender.FullName
+                                                        </div>
+                                                        <div class="col-md-5 text-right">
+                                                            @notification.Created.ToString("MM/dd/yyyy h:mm tt")
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <span class="col-md-1"></span>
+                                                        <div class="col-md-11">
+                                                            <p>@notification.Ticket.Title (Id: @notification.TicketId)</p>
+                                                            <br />
+                                                            @notification.NotificationBody
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                }
+                                                else
+                                                {
+                                                    using (Html.BeginForm("MarkAsRead", "TicketNotifications", FormMethod.Post))
+                                                    {
+                                                        Html.AntiForgeryToken();
+                                                        Html.Hidden("Id", notification.Id);
 
-                                                                </div>
+                                                        <div class="row">
+                                                            <div class="col-md-1">
+                                                                <img src="@notification.Sender.AvatarPath" class="img-fluid img-raised rounded" style="height: 25px; width: 25px;" />
                                                             </div>
-                                                        }
-                                                        <!-- team members? -->
-                                                    </td>
-                                                    <td>
-                                                        @foreach (var ticket in project.Tickets)
-                                                        {
-                                                            <div class="row">
-                                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                    @ticket.Id
-                                                                </div>
-                                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                    @ticket.Title
-                                                                </div>
-                                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                    @ticket.Description
-                                                                </div>
-                                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                                    <a href="#@ticket.RowTarget">Go To Ticket</a>
-                                                                </div>
+                                                            <div class="col-md-5 text-left">
+                                                                @notification.Sender.FullName
                                                             </div>
-                                                        }
-                                                    </td>
-                                                    <td><!-- details buttons / other buttons? --></td>
-                                                </tr>
+                                                            <div class="col-md-6 text-right">
+                                                                @notification.Created.ToString("MM/dd/yyyy h:mm tt")
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <span class="col-md-1"></span>
+                                                            <div class="col-md-11">
+                                                                <p class="text-left">@notification.Ticket.Title (Id: @notification.TicketId)</p>
+                                                                <br />
+                                                                @notification.NotificationBody
+                                                                <br />
+                                                                <button type="submit" class="btn btn-link brand-secondary-color">Mark As Read</button>
+                                                            </div>
+                                                        </div>
+                                                        <hr />
+                                                    }
+                                                }
                                             }
-                                        </tbody>
-                                    </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- comments -->
+                            <div class="card">
+                                <div class="card-header whitebg" id="recentCommentsHeader" data-toggle="collapse" data-target="#recentComments">
+                                    Comments
+                                </div>
+                                <div id="recentComments" class="collapse" data-parent="#recentActivity">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            @foreach (var comment in Model.RecentComments)
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <img src="@comment.User.AvatarPath" class="img-fluid img-raised rounded-circle" style="height: 25px; width: 25px;" />
+                                                    </div>
+                                                    <div class="col-md-5 text-left">
+                                                        @comment.User.FullName
+                                                    </div>
+                                                    <div class="col-md-6 text-right">
+                                                        @comment.Created.ToString("MM/dd/yyyy h:mm tt")
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <span class="col-md-1"></span>
+                                                    <div class="col-md-11 text-left">
+                                                        @comment.Body
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- attachments -->
+                            <div class="card">
+                                <div class="card-header whitebg" id="recentAttachmentsHeader" data-toggle="collapse" data-target="#recentAttachments">
+                                    Attachments
+                                </div>
+                                <div id="recentAttachments" class="collapse" data-parent="#recentActivity">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            @foreach (var attachment in Model.RecentAttachments)
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-1">
+                                                        <img src="@attachment.User.AvatarPath" class="img-fluid img-raised rounded-circle" style="height: 25px; width: 25px;" />
+                                                    </div>
+                                                    <div class="col-md-5 text-left">
+                                                        @attachment.User.FullName
+                                                    </div>
+                                                    <div class="col-md-6 text-right">
+                                                        @attachment.Created.ToString("MM/dd/yyyy h:mm tt")
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <span class="col-md-1"></span>
+                                                    <div class="col-md-9 text-left">
+                                                        @attachment.Description
+                                                    </div>
+                                                    <div class="col-md-2 text-right">
+                                                        <a href="@attachment.FilePath" target="_blank"><i class="material-icons brand-teritary-color">cloud_download</i></a>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- recent activity -->
-                        <div class="tab-pane" id="recentActivity">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <!-- recent comments-->
-                                    @foreach (var comment in Model.RecentComments)
-                                    {
-                                        <div class="row">
-                                            <!-- ticket context -->
-                                            <div class="col-md-12 text-left">
-                                                @comment.Ticket.Title
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <!-- sender avatar-->
+                    </div>
+                    <div class="tab-pane" id="statBreakdown">
+                        <!-- stat breakdown -->
+                        <!-- chart here? -->
 
-                                            </div>
-                                            <div class="col-md-4">
-                                                <!-- sender name-->
-                                                @comment.User.FullName
-                                            </div>
-                                            <div class="col-md-4">
-                                                <!-- created date/time-->
-                                                @comment.Created.ToString("MM/dd/yyyy h:mm tt")
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <!-- notification body-->
-                                            <div class="col-md-12">
-                                                @comment.Body
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="col-md-12">
-                                    <!-- recent attachments-->
-                                    @foreach (var attachment in Model.RecentAttachments)
-                                    {
-                                        <div class="row">
-                                            <div class=" col-md-12 text-left">
-                                                @attachment.Ticket.Title
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                                <!-- sender avatar-->
-                                                <img src="@attachment.User.AvatarPath" class="img-raised rounded-circle img-fluid" style="width: 30px; height: 30px;"/> 
-                                            </div>
-                                            <div class="col-md-3 text-left">
-                                                <!-- attachment sender-->
-                                                @attachment.User.FullName
-                                            </div>
-                                            <div class="col-md-6 text-left">
-                                                <!-- description-->
-                                                @attachment.Description
-                                            </div>
-                                            <div class="col-md-2 float-right">
-                                                <!-- download button-->
-                                                <a href="@attachment.FilePath" target="_blank" class="btn btn-fab btn-round"><i class="material-icons">cloud_download</i></a>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="col-md-12">
-                                    <!-- recent notifications-->
-                                    @foreach (var notification in Model.RecentNotifications)
-                                    {
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                @notification.Ticket.Title
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <!-- sender avatar-->
-                                            </div>
-                                            <div class="col-md-4">
-                                                <!-- Sender Name -->
-                                                @notification.Sender.FullName
-                                            </div>
-                                            <div class="col-md-5">
-                                                @notification.Created.ToString("MM/dd/yyyy h:mm tt")
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                @notification.NotificationBody
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="statBreakdown">
-                            <!-- stat breakdown -->
-
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 @section modals {
@@ -772,6 +887,16 @@
 
 @section scripts {
     <script src="~/Scripts/modalinject.js"></script>
-    
+    <!-- AJAX chart call -->
+    <script>
+        $(function () {
+            $.post('@Url.Action("GetChartData", "Charts")').then(function (response) {
+                new Fusion.Radar({
+                    element: /*Element Name*/,
+                    data: response,
+                })
+            })
+        })
+    </script>
 
 }

@@ -10,8 +10,8 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS -->
-    @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/DataTables")
+    @Styles.Render("~/bundles/css")
+    @Styles.Render("~/bundles/Content/DataTables")
 </head>
 
 <body id="top" class="bg-brand-full">
@@ -52,7 +52,7 @@
                     </li>
                 </ul>
             </nav>
-            <div class="copyright float-right text-white">
+            <div class="copyright float-right text-whit e">
                 &copy;
                 <script>
                     document.write(new Date().getFullYear())
@@ -64,30 +64,15 @@
         <!-- jQ -->
         @Scripts.Render("~/bundles/jquery")
         <!-- DataTables -->
-        @Scripts.Render("~/Scripts/DataTables")
+        @Scripts.Render("~/bundles/Scripts/DataTables")
         <!-- UI kit scripts -->
         @Scripts.Render("~/bundles/materialkit")
         <!-- initialize -->
         <script type="text/javascript">
             //on document readt
             $(document).ready(function () {
-                //enable popover script for notifications
-                //$('[data-toggle="popover"]').popover({
-                //    html: true,
-                //    content: function () {
-                //        var content = $(this).attr("data-popover-content");
-                //        return $(content).children(".popover-body").html();
-                //    },
-                //    title: function () {
-                //        var title = $(this).attr("data-popover-content");
-                //        return $(title).children(".popover-heading").html();
-                //    }
-                //})
+                
                 $('[data-toggle="popover"]').popover();
-                //collapse all open collapsable elements when modal closes
-                $('#detailTargetWindow').on('hidden.bs.modal', function () {
-                    $('.collapse').collapse('hide');
-                })
                 //initiate dataTables
                 $('.table').DataTable();
             })
