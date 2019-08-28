@@ -45,33 +45,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FusionCharts.DataEngine, Version=1.0.1.0, Culture=neutral, PublicKeyToken=e6b8110d59760a80, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.DataEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="FusionCharts.SharpVectors.Converters, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b532964b8548be77, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.SharpVectors.Converters.dll</HintPath>
-    </Reference>
-    <Reference Include="FusionCharts.SharpVectors.Core, Version=0.3.1.29789, Culture=neutral, PublicKeyToken=7407205e337c98ef, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.SharpVectors.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="FusionCharts.SharpVectors.Css, Version=0.3.1.29790, Culture=neutral, PublicKeyToken=7a46e3f532fdb787, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.SharpVectors.Css.dll</HintPath>
-    </Reference>
-    <Reference Include="FusionCharts.SharpVectors.Dom, Version=0.3.1.29789, Culture=neutral, PublicKeyToken=517340b6277b1a7a, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.SharpVectors.Dom.dll</HintPath>
-    </Reference>
-    <Reference Include="FusionCharts.SharpVectors.Model, Version=0.3.1.29790, Culture=neutral, PublicKeyToken=2236cfc76b505845, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.SharpVectors.Model.dll</HintPath>
-    </Reference>
-    <Reference Include="FusionCharts.SharpVectors.Rendering.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d0902381100df30e, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.SharpVectors.Rendering.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="FusionCharts.SharpVectors.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d16e717f0a981fb9, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.SharpVectors.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="FusionCharts.Visualization, Version=1.0.1.0, Culture=neutral, PublicKeyToken=e6b8110d59760a80, processorArchitecture=MSIL">
-      <HintPath>..\packages\FusionCharts.Visualization.1.0.6\lib\net45\FusionCharts.Visualization.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -195,7 +168,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ChartsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -208,10 +180,6 @@
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Controllers\TicketStatusesController.cs" />
     <Compile Include="Controllers\TicketTypesController.cs" />
-    <Compile Include="FusionChartsExportHandler\FCExporter.aspx.cs">
-      <DependentUpon>FCExporter.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,6 +208,7 @@
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\ChartVMs.cs" />
     <Compile Include="ViewModels\ManageMultipleProjectsVM.cs" />
     <Compile Include="ViewModels\MyDashboard.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
@@ -254,29 +223,6 @@
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\material-kit.css" />
     <Content Include="Content\css\material-kit.min.css" />
-    <Content Include="FusionChartsExportHandler\FCExporter.aspx" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.charts.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.excelexport.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.gantt.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.maps.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.overlappedbar2d.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.overlappedcolumn2d.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.powercharts.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.timeseries.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.treemap.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.vml.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.widgets.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.zoomline.js" />
-    <Content Include="Scripts\FusionCharts\fusioncharts.zoomscatter.js" />
-    <Content Include="Scripts\FusionCharts\themes\fusioncharts.theme.candy.js" />
-    <Content Include="Scripts\FusionCharts\themes\fusioncharts.theme.carbon.js" />
-    <Content Include="Scripts\FusionCharts\themes\fusioncharts.theme.fint.js" />
-    <Content Include="Scripts\FusionCharts\themes\fusioncharts.theme.fusion.js" />
-    <Content Include="Scripts\FusionCharts\themes\fusioncharts.theme.gammel.js" />
-    <Content Include="Scripts\FusionCharts\themes\fusioncharts.theme.ocean.js" />
-    <Content Include="Scripts\FusionCharts\themes\fusioncharts.theme.umber.js" />
-    <Content Include="Scripts\FusionCharts\themes\fusioncharts.theme.zune.js" />
     <Content Include="Scripts\modalinject.js" />
     <Content Include="Scripts\KitScripts\core\bootstrap-material-design.min.js" />
     <Content Include="Scripts\KitScripts\core\jquery.min.js" />
@@ -551,7 +497,6 @@
     <Content Include="Views\RoleManagement\ManageUsersMultipleProjects.cshtml" />
     <Content Include="Views\Projects\Details.cshtml" />
     <Content Include="Views\Projects\Create.cshtml" />
-    <Content Include="Views\Projects\Delete.cshtml" />
     <Content Include="Views\Projects\Edit.cshtml" />
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />

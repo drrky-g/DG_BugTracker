@@ -52,7 +52,7 @@ namespace DG_BugTracker.Controllers
 
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Tickets", new { Id = ticketComment.TicketId});
+                return RedirectToAction("Dashboard", "Home");
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);

@@ -21,6 +21,7 @@ namespace DG_BugTracker.Controllers
 
 
         // GET: TicketNotifications
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var ticketNotifications = db.TicketNotifications.Include(t => t.Reciever).Include(t => t.Sender).Include(t => t.Ticket);
@@ -30,7 +31,7 @@ namespace DG_BugTracker.Controllers
         
         //GET : DeleteAll
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteAll()
         {
             foreach (var notification in db.TicketNotifications)
@@ -66,7 +67,7 @@ namespace DG_BugTracker.Controllers
             //save changes in db so it doesnt show in that list again
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Dashboard", "Home");
         }
 
 

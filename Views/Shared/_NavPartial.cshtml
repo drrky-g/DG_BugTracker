@@ -26,8 +26,17 @@
                         Home
                     </a>
                 </li>
+               @if (User.IsInRole("Submitter"))
+               {
+                   <li class="nav-item">
+                       <a href="@Url.Action("Create", "Tickets")" class="nav-link">
+                           <i class="material-icons">description</i>
+                           New Ticket
+                       </a>
+                   </li>
+               }
                 <li class="nav-item">
-                    <a href="@Url.Action("Archive", "Tickets")" class="nav-link">
+                    <a href="@Url.Action("ArchiveIndex", "Tickets")" class="nav-link">
                         <i class="material-icons">list</i>
                         Ticket Archive
                     </a>
@@ -38,6 +47,12 @@
                         <a href="@Url.Action("UserIndex", "RoleManagement")" class="nav-link">
                             <i class="material-icons">supervisor_account</i>
                             User Index
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Create", "Projects")" class="nav-link">
+                            <i class="material-icons">description</i>
+                            New Project
                         </a>
                     </li>
                 }

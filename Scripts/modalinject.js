@@ -31,6 +31,7 @@
         var historyContainer = "t" + targetCore + "Hist"; //done
         var devPicSrc = "t" + targetCore + "devpic";
         var subPicSrc = "t" + targetCore + "subpic";
+        var userActions = "t" + targetCore + "Actions";
 
 
         //pull data inside the cells into variables
@@ -59,6 +60,7 @@
         var commentsToDetails = document.getElementById(commContainer).innerHTML; //done
         var attachmentsToDetails = document.getElementById(attachContainer).innerHTML; //done
         var historiesToDetails = document.getElementById(historyContainer).innerHTML;
+        var actionsToFooter = document.getElementById(userActions).innerHTML;
 
         //push that data back into the modal targeted elements
         $('#headerTarget').html(headerOutput);
@@ -84,6 +86,8 @@
         //hidden values for forms get passed
         $('#attachmentTicketId').attr("value", targetCore);
         $('#commentTicketId').attr("value", targetCore);
+
+        $('#modalUserActions').html(actionsToFooter);
 
 
     });

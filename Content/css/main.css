@@ -12,6 +12,7 @@
 */
 .bg-brand-full {
     background: linear-gradient(0deg, #E42C64 3%, #121B74 88%) !important;
+    background-repeat: no-repeat !important;
 }
 
 .bg-brand-primary {
@@ -55,6 +56,11 @@
 
 .whitebg {
     background: #fff !important;
+}
+.fixed-bg{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 

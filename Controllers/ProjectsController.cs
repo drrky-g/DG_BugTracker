@@ -141,9 +141,10 @@ namespace DG_BugTracker.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Dashboard", "Home");
             }
             return View(project);
         }

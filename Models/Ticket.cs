@@ -201,6 +201,14 @@ namespace DG_BugTracker.Models
             }
         }
 
+        public string UserActionTarget
+        {
+            get
+            {
+                return $"t{Id}Actions";
+            }
+        }
+
 
         //-------------icollections-------------------------------------
 

@@ -1,16 +1,12 @@
 ﻿@model DG_BugTracker.Models.Ticket
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Header = "New Ticket";
+    ViewBag.Subheader = "Create a new ticket for a project you're on.";
 }
 
-<div class="card">
-    <div class="card-header card-header-success">
-        <h3 class="has-white">Create A Ticket</h3>
-    </div>
-    <div class="card-body">
         <!-- form goes here! -->
-       @using (Html.BeginForm("Create", "Tickets", FormMethod.Post, htmlAttributes: new { @class = "" }))
+       @using (Html.BeginForm("Create", "Tickets", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <div class="row">
@@ -18,10 +14,10 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-top: 30px;">
                 <div class="col-md-12">
                     <!-- form here -->
-                    <div class="form-group has-success">
+                    <div class="form-group">
                         <label class="control-label col-md-2">
                             <!-- Property Label Here-->
                             Title
@@ -31,7 +27,7 @@
                             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control text-muted", placeholder= "Name your ticket." } })
                         </div>
                     </div>
-                    <div class="form-group has-success">
+                    <div class="form-group">
                         <label class="control-label col-md-2">
                             <!-- Property Label Here-->
                             Description
@@ -41,7 +37,7 @@
                             @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control text-muted", placeholder = "Short Description of Ticket Issue." } })
                         </div>
                     </div>
-                    <div class="form-group has-success">
+                    <div class="form-group">
                         <label class="control-label col-md-2">
                             <!-- Property Label Here-->
                             Project
@@ -51,7 +47,7 @@
                             @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control text-muted" })
                         </div>
                     </div>
-                    <div class="form-group has-success">
+                    <div class="form-group">
                         <label class="control-label col-md-2">
                             <!-- Property Label Here-->
                             Type
@@ -61,7 +57,7 @@
                             @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control text-muted" })
                         </div>
                     </div>
-                    <div class="form-group has-success">
+                    <div class="form-group">
                         <label class="control-label col-md-2">
                             <!-- Property Label Here-->
                             Priority
@@ -71,43 +67,17 @@
                             @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control text-muted" })
                         </div>
                     </div>
-                    <div class="form-group has-success">
-                        <label class="control-label col-md-2">
-                            <!-- Property Label Here-->
-                            Status
-                        </label>
-                        <div class="col-md-10">
-                            <!-- HTML Helper Input-->
-                            @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control text-muted" })
-                        </div>
-                    </div>
-               @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                {
-                    <div class="form-group has-success">
-                        <label class="control-label col-md-2">
-                            <!-- Property Label Here-->
-                            Assignee
-                        </label>
-                        <div class="col-md-10">
-                            <!-- HTML Helper Input-->
-                            @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control text-muted" })
-                        </div>
-                    </div>
-                }
-
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 text-right">
-                    <button type="submit" class="btn btn-lg btn-wd btn-success">Submit Ticket</button>
+                <div class="col-md-12 text-left">
+                    <button type="submit" class="btn bg-brand-primary-solid" style="margin-left: 15px;">Submit Ticket</button>
                 </div>
             </div>
         }
-    </div>
-</div>
 
 <div>
-    @Html.ActionLink("Back to Ticket Index", "Index", null, htmlAttributes: new { @class="btn btn-danger btn-lg btn-wd"})
+    @Html.ActionLink("Dashboard", "Dashboard", "Home", null, htmlAttributes: new { @class="btn btn-link"})
 </div>
 
 

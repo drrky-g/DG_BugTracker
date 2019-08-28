@@ -84,6 +84,10 @@ namespace DG_BugTracker.Controllers
                 RecentNotifications = dashboard.FiveRecentNotifications(),
                 UserName = dB.Users.Find(User.Identity.GetUserId()).FirstName
             };
+
+            ViewBag.TicketPriorityDropDown = new SelectList(dB.TicketPriorities, "Id", "Name");
+            ViewBag.TicketTypeDropDown = new SelectList(dB.TicketTypes, "Id", "Name");
+
             return View(myDashboard);
         }
 

@@ -85,7 +85,7 @@ namespace DG_BugTracker.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Dashboard", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -198,8 +198,6 @@ namespace DG_BugTracker.Controllers
                     AvatarPath = model.AvatarPath
                 };
 
-
-                
                 var result = await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -227,7 +225,7 @@ namespace DG_BugTracker.Controllers
                     await emailServe.SendAsync(email);
 
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Dashboard", "Home");
                 }
                 AddErrors(result);
             }

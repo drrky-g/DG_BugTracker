@@ -2151,8 +2151,7 @@ pre code {
 }
 
 .form-control {
-  display: block;
-  width: 100%;
+  width: 70%;
   padding: 0.4375rem 0;
   font-size: 1rem;
   line-height: 1.5;
@@ -14466,17 +14465,17 @@ textarea {
   color: #999999;
 }
 
-.pagination>.page-item.active>a,
-.pagination>.page-item.active>a:focus,
-.pagination>.page-item.active>a:hover,
-.pagination>.page-item.active>span,
-.pagination>.page-item.active>span:focus,
-.pagination>.page-item.active>span:hover {
-  background-color: #9c27b0;
-  border-color: #9c27b0;
-  color: #fff;
-  box-shadow: 0 4px 5px 0 rgba(156, 39, 176, 0.14), 0 1px 10px 0 rgba(156, 39, 176, 0.12), 0 2px 4px -1px rgba(156, 39, 176, 0.2);
-}
+    .pagination > .page-item.active > a,
+    .pagination > .page-item.active > a:focus,
+    .pagination > .page-item.active > a:hover,
+    .pagination > .page-item.active > span,
+    .pagination > .page-item.active > span:focus,
+    .pagination > .page-item.active > span:hover {
+        background-color: #e42c64;
+        border-color: #e42c64;
+        color: #fff;
+        box-shadow: 0 4px 5px 0 rgba(228,44,100,0.15), 0 1px 10px 0 rgba(156, 39, 176, 0.12), 0 2px 4px -1px rgba(156, 39, 176, 0.2);
+    }
 
 .pagination.pagination-info>.page-item.active>a,
 .pagination.pagination-info>.page-item.active>a:focus,
@@ -16605,7 +16604,7 @@ footer .pull-center {
 }
 
 .card-login .form {
-  min-height: 200px;
+  min-height: 250px;
 }
 
 .card-login .social-line {
