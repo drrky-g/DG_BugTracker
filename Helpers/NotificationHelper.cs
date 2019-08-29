@@ -157,7 +157,7 @@ namespace DG_BugTracker.Helpers
 
                 //combine header with body
                 var entry = new StringBuilder();
-                entry.AppendLine($"Ticket {edit.Id} was modified ({DateTime.Now})");
+                entry.AppendLine($"Ticket {edit.Id} was modified ({DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")})");
                 entry.AppendLine("");
                 entry.AppendLine(body.ToString());
 

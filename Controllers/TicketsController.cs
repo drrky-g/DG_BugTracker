@@ -162,14 +162,15 @@ namespace DG_BugTracker.Controllers
             if (ModelState.IsValid)
             {
                 // store old tickets value for comparison with logic of helper methods
- 
-                var origin = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-
+                var foreignTicketContext = db.Tickets.Include(tkt => tkt.TicketPriority).Include(tkt => tkt.TicketStatus).Include(tkt => tkt.TicketType).AsQueryable();
+                var origin = foreignTicketContext.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
                 ticket.Updated = DateTimeOffset.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
+                var edit = foreignTicketContext.FirstOrDefault(tkt => tkt.Id == ticket.Id);
+
                 //calls notificationhelper to see which notification needs to be sent for the assignment.
-                NotificationHelper.ManageNotifications(origin, ticket);
+                NotificationHelper.ManageNotifications(origin, edit);
 
                 return RedirectToAction("Dashboard", "Home");
             }

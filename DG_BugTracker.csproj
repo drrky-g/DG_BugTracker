@@ -219,6 +219,7 @@
     <Content Include="apple-touch-icon.png" />
     <Content Include="Attachments\cap.jpg" />
     <Content Include="Attachments\nat.jpg" />
+    <Content Include="Attachments\test-attachment.txt" />
     <Content Include="Avatars\avatar-placeholder.png" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\material-kit.css" />
