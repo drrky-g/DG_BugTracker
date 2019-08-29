@@ -85,7 +85,7 @@ namespace DG_BugTracker.Helpers
 
         public int MyUrgentPriorityCount()
         {
-            return MyTicketList().Where(tkt => tkt.TicketPriority.Name == "High").Count();
+            return MyTicketList().Where(tkt => tkt.TicketPriority.Name == "Urgent").Count();
         }
 
         #endregion
