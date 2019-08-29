@@ -43,7 +43,7 @@ namespace DG_BugTracker.Helpers
             switch (myRole)
             {
                 case "Admin":
-                    myTickets = db.Tickets.ToList();
+                    myTickets = db.Tickets.AsNoTracking().ToList();
                     break;
                 case "Project Manager":
                     myTickets = db.Users.Find(me).Projects.SelectMany(project => project.Tickets).ToList();

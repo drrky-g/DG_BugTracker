@@ -57,8 +57,12 @@ namespace DG_BugTracker.Controllers
                 if (ImageUploader.IsValidAttachment(FilePath))
                 {
                     var fileName = Path.GetFileName(FilePath.FileName);
-                    FilePath.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), fileName));
-                    ticketAttachment.FilePath = "/Attachments/" + fileName;
+                    var ext = Path.GetExtension(FilePath.FileName);
+                    var unique = $"{fileName}-{DateTime.Now}";
+                    var slug = SlugHelper.CreateSlug(unique);
+                    var formattedFile = $"{slug}{ext}";
+                    FilePath.SaveAs(Path.Combine(Server.MapPath("~/Attachments/"), formattedFile));
+                    ticketAttachment.FilePath = "/Attachments/" + formattedFile;
                 }
 
                 db.TicketAttachments.Add(ticketAttachment);

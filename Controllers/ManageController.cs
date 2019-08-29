@@ -263,13 +263,20 @@ namespace DG_BugTracker.Controllers
                 //profile picture setting
                 if (ImageUploader.IsWebFriendlyImage(AvatarPath))
                 {
+
                     var fileName = Path.GetFileName(AvatarPath.FileName);
-                    AvatarPath.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
-                    currentUser.AvatarPath = "/Avatars/" + fileName;
+                    var ext = Path.GetExtension(AvatarPath.FileName);
+                    //extended this to format the image file with an always unique title
+                    var unique = $"{fileName}-{DateTime.Now}";
+                    var slug = SlugHelper.CreateSlug(unique);
+                    var formattedFile = $"{slug}{ext}";
+                    AvatarPath.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), formattedFile));
+                    //save formatted version to the register viewmodel
+                    currentUser.AvatarPath = "/Avatars/" + formattedFile;
                 }
                 else
                 {
-                    currentUser.AvatarPath = currentUser.AvatarPath;
+                    currentUser.AvatarPath = profile.AvatarPath;
                 }
 
                 currentUser.FirstName = profile.FirstName;

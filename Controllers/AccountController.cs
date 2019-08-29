@@ -185,8 +185,14 @@ namespace DG_BugTracker.Controllers
                 if (ImageUploader.IsWebFriendlyImage(AvatarPath))
                 {
                     var fileName = Path.GetFileName(AvatarPath.FileName);
-                    AvatarPath.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
-                    model.AvatarPath = "/Avatars/" + fileName;
+                    var ext = Path.GetExtension(AvatarPath.FileName);
+                    //extended this to format the image file with an always unique title
+                    var unique = $"{fileName}-{DateTime.Now}";
+                    var slug = SlugHelper.CreateSlug(unique);
+                    var formattedFile = $"{slug}{ext}";
+                    AvatarPath.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), formattedFile));
+                    //save formatted version to the register viewmodel
+                    model.AvatarPath = "/Avatars/" + formattedFile;
                 }
 
                 var user = new ApplicationUser {

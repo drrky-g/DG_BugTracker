@@ -6,8 +6,88 @@
     ViewBag.Subheader = $"You're assigned to {Model.MyProjectCount} project(s) and {Model.MyTicketCount} ticket(s).";
     var rH = new UserRoleHelper();
 }
+
+
 <div class="row">
-    <div class="section col-md-12">
+    <div class="col-md-12"  style="margin-top:50px;">
+        <h4 class="text-left">Breakdown:</h4>
+        <!-- Tickets by Type-->
+        Type:
+        <div class="progress progress-line-danger">
+            <!-- bug/defect -->
+            <div data-toggle="tooltip" data-placement="top" title="Bugs: @Model.BugCount"class="progress-bar progress-bar-success inject" value="@Model.BugCount" max="@Model.MyTicketCount" style="width: 12%">
+                <span class="sr-only">Your Bug/Defect Count: @Model.BugCount</span>
+            </div>
+            <!-- css/javascript-->
+            <div data-toggle="tooltip" data-placement="top" title="Front End Issues: @Model.FECount" class="progress-bar progress-bar-warning inject"value="@Model.FECount" max="@Model.MyTicketCount" style="width: 12%">
+                <span class="sr-only">Your Front End Issue Count: @Model.FECount</span>
+            </div>
+            <!-- controller-->
+            <div data-toggle="tooltip" data-placement="top" title="Controller Issues: @Model.ControllerCount" class="progress-bar progress-bar-danger inject" value="@Model.ControllerCount" max="@Model.MyTicketCount" style="width: 12%">
+                <span class="sr-only">Your Controller Issue Count: @Model.ControllerCount</span>
+            </div>
+            <!-- view-->
+            <div data-toggle="tooltip" data-placement="top" title="View Issues: @Model.ViewCount" class="progress-bar progress-bar-success inject" value="@Model.ViewCount" max="@Model.MyTicketCount" style="width: 12%">
+                <span class="sr-only">Your View Issue Count: @Model.ViewCount</span>
+            </div>
+            <!-- viewmodel -->
+            <div data-toggle="tooltip" data-placement="top" title="VM Issues: @Model.VMCount" class="progress-bar progress-bar-warning inject" value="@Model.VMCount" max="@Model.MyTicketCount" style="width: 12%">
+                <span class="sr-only">Your View Model Issue Count: @Model.VMCount</span>
+            </div>
+            <!-- model -->
+            <div data-toggle="tooltip" data-placement="top" title="Bugs: @Model.ModelCount" class="progress-bar progress-bar-danger inject" value="@Model.ModelCount" max="@Model.MyTicketCount" style="width: 12%">
+                <span class="sr-only">Your Model Issue Count: @Model.ModelCount</span>
+            </div>
+            <!-- doc request-->
+            <div data-toggle="tooltip" data-placement="top" title="Doc Requests: @Model.DocReqCount" class="progress-bar progress-bar-success inject" value="@Model.DocReqCount" max="@Model.MyTicketCount" style="width: 12%">
+                <span class="sr-only">Your Document Request Count: @Model.DocReqCount</span>
+            </div>
+            <!-- feature request -->
+            <div data-toggle="tooltip" data-placement="top" title="Feature Requests: @Model.FeatureReqCount" class="progress-bar progress-bar-warning inject" value="@Model.FeatureReqCount" max="@Model.MyTicketCount" style="width: 12%">
+                <span class="sr-only">Your Feature Request Count: @Model.FeatureReqCount</span>
+            </div>
+        </div>
+        <!-- Tickets by Status-->
+        Status:
+        <div class="progress progress-line-danger">
+            <div data-toggle="tooltip" data-placement="top" title="New: @Model.NewCount" class="progress-bar progress-bar-success inject" value="@Model.NewCount" max="@Model.MyTicketCount" style="width: 20%">
+                <span class="sr-only">Your New Ticket Count: @Model.NewCount</span>
+            </div>
+            <div data-toggle="tooltip" data-placement="top" title="Assigned: @Model.AssignedCount" class="progress-bar progress-bar-warning inject" value="@Model.AssignedCount" max="@Model.MyTicketCount" style="width: 20%">
+                <span class="sr-only">Your Assigned Ticket Count: @Model.AssignedCount</span>
+            </div>
+            <div data-toggle="tooltip" data-placement="top" title="In Progress: @Model.InProgressCount" class="progress-bar progress-bar-danger inject" value="@Model.InProgressCount" max="@Model.MyTicketCount" style="width: 20%">
+                <span class="sr-only">Your In Progress Ticket Count: @Model.InProgressCount</span>
+            </div>
+            <div data-toggle="tooltip" data-placement="top" title="On Hold: @Model.OnHoldCount" class="progress-bar progress-bar-warning inject" value="@Model.OnHoldCount" max="@Model.MyTicketCount" style="width: 20%">
+                <span class="sr-only">Your On Hold Ticket Count: @Model.OnHoldCount</span>
+            </div>
+            <div data-toggle="tooltip" data-placement="top" title="Ready for Review: @Model.ReadyForReviewCount" class="progress-bar progress-bar-danger inject" value="@Model.ReadyForReviewCount" max="@Model.MyTicketCount" style="width: 20%">
+                <span class="sr-only">Your Ready for Review Count: @Model.ReadyForReviewCount</span>
+            </div>
+        </div>
+        <!-- Tickets by Priority-->
+        Priority:
+        <div class="progress progress-line-danger">
+            <div data-toggle="tooltip" data-placement="top" title="Low: @Model.LowCount" class="progress-bar progress-bar-success inject" value="@Model.LowCount" max="@Model.MyTicketCount" style="width: 25%">
+                <span class="sr-only">Low Priority Count: @Model.LowCount</span>
+            </div>
+            <div data-toggle="tooltip" data-placement="top" title="Medium: @Model.MediumCount" class="progress-bar progress-bar-warning inject" value="@Model.MediumCount" max="@Model.MyTicketCount" style="width: 25%">
+                <span class="sr-only">Medium Priority Count: @Model.MediumCount</span>
+            </div>
+            <div data-toggle="tooltip" data-placement="top" title="High: @Model.HighCount" class="progress-bar progress-bar-danger inject" value="@Model.HighCount" max="@Model.MyTicketCount" style="width: 25%">
+                <span class="sr-only">High Priority Count: @Model.HighCount</span>
+            </div>
+            <div data-toggle="tooltip" data-placement="top" title="Bugs: @Model.UrgentCount" class="progress-bar progress-bar-success inject" value="@Model.UrgentCount" max="@Model.MyTicketCount" style="width: 25%">
+                <span class="sr-only">Urgent Priority Count: @Model.UrgentCount</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="section col-md-12" style="padding-top:0px;">
         <div class="card card-nav-tabs card-plain">
             <div class="card-header bg-brand-secondary">
                 <div class="nav-tabs-navigation">
@@ -779,9 +859,5 @@
 
 @section scripts {
     <script src="~/Scripts/modalinject.js"></script>
-    <!-- AJAX chart call -->
-    <script>
-
-    </script>
-
+    <script src="~/Scripts/injectbars.js"></script>
 }
