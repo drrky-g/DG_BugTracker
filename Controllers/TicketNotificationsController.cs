@@ -50,7 +50,7 @@ namespace DG_BugTracker.Controllers
             var me = User.Identity.GetUserId();
             var myNotifications = db.TicketNotifications.Where(notification => notification.RecieverId == me).ToList();
 
-            return View( "Index", myNotifications);
+            return View("Index", myNotifications);
         }
 
         

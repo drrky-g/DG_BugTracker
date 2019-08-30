@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -19,6 +17,7 @@ namespace DG_BugTracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TicketAttachments
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var ticketAttachments = db.TicketAttachments.Include(t => t.Ticket).Include(t => t.User);
@@ -111,6 +110,7 @@ namespace DG_BugTracker.Controllers
         }
 
         // GET: TicketAttachments/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -128,6 +128,7 @@ namespace DG_BugTracker.Controllers
         // POST: TicketAttachments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize (Roles ="Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);

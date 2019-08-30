@@ -104,6 +104,7 @@ namespace DG_BugTracker.Controllers
         }
 
         // GET: TicketHistories/Delete/5
+        [Authorize (Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -119,6 +120,7 @@ namespace DG_BugTracker.Controllers
         }
 
         // POST: TicketHistories/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -336,13 +336,10 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Home\AccessError.cshtml" />
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
-    <Content Include="Views\Shared\OldLayout.cshtml" />
-    <Content Include="Views\Home\OldDashboard.cshtml" />
     <Content Include="Views\Shared\_NavPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Charts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
