@@ -114,7 +114,7 @@ namespace DG_BugTracker.Migrations
                     Email = "derrickwg17@gmail.com",
                     FirstName = "Derrick",
                     LastName = "Gordon",
-                    DisplayName = "Derrick",
+                    DisplayName = "Derrick"
                     
                 }, myPassword);
             }
