@@ -4,88 +4,50 @@
 
 @{
     var roleHelper = new UserRoleHelper();
+    ViewBag.Header = "Manage Roles";
+    ViewBag.Subheader = "Assign multiple team members to roles.";
 }
 
-
-
-@using (Html.BeginForm())
-{
-    <div class="card col-md-9">
-        <div class="card-header card-header-success">
-
-            <div class="row">
-                <div class="col-md-8">
-                    <h4 class="card-title ">Manage Multiple Roles</h4>
-                    <p class="card-category">Assign Multiple Team Members to Roles.</p>
-                </div>
-            </div></div>
-        <div class="card-body">
+<div class="row">
+    <div class="col-md-12" style="margin-top:5%">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { style = "width:90%;" }))
+        {
             @Html.AntiForgeryToken()
-            <div class="row">
-                <div class="col-md-8" id="multiselect">
-                    @Html.ListBox("Users", null, new { @class = "form-control", size = "25", style = "height: 125px" })
+            <h6 class="text-center text-muted">(Ctrl + click to select multiple users)</h6>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md-4 text-right">
+                    1) Select User:
                 </div>
-                <div class="col-md-4" id="dropdown">
-                    @Html.DropDownList("RoleName", null, "--Select Role--", new { @class = "form-control text-success" })
-                    <button type="submit" class="btn btn-wd btn-success">Submit Changes</button>
-                </div>
-                <div class="col-md-4">
-
+                <div class="col-md-8">
+                    <!-- listbox -->
+                    @Html.ListBox("Users", null, new { @class = "form-control", size = "25", style = "height:125px" })
                 </div>
             </div>
-        </div>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md-4 text-right">
+                    2) Select Role:
+                </div>
+                <div class="col-md-8">
+                    <!-- dropdown -->
+                    @Html.DropDownList("RoleName", null, "--Select Role--", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md-4 text-right">
+                    3) Submit new roles:
+                </div>
+                <div class="col-md-8">
+                    <button type="submit" class="btn btn-wd bg-brand-primary-solid">Submit Changes</button>
+                </div>
+            </div>
+        }
     </div>
- }
-
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-        <th class="text-success">
-            <i class="material-icons">perm_identity</i>
-        </th>
-        <th class="text-success">
-            Email Address
-        </th>
-        <th class="text-success">
-            First Name
-        </th>
-        <th class="text-success">
-            Last Name
-        </th>
-        <th class="text-success">
-            Role
-        </th>
-        </thead>
-        <tbody>
-            @foreach (var user in Model)
-            {
-                <tr>
-                    <td>
-                        <img src="@user.AvatarPath" style="width: 30px; height: 30px; border-radius: 40px;" />
-                    </td>
-
-                    <td class="text-white">
-                        @user.Email
-                    </td>
-                    <td class="text-white">
-                        @user.FirstName
-                    </td>
-                    <td class="text-white">
-                        @user.LastName
-                    </td>
-                    <td class="text-white">
-                        @roleHelper.ListUserRoles(user.Id).FirstOrDefault()
-                    </td>
-
-                </tr>
-            }
-        </tbody>
-    </table>
 </div>
-<div class="text-left has-white">
-    @Html.ActionLink("Return to User Index", "UserIndex", "RoleManagement", new { @class = "btn btn-success" })
-</div>
+    
+
+
+
+
 
 <style>
     select {

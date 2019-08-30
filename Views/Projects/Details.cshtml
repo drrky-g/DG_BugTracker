@@ -1,73 +1,18 @@
 ﻿@model DG_BugTracker.Models.Project
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Header = $"{Model.Name}";
+    ViewBag.Subheader = $"Select the {Model.Name} team.";
 }
 
-<h2>Details</h2>
-
-@using (Html.BeginForm("ManageProjectUsers", "RoleManagement", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
-    @Html.Hidden("ProjectId", Model.Id)
-    <div class="row">
-        <div class=" col-md-3 card card-stats">
-            <div class="card-header card-header-success">
-                <h5>
-                    Project Managers
-                </h5>
-            </div>
-            <div class="card-body">
-                <!-- multiselect list here-->
-                @Html.ListBox("ProjectManagers", null, htmlAttributes: new { @class = "col-md-12" })
-            </div>
-        </div>
-        <span class="col-md-1"></span>
-        <div class=" col-md-3 card">
-            <div class="card-header card-header-success">
-                <h5>
-                    Developers
-                </h5>
-            </div>
-            <div class="card-body">
-                <!-- multiselect list here-->
-                @Html.ListBox("Developers", null, htmlAttributes: new { @class = "col-md-12" })
-            </div>
-        </div>
-        <span class="col-md-1"></span>
-        <div class="col-md-3 card card-stats">
-            <div class="card-header card-header-success">
-                <h5>
-                    Submitters
-                </h5>
-            </div>
-            <div class="card-body">
-                <!-- multiselect list here-->
-                @Html.ListBox("Submitters", null, htmlAttributes: new { @class = "col-md-12" })
-
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <button type="submit" class="btn btn-success btn-lg btn-wd">Assign Members</button>
-        </div>
-    </div>
-}
-
-
-
-
-<div>
-    <h4>Project</h4>
-    <hr />
+<div style="padding-top: 100px;">
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Model.Name
         </dd>
 
         <dt>
@@ -75,7 +20,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Model.Description
         </dd>
 
         <dt>
@@ -83,13 +28,42 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Created)
+            @Model.Created.ToString("MM/dd/yyyy hh:mm tt")
         </dd>
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<hr />
+<h5 class="text-muted text-left">Your project has been made. Now you need to assign team members.</h5>
+<br />
+<h6 class="text-muted text-left">(Ctrl + click to assign multiple team members to this project)</h6>
+
+@using (Html.BeginForm("ManageProjectUsers", "RoleManagement", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("ProjectId", Model.Id)
+    <div class="row">
+        <div class="col-md-4">
+            Project Managers
+            <!-- multiselect list here-->
+            @Html.ListBox("ProjectManagers", null, htmlAttributes: new { @class = "col-md-12" })
+        </div>
+        <div class="col-md-4">
+            Developers
+            <!-- multiselect list here-->
+            @Html.ListBox("Developers", null, htmlAttributes: new { @class = "col-md-12" })
+        </div>
+        <div class="col-md-4">
+            Submitters
+            <!-- multiselect list here-->
+            @Html.ListBox("Submitters", null, htmlAttributes: new { @class = "col-md-12" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-left">
+            <button type="submit" class="btn bg-brand-primary-solid">Assign Members</button>
+        </div>
+    </div>
+}
+
 

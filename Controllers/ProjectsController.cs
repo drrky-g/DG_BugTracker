@@ -40,6 +40,7 @@ namespace DG_BugTracker.Controllers
         
 
         // GET: Projects/Details/5
+        [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -55,16 +56,6 @@ namespace DG_BugTracker.Controllers
             {
                 return HttpNotFound();
             };
-
-            var visitor = User.Identity.GetUserId();
-            var allowedAccess = projectHelper.IsUserOnProject(visitor, (int)id);
-
-            if (!allowedAccess)
-            {
-                return RedirectToAction("NotAllowedProject", "Home");
-            };
-
-
 
             //give details view a multiselectlist of available people per role
             var allPMs = roleHelper.UsersInRole("Project Manager");
@@ -101,17 +92,18 @@ namespace DG_BugTracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin, Project Manager")]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Created")] Project project)
+        [Authorize(Roles = "Admin, Project Manager")]
+        public ActionResult Create([Bind(Include = "Id,Name,Description")] Project project)
         {
+            project.Created = DateTimeOffset.Now;
             if (ModelState.IsValid)
             {
                 db.Projects.Add(project);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Projects", new { id = project.Id});
             }
-
             return View(project);
+                
         }
 
         // GET: Projects/Edit/5

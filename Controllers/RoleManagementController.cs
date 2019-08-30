@@ -1,12 +1,8 @@
 ﻿using DG_BugTracker.Helpers;
 using DG_BugTracker.Models;
 using DG_BugTracker.ViewModels;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DG_BugTracker.Controllers
@@ -51,12 +47,12 @@ namespace DG_BugTracker.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult ManageSingleRole(string userId)
         {
+            
             var currentRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
-
-            ViewBag.UserId = userId;
+            ViewBag.Header = "Role Assignment";
+            ViewBag.Subheader = db.Users.Find(userId).FullName;
             ViewBag.UserRole = new SelectList(db.Roles.ToList(), "Name", "Name", currentRole);
-            ViewBag.UserName = db.Users.Find(userId).FullName;
-
+            ViewBag.UserId = userId;
             return View();
             
         }
@@ -133,7 +129,7 @@ namespace DG_BugTracker.Controllers
                     }
                 }
             }
-            return RedirectToAction("ManageMultipleRoles");
+            return RedirectToAction("UserIndex");
         }
 
 
@@ -144,7 +140,7 @@ namespace DG_BugTracker.Controllers
         {
             var thisUser = db.Users.Find(userId);
             var allProjects = db.Projects.ToList();
-            var userProjects = projectHelper.ListUserProjects().Select(proj => proj.Id);
+            var userProjects = projectHelper.ListSpecificUserProjects(userId).Select(proj => proj.Id);
             var thisUserModel = new ManageMultipleProjectsVM
             {
                 Id = userId,
@@ -152,13 +148,12 @@ namespace DG_BugTracker.Controllers
                 AvatarPath = thisUser.AvatarPath,
                 Email = thisUser.Email,
                 Role = roleHelper.ListUserRoles(userId).FirstOrDefault(),
-                ProjectSelect = new MultiSelectList(allProjects, "Id", "Name", userProjects)
+                MyProjects = projectHelper.ListSpecificUserProjects(userId)
             };
+
+            ViewBag.ProjectIds = new MultiSelectList(db.Projects.ToList(), "Id", "Name", userProjects);
             return View(thisUserModel);
         }
-
-        //ViewBag.UserId = userId;
-        //ViewBag.ProjectIds = new MultiSelectList(db.Projects.ToList(), "Id", "Name", myProjects);
 
         //
         //POST: ManageUsersMultipleProjects
@@ -167,7 +162,7 @@ namespace DG_BugTracker.Controllers
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult ManageUsersMultipleProjects(string userId, List<int> projectIds)
         {
-            foreach(var project in projectHelper.ListUserProjects())
+            foreach(var project in projectHelper.ListSpecificUserProjects(userId))
             {
                 projectHelper.RemoveUserFromProject(userId, project.Id);
             }
@@ -224,7 +219,7 @@ namespace DG_BugTracker.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Projects");
+            return RedirectToAction("Dashboard", "Home", null);
         }
     }
 }

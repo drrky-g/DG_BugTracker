@@ -31,6 +31,13 @@ namespace DG_BugTracker.Helpers
             return (flag);
         }
 
+        public ICollection<Project> ListSpecificUserProjects(string userId)
+        {
+            var me = db.Users.Find(userId);
+            var myProjects = me.Projects.ToList();
+            return myProjects;
+        }
+
         public ICollection<Project> ListUserProjects()
         {
             var myId = HttpContext.Current.User.Identity.GetUserId();

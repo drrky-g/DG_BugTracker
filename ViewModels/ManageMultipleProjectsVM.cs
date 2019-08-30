@@ -12,5 +12,7 @@ namespace DG_BugTracker.ViewModels
         public string FullName { get; set; }
         public string Role { get; set; }
         public  MultiSelectList ProjectSelect {get; set;}
+
+        public ICollection<Project> MyProjects { get; set; }
     }
 }

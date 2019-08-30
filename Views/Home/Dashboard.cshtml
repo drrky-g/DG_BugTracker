@@ -82,7 +82,7 @@
                 <span class="sr-only">Urgent Priority Count: @Model.UrgentCount</span>
             </div>
         </div>
-        <h6 class="text-center text-muted">(hover over bar for counts)</h6>
+        <h6 class="text-center text-muted">(hover over bars for counts)</h6>
     </div>
 </div>
 
@@ -126,7 +126,7 @@
                                                     <th>
                                                         Title
                                                     </th>
-                                                    <th hidden>
+                                                    <th>
                                                         Description
                                                     </th>
                                                     <th>
@@ -168,7 +168,7 @@
                                                         <td id="@ticket.TitleTarget">
                                                             @ticket.Title
                                                         </td>
-                                                        <td hidden id="@ticket.DescriptionTarget">
+                                                        <td id="@ticket.DescriptionTarget">
                                                             @ticket.Description
                                                         </td>
                                                         <td id="@ticket.CreatedTarget">
@@ -311,7 +311,7 @@
                                     }
                                     else
                                     {
-                                        <p>avatar-placeholder.png</p>
+                                    <p>/Avatars/avatar-placeholder.png</p>
                                     }
                                 </div>
                                 <!-- Sub Avatar string -->
@@ -377,7 +377,8 @@
                                         <div class="card-footer">
                                             @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
                                             {
-                                                @Html.ActionLink("Edit", "Edit", "Projects", new { id = project.Id }, htmlAttributes: new { @class = "btn btn-link btn-warning" })
+                                                @Html.ActionLink("Edit", "Edit", "Projects", new { id = project.Id }, htmlAttributes: new { @class = "btn btn-link brand-primary-color" })
+                                                @Html.ActionLink("Manage Team", "Details", "Projects", new { id = project.Id}, htmlAttributes: new { @class = "btn btn-link brand-secondary-color"})
                                             }
                                         </div>
                                     </div>

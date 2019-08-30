@@ -6,117 +6,103 @@
 
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header card-header-success">
-
-                    <div class="row">
-                        <div class="col-md-10">
-                            <h4 class="card-title ">Ticket Index</h4>
-                            <p class="card-category">This table contains your tickets.</p>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Project
-                                    </th>
-                                    <th>
-                                        Title
-                                    </th>
-                                    <th>
-                                        Description
-                                    </th>
-                                    <th>
-                                        Created
-                                    </th>
-                                    <th>
-                                        Updated
-                                    </th>
-                                    <th>
-                                        Type
-                                    </th>
-                                    <th>
-                                        Priority
-                                    </th>
-                                    <th>
-                                        Status
-                                    </th>
-                                    <th>
-                                        Submitter
-                                    </th>
-                                    <th>
-                                        Developer
-                                    </th>
-                                    <th class="text-center">
-                                        Options
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var ticket in Model)
+        <div class="col-md-12" style="padding-top: 50px;">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Project
+                            </th>
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Created
+                            </th>
+                            <th>
+                                Updated
+                            </th>
+                            <th>
+                                Type
+                            </th>
+                            <th>
+                                Priority
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th>
+                                Submitter
+                            </th>
+                            <th>
+                                Developer
+                            </th>
+                            <th class="text-center">
+                                Options
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ticket in Model)
+                        {
+                        <tr>
+                            <td>
+                                @ticket.Project.Name
+                            </td>
+                            <td class="text-white">
+                                @ticket.Title
+                            </td>
+                            <td class="text-white">
+                                @ticket.Description
+                            </td>
+                            <td class="text-white">
+                                @ticket.Created
+                            </td>
+                            <td class="text-white">
+                                @ticket.Updated
+                            </td>
+                            <td class="text-white">
+                                @ticket.TicketType.Name
+                            </td>
+                            <td class="text-white">
+                                @ticket.TicketPriority.Name
+                            </td>
+                            <td class="text-white">
+                                @ticket.TicketStatus.Name
+                            </td>
+                            <td class="text-white">
+                                @ticket.OwnerUser.FullName
+                            </td>
+                            <td class="text-white">
+                                @if (ticket.AssignedToUser != null)
                                 {
-                                <tr>
-                                    <td>
-                                        @ticket.Project.Name
-                                    </td>
-                                    <td class="text-white">
-                                        @ticket.Title
-                                    </td>
-                                    <td class="text-white">
-                                        @ticket.Description
-                                    </td>
-                                    <td class="text-white">
-                                        @ticket.Created
-                                    </td>
-                                    <td class="text-white">
-                                        @ticket.Updated
-                                    </td>
-                                    <td class="text-white">
-                                        @ticket.TicketType.Name
-                                    </td>
-                                    <td class="text-white">
-                                        @ticket.TicketPriority.Name
-                                    </td>
-                                    <td class="text-white">
-                                        @ticket.TicketStatus.Name
-                                    </td>
-                                    <td class="text-white">
-                                        @ticket.OwnerUser.FullName
-                                    </td>
-                                    <td class="text-white">
-                                        @if (ticket.AssignedToUser != null)
-                                        {
-                                            @ticket.AssignedToUser.FullName
-                                        }
-                                        else
-                                        {
-                                            if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-                                            {
-                                                @Html.ActionLink("Assign Developer", "AssignTicket", new { Id = ticket.Id }, new { @class = "btn btn-warning btn-sm" })
-                                            }
-                                            else
-                                            {
-                                                <p class="text-danger">Unassigned</p>
-                                            }
-                                        }
-                                    </td>
-                                    <td class="text-primary text-center">
-                                        <!-- Link for details -->
-                                        @Html.ActionLink("Details", "Details", "Tickets", new { Id = ticket.Id }, new { @class = "btn btn-success btn-sm" })
-                                        
-                                    </td>
-                                </tr>
+                                    @ticket.AssignedToUser.FullName
                                 }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                                else
+                                {
+                                    if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                    {
+                                        @Html.ActionLink("Assign Developer", "AssignTicket", new { Id = ticket.Id }, new { @class = "btn btn-warning btn-sm" })
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger">Unassigned</p>
+                                    }
+                                }
+                            </td>
+                            <td class="text-primary text-center">
+                                <!-- Link for details -->
+                                @Html.ActionLink("Details", "Details", "Tickets", new { Id = ticket.Id }, new { @class = "btn btn-success btn-sm" })
+                                        
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

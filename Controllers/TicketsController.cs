@@ -39,7 +39,8 @@ namespace DG_BugTracker.Controllers
 
         public ActionResult ArchiveIndex()
         {
-
+            ViewBag.Header = "Ticket Archive";
+            ViewBag.Subheader = "These tickets are no longer active.";
             var archivedTickets = db.Tickets.Where(tkt => tkt.TicketStatus.Name == "Archived").ToList();
 
             return View("Index", archivedTickets);
@@ -129,11 +130,18 @@ namespace DG_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            var projectDevs = new List<ApplicationUser>();
+            //get list of all devs
+            var devList = roleHelper.UsersInRole("Developer").ToList();
+            foreach (var dev in devList)
+            {
+                if (projectHelper.IsUserOnProject(dev.Id, ticket.ProjectId) == true)
+                {
+                    projectDevs.Add(dev);
+                }
+            }
 
-            //variable to only show Devs in assign field
-            var allDevs = roleHelper.UsersInRole("Developer");
-
-            ViewBag.AssignedToUserId = new SelectList(allDevs, "Id", "FirstName", ticket.AssignedToUserId);
+            ViewBag.AssignedToUserId = new SelectList(projectDevs, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
@@ -162,7 +170,7 @@ namespace DG_BugTracker.Controllers
             if (ModelState.IsValid)
             {
                 // store old tickets value for comparison with logic of helper methods
-                var foreignTicketContext = db.Tickets.Include(tkt => tkt.TicketPriority).Include(tkt => tkt.TicketStatus).Include(tkt => tkt.TicketType).AsQueryable();
+                var foreignTicketContext = db.Tickets.Include(tkt => tkt.TicketPriority).Include(tkt => tkt.TicketStatus).Include(tkt => tkt.TicketType).Include(tkt => tkt.AssignedToUser).AsQueryable();
                 var origin = foreignTicketContext.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
                 ticket.Updated = DateTimeOffset.Now;
                 db.Entry(ticket).State = EntityState.Modified;

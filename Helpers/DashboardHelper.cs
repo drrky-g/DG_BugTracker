@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using DG_BugTracker.Helpers;
@@ -19,7 +20,7 @@ namespace DG_BugTracker.Helpers
             var myProjects = user.Projects.ToList();
             if (HttpContext.Current.User.IsInRole("Admin"))
             {
-                myProjects = db.Projects.ToList();
+                myProjects = db.Projects.AsNoTracking().ToList();
             }
 
             return myProjects;
