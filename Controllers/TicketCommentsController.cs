@@ -44,12 +44,12 @@ namespace DG_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TicketId")] TicketComment ticketComment, string commentBody)
         {
+            ticketComment.Body = commentBody;
+            ticketComment.Created = DateTimeOffset.Now;
+            ticketComment.UserId = User.Identity.GetUserId();
+
             if (ModelState.IsValid)
             {
-                ticketComment.Body = commentBody;
-                ticketComment.Created = DateTimeOffset.Now;
-                ticketComment.UserId = User.Identity.GetUserId();
-
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
                 return RedirectToAction("Dashboard", "Home");

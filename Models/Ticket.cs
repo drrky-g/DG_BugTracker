@@ -224,6 +224,7 @@ namespace DG_BugTracker.Models
             this.TicketComments = new HashSet<TicketComment>();
             this.TicketAttachments = new HashSet<TicketAttachment>();
             this.TicketHistories = new HashSet<TicketHistory>();
+            this.TicketNotifications = new HashSet<TicketNotification>();
         }
     }
 }

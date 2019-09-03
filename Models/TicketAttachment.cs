@@ -9,9 +9,7 @@ namespace DG_BugTracker.Models
     public class TicketAttachment
     {
         public int Id { get; set; }
-        [Required]
         public string FilePath { get; set; }
-        [Required]
         public string Description { get; set; }
         public DateTimeOffset Created { get; set; }
         public int TicketId { get; set; }

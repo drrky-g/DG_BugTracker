@@ -46,11 +46,13 @@ namespace DG_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TicketId")] TicketAttachment ticketAttachment, HttpPostedFileBase FilePath, string attachmentDescription)
         {
+
+            ticketAttachment.Description = attachmentDescription;
+            ticketAttachment.Created = DateTimeOffset.Now;
+            ticketAttachment.UserId = User.Identity.GetUserId();
+
             if (ModelState.IsValid)
             {
-                ticketAttachment.Description = attachmentDescription;
-                ticketAttachment.Created = DateTimeOffset.Now;
-                ticketAttachment.UserId = User.Identity.GetUserId();
 
                 //Use Attachment Upload Validator to verify file
                 if (ImageUploader.IsValidAttachment(FilePath))

@@ -57,10 +57,57 @@
 .whitebg {
     background: #fff !important;
 }
+
+.darkbg {
+   background-color: #4d646c !important;
+}
+
 .fixed-bg{
     position: absolute;
     bottom: 0;
     width: 100%;
 }
+
+.inprogress {
+    background-color: #85e65b !important;
+}
+
+.urgentstatus {
+    background-color: #800000 !important;
+}
+
+.modeltype {
+    background-color: #16e9af !important;
+}
+
+.controllertype {
+    background-color: #79dde8 !important;
+}
+
+.viewtype {
+    background-color: #ffb648 !important;
+}
+
+.viewmodeltype {
+    background-color: #f35454 !important;
+}
+
+.docrequest {
+    background-color: #4d646c !important;
+}
+
+.featurerequest {
+    background-color: #b5c5ca !important;
+}
+
+/*Bar colors for dashboard*/
+/*
+    Teal - #16e9af [Model]
+    light blue - #79dde8 [light blue]
+    burnt red - #800000 
+    orange - #ffb648 [view]
+    salmon - #f35454
+
+*/
 
 

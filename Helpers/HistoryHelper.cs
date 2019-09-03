@@ -44,7 +44,7 @@ namespace DG_BugTracker.Helpers
                 Property = "Developer Assignment",
                 OldValue = OldDeveloperWord(origin),
                 NewValue = edit.AssignedToUser.FullName,
-                Changed = DateTime.Now,
+                Changed = DateTimeOffset.Now,
                 UserId = HttpContext.Current.User.Identity.GetUserId(),
                 TicketId = ticketId
             };

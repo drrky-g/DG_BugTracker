@@ -7,84 +7,88 @@
     var rH = new UserRoleHelper();
 }
 
-<!--Progress Bars-->
-<div class="row">
-    <div class="col-md-12" style="margin-top:50px;">
+@if (Model.MyTicketCount > 0)
+{
+    <!--Progress Bars-->
+    <div class="row">
+        <div class="col-md-12" style="margin-top:50px;">
 
-        <!-- Tickets by Type-->
-        Type:
-        <div class="progress progress-line-danger">
-            <!-- bug/defect -->
-            <div data-toggle="tooltip" data-placement="bottom" title="Bugs: @Model.BugCount" class="progress-bar progress-bar-success inject" value="@Model.BugCount" max="@Model.MyTicketCount" style="width: 12%">
-                <span class="sr-only">Your Bug/Defect Count: @Model.BugCount</span>
+            <!-- Tickets by Type-->
+            Type:
+            <div class="progress progress-line">
+                <!-- bug/defect -->
+                <div data-toggle="tooltip" data-placement="bottom" title="Bugs: @Model.BugCount" class="progress-bar progress-bar-success inject" value="@Model.BugCount" max="@Model.MyTicketCount" style="width: 12%">
+                    <span class="sr-only">Your Bug/Defect Count: @Model.BugCount</span>
+                </div>
+                <!-- css/javascript-->
+                <div data-toggle="tooltip" data-placement="bottom" title="Front End Issues: @Model.FECount" class="progress-bar bg-brand-primary-solid inject" value="@Model.FECount" max="@Model.MyTicketCount" style="width: 12%">
+                    <span class="sr-only">Your Front End Issue Count: @Model.FECount</span>
+                </div>
+                <!-- controller-->
+                <div data-toggle="tooltip" data-placement="bottom" title="Controller Issues: @Model.ControllerCount" class="progress-bar controllertype inject" value="@Model.ControllerCount" max="@Model.MyTicketCount" style="width: 12%">
+                    <span class="sr-only">Your Controller Issue Count: @Model.ControllerCount</span>
+                </div>
+                <!-- view-->
+                <div data-toggle="tooltip" data-placement="bottom" title="View Issues: @Model.ViewCount" class="progress-bar viewtype inject" value="@Model.ViewCount" max="@Model.MyTicketCount" style="width: 12%">
+                    <span class="sr-only">Your View Issue Count: @Model.ViewCount</span>
+                </div>
+                <!-- viewmodel -->
+                <div data-toggle="tooltip" data-placement="bottom" title="VM Issues: @Model.VMCount" class="progress-bar viewmodeltype inject" value="@Model.VMCount" max="@Model.MyTicketCount" style="width: 12%">
+                    <span class="sr-only">Your View Model Issue Count: @Model.VMCount</span>
+                </div>
+                <!-- model -->
+                <div data-toggle="tooltip" data-placement="bottom" title="Model Issues: @Model.ModelCount" class="progress-bar controllertype inject" value="@Model.ModelCount" max="@Model.MyTicketCount" style="width: 12%">
+                    <span class="sr-only">Your Model Issue Count: @Model.ModelCount</span>
+                </div>
+                <!-- doc request-->
+                <div data-toggle="tooltip" data-placement="bottom" title="Doc Requests: @Model.DocReqCount" class="progress-bar docrequest inject" value="@Model.DocReqCount" max="@Model.MyTicketCount" style="width: 12%">
+                    <span class="sr-only">Your Document Request Count: @Model.DocReqCount</span>
+                </div>
+                <!-- feature request -->
+                <div data-toggle="tooltip" data-placement="bottom" title="Feature Requests: @Model.FeatureReqCount" class="progress-bar featurerequest inject" value="@Model.FeatureReqCount" max="@Model.MyTicketCount" style="width: 12%">
+                    <span class="sr-only">Your Feature Request Count: @Model.FeatureReqCount</span>
+                </div>
             </div>
-            <!-- css/javascript-->
-            <div data-toggle="tooltip" data-placement="bottom" title="Front End Issues: @Model.FECount" class="progress-bar progress-bar-warning inject" value="@Model.FECount" max="@Model.MyTicketCount" style="width: 12%">
-                <span class="sr-only">Your Front End Issue Count: @Model.FECount</span>
+            <!-- Tickets by Status-->
+            Status:
+            <div class="progress progress-line">
+                <div data-toggle="tooltip" data-placement="bottom" title="New: @Model.NewCount" class="progress-bar progress-bar-success inject" value="@Model.NewCount" max="@Model.MyTicketCount" style="width: 20%">
+                    <span class="sr-only">Your New Ticket Count: @Model.NewCount</span>
+                </div>
+                <div data-toggle="tooltip" data-placement="bottom" title="Assigned: @Model.AssignedCount" class="progress-bar progress-bar-warning inject" value="@Model.AssignedCount" max="@Model.MyTicketCount" style="width: 20%">
+                    <span class="sr-only">Your Assigned Ticket Count: @Model.AssignedCount</span>
+                </div>
+                <div data-toggle="tooltip" data-placement="bottom" title="In Progress: @Model.InProgressCount" class="progress-bar inprogress inject" value="@Model.InProgressCount" max="@Model.MyTicketCount" style="width: 20%">
+                    <span class="sr-only">Your In Progress Ticket Count: @Model.InProgressCount</span>
+                </div>
+                <div data-toggle="tooltip" data-placement="bottom" title="On Hold: @Model.OnHoldCount" class="progress-bar progress-bar-warning inject" value="@Model.OnHoldCount" max="@Model.MyTicketCount" style="width: 20%">
+                    <span class="sr-only">Your On Hold Ticket Count: @Model.OnHoldCount</span>
+                </div>
+                <div data-toggle="tooltip" data-placement="bottom" title="Ready for Review: @Model.ReadyForReviewCount" class="progress-bar progress-bar-success inject" value="@Model.ReadyForReviewCount" max="@Model.MyTicketCount" style="width: 20%">
+                    <span class="sr-only">Your Ready for Review Count: @Model.ReadyForReviewCount</span>
+                </div>
             </div>
-            <!-- controller-->
-            <div data-toggle="tooltip" data-placement="bottom" title="Controller Issues: @Model.ControllerCount" class="progress-bar progress-bar-danger inject" value="@Model.ControllerCount" max="@Model.MyTicketCount" style="width: 12%">
-                <span class="sr-only">Your Controller Issue Count: @Model.ControllerCount</span>
+            <!-- Tickets by Priority-->
+            Priority:
+            <div class="progress progress-line">
+                <div data-toggle="tooltip" data-placement="bottom" title="Low: @Model.LowCount" class="progress-bar progress-bar-success inject" value="@Model.LowCount" max="@Model.MyTicketCount" style="width: 25%">
+                    <span class="sr-only">Low Priority Count: @Model.LowCount</span>
+                </div>
+                <div data-toggle="tooltip" data-placement="bottom" title="Medium: @Model.MediumCount" class="progress-bar progress-bar-warning inject" value="@Model.MediumCount" max="@Model.MyTicketCount" style="width: 25%">
+                    <span class="sr-only">Medium Priority Count: @Model.MediumCount</span>
+                </div>
+                <div data-toggle="tooltip" data-placement="bottom" title="High: @Model.HighCount" class="progress-bar progress-bar-danger inject" value="@Model.HighCount" max="@Model.MyTicketCount" style="width: 25%">
+                    <span class="sr-only">High Priority Count: @Model.HighCount</span>
+                </div>
+                <div data-toggle="tooltip" data-placement="bottom" title="Urgent: @Model.UrgentCount" class="progress-bar urgentstatus inject" value="@Model.UrgentCount" max="@Model.MyTicketCount" style="width: 25%">
+                    <span class="sr-only">Urgent Priority Count: @Model.UrgentCount</span>
+                </div>
             </div>
-            <!-- view-->
-            <div data-toggle="tooltip" data-placement="bottom" title="View Issues: @Model.ViewCount" class="progress-bar progress-bar-success inject" value="@Model.ViewCount" max="@Model.MyTicketCount" style="width: 12%">
-                <span class="sr-only">Your View Issue Count: @Model.ViewCount</span>
-            </div>
-            <!-- viewmodel -->
-            <div data-toggle="tooltip" data-placement="bottom" title="VM Issues: @Model.VMCount" class="progress-bar progress-bar-warning inject" value="@Model.VMCount" max="@Model.MyTicketCount" style="width: 12%">
-                <span class="sr-only">Your View Model Issue Count: @Model.VMCount</span>
-            </div>
-            <!-- model -->
-            <div data-toggle="tooltip" data-placement="bottom" title="Model Issues: @Model.ModelCount" class="progress-bar progress-bar-danger inject" value="@Model.ModelCount" max="@Model.MyTicketCount" style="width: 12%">
-                <span class="sr-only">Your Model Issue Count: @Model.ModelCount</span>
-            </div>
-            <!-- doc request-->
-            <div data-toggle="tooltip" data-placement="bottom" title="Doc Requests: @Model.DocReqCount" class="progress-bar progress-bar-success inject" value="@Model.DocReqCount" max="@Model.MyTicketCount" style="width: 12%">
-                <span class="sr-only">Your Document Request Count: @Model.DocReqCount</span>
-            </div>
-            <!-- feature request -->
-            <div data-toggle="tooltip" data-placement="bottom" title="Feature Requests: @Model.FeatureReqCount" class="progress-bar progress-bar-warning inject" value="@Model.FeatureReqCount" max="@Model.MyTicketCount" style="width: 12%">
-                <span class="sr-only">Your Feature Request Count: @Model.FeatureReqCount</span>
-            </div>
+            <h6 class="text-center text-muted">(hover over bars for counts)</h6>
         </div>
-        <!-- Tickets by Status-->
-        Status:
-        <div class="progress progress-line-danger">
-            <div data-toggle="tooltip" data-placement="bottom" title="New: @Model.NewCount" class="progress-bar progress-bar-success inject" value="@Model.NewCount" max="@Model.MyTicketCount" style="width: 20%">
-                <span class="sr-only">Your New Ticket Count: @Model.NewCount</span>
-            </div>
-            <div data-toggle="tooltip" data-placement="bottom" title="Assigned: @Model.AssignedCount" class="progress-bar progress-bar-warning inject" value="@Model.AssignedCount" max="@Model.MyTicketCount" style="width: 20%">
-                <span class="sr-only">Your Assigned Ticket Count: @Model.AssignedCount</span>
-            </div>
-            <div data-toggle="tooltip" data-placement="bottom" title="In Progress: @Model.InProgressCount" class="progress-bar progress-bar-danger inject" value="@Model.InProgressCount" max="@Model.MyTicketCount" style="width: 20%">
-                <span class="sr-only">Your In Progress Ticket Count: @Model.InProgressCount</span>
-            </div>
-            <div data-toggle="tooltip" data-placement="bottom" title="On Hold: @Model.OnHoldCount" class="progress-bar progress-bar-warning inject" value="@Model.OnHoldCount" max="@Model.MyTicketCount" style="width: 20%">
-                <span class="sr-only">Your On Hold Ticket Count: @Model.OnHoldCount</span>
-            </div>
-            <div data-toggle="tooltip" data-placement="bottom" title="Ready for Review: @Model.ReadyForReviewCount" class="progress-bar progress-bar-danger inject" value="@Model.ReadyForReviewCount" max="@Model.MyTicketCount" style="width: 20%">
-                <span class="sr-only">Your Ready for Review Count: @Model.ReadyForReviewCount</span>
-            </div>
-        </div>
-        <!-- Tickets by Priority-->
-        Priority:
-        <div class="progress progress-line-danger">
-            <div data-toggle="tooltip" data-placement="bottom" title="Low: @Model.LowCount" class="progress-bar progress-bar-success inject" value="@Model.LowCount" max="@Model.MyTicketCount" style="width: 25%">
-                <span class="sr-only">Low Priority Count: @Model.LowCount</span>
-            </div>
-            <div data-toggle="tooltip" data-placement="bottom" title="Medium: @Model.MediumCount" class="progress-bar progress-bar-warning inject" value="@Model.MediumCount" max="@Model.MyTicketCount" style="width: 25%">
-                <span class="sr-only">Medium Priority Count: @Model.MediumCount</span>
-            </div>
-            <div data-toggle="tooltip" data-placement="bottom" title="High: @Model.HighCount" class="progress-bar progress-bar-danger inject" value="@Model.HighCount" max="@Model.MyTicketCount" style="width: 25%">
-                <span class="sr-only">High Priority Count: @Model.HighCount</span>
-            </div>
-            <div data-toggle="tooltip" data-placement="bottom" title="Urgent: @Model.UrgentCount" class="progress-bar progress-bar-success inject" value="@Model.UrgentCount" max="@Model.MyTicketCount" style="width: 25%">
-                <span class="sr-only">Urgent Priority Count: @Model.UrgentCount</span>
-            </div>
-        </div>
-        <h6 class="text-center text-muted">(hover over bars for counts)</h6>
     </div>
-</div>
+}
+
 
 <div class="row">
     <div class="section col-md-12" style="padding-top:0px;">
@@ -111,108 +115,108 @@
                 <div class="tab-content text-center">
                     <div class="tab-pane active show" id="ticketSection">
                         <!-- ticket table-->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table id="ticketTable" class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        Project
-                                                    </th>
-                                                    <th>
-                                                        Id
-                                                    </th>
-                                                    <th>
-                                                        Title
-                                                    </th>
-                                                    <th>
-                                                        Description
-                                                    </th>
-                                                    <th>
-                                                        Created
-                                                    </th>
-                                                    <th>
-                                                        Updated
-                                                    </th>
-                                                    <th>
-                                                        Type
-                                                    </th>
-                                                    <th>
-                                                        Priority
-                                                    </th>
-                                                    <th>
-                                                        Status
-                                                    </th>
-                                                    <th>
-                                                        Submitter
-                                                    </th>
-                                                    <th>
-                                                        Developer
-                                                    </th>
-                                                    <th>
-                                                        Details
-                                                    </th>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table id="ticketTable" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Project
+                                                </th>
+                                                <th>
+                                                    Id
+                                                </th>
+                                                <th>
+                                                    Title
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Created
+                                                </th>
+                                                <th>
+                                                    Updated
+                                                </th>
+                                                <th>
+                                                    Type
+                                                </th>
+                                                <th>
+                                                    Priority
+                                                </th>
+                                                <th>
+                                                    Status
+                                                </th>
+                                                <th>
+                                                    Submitter
+                                                </th>
+                                                <th>
+                                                    Developer
+                                                </th>
+                                                <th>
+                                                    Details
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-left">
+                                            @foreach (var ticket in Model.MyTickets)
+                                            {
+                                                <tr id="@ticket.RowTarget">
+                                                    <td id="@ticket.ProjectTarget">
+                                                        @ticket.Project.Name
+                                                    </td>
+                                                    <td id="@ticket.IdTarget">
+                                                        @ticket.Id
+                                                    </td>
+                                                    <td id="@ticket.TitleTarget">
+                                                        @ticket.Title
+                                                    </td>
+                                                    <td id="@ticket.DescriptionTarget">
+                                                        @ticket.Description
+                                                    </td>
+                                                    <td id="@ticket.CreatedTarget">
+                                                        @ticket.Created.ToString("MM/dd/yyyy h:mm tt")
+                                                    </td>
+                                                    <td id="@ticket.UpdatedTarget">
+                                                        <!-- need to format this -->
+                                                        @ticket.Updated
+                                                    </td>
+                                                    <td id="@ticket.TypeTarget">
+                                                        @ticket.TicketType.Name
+                                                    </td>
+                                                    <td id="@ticket.PriorityTarget">
+                                                        @ticket.TicketPriority.Name
+                                                    </td>
+                                                    <td id="@ticket.StatusTarget">
+                                                        @ticket.TicketStatus.Name
+                                                    </td>
+                                                    <td id="@ticket.SubTarget">
+                                                        @ticket.OwnerUser.FullName <!-- maybe just user name or avatar? idk... -->
+                                                    </td>
+                                                    <td id="@ticket.DevTarget">
+                                                        @if (ticket.AssignedToUser != null)
+                                                        {
+                                                            @ticket.AssignedToUser.FullName
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>Unassigned</p>
+                                                        }
+                                                        <!-- ^^ same as above ^^-->
+                                                    </td>
+                                                    <td>
+                                                        <button id="@ticket.BtnTarget" class="detailFire btn btn-sm btn-link btn-success" data-toggle="modal" data-target="#detailTargetWindow">
+                                                            Details
+                                                        </button>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody class="text-left">
-                                                @foreach (var ticket in Model.MyTickets)
-                                                {
-                                                    <tr id="@ticket.RowTarget">
-                                                        <td id="@ticket.ProjectTarget">
-                                                            @ticket.Project.Name
-                                                        </td>
-                                                        <td id="@ticket.IdTarget">
-                                                            @ticket.Id
-                                                        </td>
-                                                        <td id="@ticket.TitleTarget">
-                                                            @ticket.Title
-                                                        </td>
-                                                        <td id="@ticket.DescriptionTarget">
-                                                            @ticket.Description
-                                                        </td>
-                                                        <td id="@ticket.CreatedTarget">
-                                                            @ticket.Created.ToString("MM/dd/yyyy h:mm tt")
-                                                        </td>
-                                                        <td id="@ticket.UpdatedTarget">
-                                                            <!-- need to format this -->
-                                                            @ticket.Updated
-                                                        </td>
-                                                        <td id="@ticket.TypeTarget">
-                                                            @ticket.TicketType.Name
-                                                        </td>
-                                                        <td id="@ticket.PriorityTarget">
-                                                            @ticket.TicketPriority.Name
-                                                        </td>
-                                                        <td id="@ticket.StatusTarget">
-                                                            @ticket.TicketStatus.Name
-                                                        </td>
-                                                        <td id="@ticket.SubTarget">
-                                                            @ticket.OwnerUser.FullName <!-- maybe just user name or avatar? idk... -->
-                                                        </td>
-                                                        <td id="@ticket.DevTarget">
-                                                            @if (ticket.AssignedToUser != null)
-                                                            {
-                                                                @ticket.AssignedToUser.FullName
-                                                            }
-                                                            else
-                                                            {
-                                                                <p>Unassigned</p>
-                                                            }
-                                                            <!-- ^^ same as above ^^-->
-                                                        </td>
-                                                        <td>
-                                                            <button id="@ticket.BtnTarget" class="detailFire btn btn-sm btn-link btn-success" data-toggle="modal" data-target="#detailTargetWindow">
-                                                                Details
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
+                        </div>
                         @foreach (var ticket in Model.MyTickets)
                         {
                             <div hidden>
@@ -223,13 +227,13 @@
                                     @if (User.IsInRole("Developer"))
                                     {
                                         <!--developer: accept ticket(set to in progress automatically/ set to on hold automatically)-->
-                                        using (Html.BeginForm("SetTicketInProgress", "Tickets", FormMethod.Post, new { style="margin-bottom: 0px;"}))
+                                        using (Html.BeginForm("SetTicketInProgress", "Tickets", FormMethod.Post, new { style = "margin-bottom: 0px;" }))
                                         {
                                             @Html.AntiForgeryToken()
                                             @Html.Hidden("Id", ticket.Id)
                                             <button type="submit" class="btn btn-link brand-secondary-color">Set As "In Progress"</button>
                                         }
-                                        using (Html.BeginForm("SetTicketOnHold", "Tickets", FormMethod.Post, new { style="margin-bottom: 0px;"}))
+                                        using (Html.BeginForm("SetTicketOnHold", "Tickets", FormMethod.Post, new { style = "margin-bottom: 0px;" }))
                                         {
                                             @Html.AntiForgeryToken()
                                             @Html.Hidden("Id", ticket.Id)
@@ -311,7 +315,7 @@
                                     }
                                     else
                                     {
-                                    <p>/Avatars/avatar-placeholder.png</p>
+                                        <p>/Avatars/avatar-placeholder.png</p>
                                     }
                                 </div>
                                 <!-- Sub Avatar string -->
@@ -332,7 +336,7 @@
                                     <div class="card" style="margin-bottom: 15px;">
                                         <div class="card-header text-white bg-brand-teritary" style="margin-left: 15px; margin-right: 15px;">
                                             <h3 class="text-left">@project.Name <small class="text-white"> (Id: @project.Id)<br /></small></h3>
-                                            <p class="pull-left" >Project Created: @project.Created.ToString("MM/dd/yyyy h:mm tt")</p>
+                                            <p class="pull-left">Project Created: @project.Created.ToString("MM/dd/yyyy h:mm tt")</p>
                                         </div>
                                         <div class="card-body">
                                             <div class="row">
@@ -378,7 +382,7 @@
                                             @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
                                             {
                                                 @Html.ActionLink("Edit", "Edit", "Projects", new { id = project.Id }, htmlAttributes: new { @class = "btn btn-link brand-primary-color" })
-                                                @Html.ActionLink("Manage Team", "Details", "Projects", new { id = project.Id}, htmlAttributes: new { @class = "btn btn-link brand-secondary-color"})
+                                                @Html.ActionLink("Manage Team", "Details", "Projects", new { id = project.Id }, htmlAttributes: new { @class = "btn btn-link brand-secondary-color" })
                                             }
                                         </div>
                                     </div>
@@ -389,7 +393,7 @@
 
                         }
 
-                        
+
                     </div>
                     <!-- recent activity -->
                     <div class="tab-pane" id="recentActivity">
@@ -454,7 +458,7 @@
                                                         }
                                                     }
                                                 }
-                                                @Html.ActionLink("View All Notifications", "MyNotifications", "TicketNotifications", null, htmlAttributes: new { @class="btn btn-link brand-primary-color"})
+                                                @Html.ActionLink("View All Notifications", "MyNotifications", "TicketNotifications", null, htmlAttributes: new { @class = "btn btn-link brand-primary-color" })
                                             }
                                             else
                                             {
@@ -564,7 +568,7 @@
 
 
 @section modals {
-    
+
 
     <!--  Refined Details Modal -->
     <div class="modal fade" id="detailTargetWindow" tabindex="-1" role="dialog">
@@ -768,7 +772,7 @@
                                                         <button type="submit" class="btn btn-fab btn-round whitebg brand-primary-color"><i class="material-icons">keyboard_arrow_right</i></button>
                                                     </div>
                                                 </div>
-                                                    
+
                                             }
                                         </div>
                                     </div>
@@ -803,7 +807,7 @@
                                                 <div class="row">
                                                     <span class="col-md-2"></span>
                                                     <div class="col-md-10 text-left">
-                                                        <input type="text" name="attachmentDescription" id="attachmentDescription" class="form-control" placeholder="Attachment Description"/>
+                                                        <input type="text" name="attachmentDescription" id="attachmentDescription" class="form-control" placeholder="Attachment Description" />
                                                         <br />
                                                         <input type="file" name="FilePath" id="filePath" class="form-control" />
                                                         <button type="submit" class="btn btn-fab btn-round whitebg brand-primary-color"><i class="material-icons">keyboard_arrow_right</i></button>
@@ -811,7 +815,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        
+
                                                     </div>
                                                 </div>
                                             }

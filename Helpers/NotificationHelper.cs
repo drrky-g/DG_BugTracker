@@ -52,7 +52,7 @@ namespace DG_BugTracker.Helpers
             HistoryHelper.RecordDeveloperAssignment(oldTicket, newTicket);
             var notification = new TicketNotification
             {
-                Created = DateTime.Now,
+                Created = DateTimeOffset.Now,
                 ReadStatus = false,
                 RecieverId = oldTicket.AssignedToUserId,
                 SenderId = HttpContext.Current.User.Identity.GetUserId(),
@@ -71,7 +71,7 @@ namespace DG_BugTracker.Helpers
             HistoryHelper.RecordDeveloperAssignment(oldTicket, newTicket);
             var notification = new TicketNotification
             {
-                Created = DateTime.Now,
+                Created = DateTimeOffset.Now,
                 //Subject = $"You were unassigned from Ticket {newTicket.Id} on {DateTime.Now.ToString("MM/dd/yyyy h:mm tt")}",
                 ReadStatus = false,
                 RecieverId = newTicket.AssignedToUserId,
@@ -165,7 +165,7 @@ namespace DG_BugTracker.Helpers
                 var notification = new TicketNotification
                 {
                     TicketId = edit.Id,
-                    Created = DateTime.Now,
+                    Created = DateTimeOffset.Now,
                     RecieverId = edit.AssignedToUserId,
                     SenderId = HttpContext.Current.User.Identity.GetUserId(),
                     NotificationBody = entry.ToString(),

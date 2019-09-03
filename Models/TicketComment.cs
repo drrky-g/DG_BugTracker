@@ -9,7 +9,6 @@ namespace DG_BugTracker.Models
     public class TicketComment
     {
         public int Id { get; set; }
-        [Required]
         public string Body { get; set; }
         public DateTimeOffset Created { get; set; }
         public string UserId { get; set; }
