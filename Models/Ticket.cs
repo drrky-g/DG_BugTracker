@@ -17,8 +17,8 @@ namespace DG_BugTracker.Models
         [StringLength(200, ErrorMessage = "The description must be below 200 characters.")]
         public string Description { get; set; } //targetted
         [Required]
-        public DateTimeOffset Created { get; set; } //targetted
-        public DateTimeOffset? Updated { get; set; } //targetted
+        public DateTime Created { get; set; } //targetted
+        public DateTime? Updated { get; set; } //targetted
         [Required]
         [Display(Name = "Type")]
         public int TicketTypeId { get; set; } //targetted

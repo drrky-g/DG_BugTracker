@@ -19,15 +19,12 @@ namespace DG_BugTracker.Controllers
         public ActionResult AccessError()
         {
             ViewBag.Header = "Access Error";
-
-
             return View();
         }
         public ActionResult NotAllowedTicket()
         {
             ViewBag.Header = "Ticket Access Error";
             ViewBag.Message = "You're not assigned to this ticket.";
-
             return View("AccessError");
         }
 
@@ -35,7 +32,6 @@ namespace DG_BugTracker.Controllers
         {
             ViewBag.Header = "Project Access Error";
             ViewBag.Message = "You're not assigned to this project.";
-
             return View("AccessError");
         }
 
@@ -43,7 +39,6 @@ namespace DG_BugTracker.Controllers
         {
             ViewBag.Header = "Profile Update Error";
             ViewBag.Message = "There was an error updating your profile";
-
             return View("AccessError");
         }
 

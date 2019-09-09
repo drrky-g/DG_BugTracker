@@ -52,7 +52,7 @@ namespace DG_BugTracker.Controllers
                 // input ids: property, oldValue, newValue,
                 //passing hidden TicketId
                 ticketHistory.UserId = User.Identity.GetUserId();
-                ticketHistory.Changed = DateTimeOffset.Now;
+                ticketHistory.Changed = DateTime.Now;
                 ticketHistory.Property = property;
                 ticketHistory.OldValue = oldValue;
                 ticketHistory.NewValue = newValue;

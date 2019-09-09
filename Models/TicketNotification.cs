@@ -14,7 +14,7 @@ namespace DG_BugTracker.Models
         public string RecieverId { get; set; }
         public string SenderId { get; set; }
         [Required]
-        public DateTimeOffset Created { get; set; }
+        public DateTime Created { get; set; }
         [Required]
         public string NotificationBody { get; set; }
         public bool ReadStatus { get; set; }

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using DG_BugTracker.Helpers;
 using DG_BugTracker.Models;
 using Microsoft.AspNet.Identity;
 
@@ -40,11 +38,11 @@ namespace DG_BugTracker.Helpers
             var myRole = roleHelper.ListUserRoles(me).FirstOrDefault();
 
             var myTickets = new List<Ticket>();
-
+            var allTickets = db.Tickets.AsNoTracking().ToList();
             switch (myRole)
             {
                 case "Admin":
-                    myTickets = db.Tickets.AsNoTracking().ToList();
+                    myTickets = allTickets;
                     break;
                 case "Project Manager":
                     myTickets = db.Users.Find(me).Projects.SelectMany(project => project.Tickets).ToList();
@@ -96,6 +94,7 @@ namespace DG_BugTracker.Helpers
         {
             return MyTicketList().Where(tkt => tkt.TicketStatus.Name == "New").Count();
         }
+
         public int MyAssignedStatusCount()
         {
             return MyTicketList().Where(tkt => tkt.TicketStatus.Name == "Assigned").Count();
@@ -122,6 +121,7 @@ namespace DG_BugTracker.Helpers
         {
             return MyTicketList().Where(tkt => tkt.TicketType.Name == "Bug/Defect").Count();
         }
+
         public int MyFETypeCount()
         {
             return MyTicketList().Where(tkt => tkt.TicketType.Name == "CSS/Javascript Issue").Count();
@@ -201,7 +201,7 @@ namespace DG_BugTracker.Helpers
         public ICollection<TicketNotification> FiveRecentNotifications()
         {
             var me = HttpContext.Current.User.Identity.GetUserId();
-            return db.TicketNotifications.Where(notif => notif.RecieverId == me).OrderByDescending(notif => notif.Created).Take(5).ToList(); 
+            return db.TicketNotifications.AsNoTracking().Where(notif => notif.RecieverId == me).OrderByDescending(notif => notif.ReadStatus).OrderByDescending(notif => notif.Created).Take(5).ToList(); 
         }
         #endregion
 

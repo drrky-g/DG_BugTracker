@@ -18,7 +18,7 @@ namespace DG_BugTracker.Models
         public string Description { get; set; }
         [Required]
         [Display (Name = "Created")]
-        public DateTimeOffset Created { get; set; }
+        public DateTime Created { get; set; }
 
         //------id targetting strings--------------
         

@@ -67,16 +67,17 @@ namespace DG_BugTracker.Models
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
+        [StringLength(30, ErrorMessage = "Email must be below 30 characters.", MinimumLength = 2)]
         public string Email { get; set; }
 
         [Required]
         [Display(Name = "First Name")]
-        [MaxLength(25), MinLength(1)]
+        [StringLength(15, ErrorMessage = "First Name must be below 15 characters.", MinimumLength = 1)]
         public string FirstName { get; set; }
 
         [Required]
         [Display(Name = "Last Name")]
-        [MaxLength(40), MinLength(1)]
+        [StringLength(25, ErrorMessage = "Last name must be below 25 characters.", MinimumLength = 2)]
         public string LastName { get; set; }
 
         [Required]

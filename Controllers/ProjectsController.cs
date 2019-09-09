@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DG_BugTracker.Helpers;
 using DG_BugTracker.Models;
-using Microsoft.AspNet.Identity;
 
 namespace DG_BugTracker.Controllers
 {
-    [Authorize(Roles = "Admin, Project Manager, Developer, Submitter")]
+    [Authorize(Roles = "Admin, Project Manager")]
     public class ProjectsController : Controller
     {
         private UserRoleHelper roleHelper = new UserRoleHelper();
@@ -95,7 +91,7 @@ namespace DG_BugTracker.Controllers
         [Authorize(Roles = "Admin, Project Manager")]
         public ActionResult Create([Bind(Include = "Id,Name,Description")] Project project)
         {
-            project.Created = DateTimeOffset.Now;
+            project.Created = DateTime.Now;
             if (ModelState.IsValid)
             {
                 db.Projects.Add(project);

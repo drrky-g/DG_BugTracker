@@ -15,7 +15,7 @@ namespace DG_BugTracker.Helpers
                 Property = property,
                 OldValue = oldValue,
                 NewValue = newValue,
-                Changed = DateTimeOffset.Now,
+                Changed = DateTime.Now,
                 UserId = HttpContext.Current.User.Identity.GetUserId(),
                 TicketId = ticketId
             };
@@ -44,7 +44,7 @@ namespace DG_BugTracker.Helpers
                 Property = "Developer Assignment",
                 OldValue = OldDeveloperWord(origin),
                 NewValue = edit.AssignedToUser.FullName,
-                Changed = DateTimeOffset.Now,
+                Changed = DateTime.Now,
                 UserId = HttpContext.Current.User.Identity.GetUserId(),
                 TicketId = ticketId
             };

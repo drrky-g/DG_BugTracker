@@ -513,10 +513,10 @@ namespace DG_BugTracker.Migrations
             #region Seeded Projects
             context.Projects.AddOrUpdate(
                 project => project.Name,
-                new Project { Name = "Bug Tracker", Description = "Debugging application to track and manage a software teams debugging efforts.", Created = DateTimeOffset.Now },
-                new Project { Name = "Drrk.io", Description = "Portfolio website of Derrick Gordon, an ASP .NET Developer.", Created = DateTimeOffset.Now },
-                new Project { Name = "Blog Website", Description = "A personal blog for Derrick Gordon.", Created = DateTimeOffset.Now },
-                new Project { Name = "Mythos Website", Description = "An educational website about mythology.", Created = DateTimeOffset.Now }
+                new Project { Name = "Bug Tracker", Description = "Debugging application to track and manage a software teams debugging efforts.", Created = DateTime.Now },
+                new Project { Name = "Drrk.io", Description = "Portfolio website of Derrick Gordon, an ASP .NET Developer.", Created = DateTime.Now },
+                new Project { Name = "Blog Website", Description = "A personal blog for Derrick Gordon.", Created = DateTime.Now },
+                new Project { Name = "Mythos Website", Description = "An educational website about mythology.", Created = DateTime.Now }
                 );
             context.SaveChanges();
             #endregion
@@ -640,21 +640,21 @@ namespace DG_BugTracker.Migrations
             #endregion
             context.Tickets.AddOrUpdate(
                 ticket => ticket.Title,
-                /* bugtracker ticket */ new Ticket {  Title = "Notification Dropdown", Description = "Set CSS for Notification drop down styling", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "spiderman", AssignedToUserId = "drstrange"},
-                /* bugtracker ticket */ new Ticket {  Title = "Ticket History Helper", Description = "Write helper to help assign properties to ticket history", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = highPriority, TicketStatusId = assigned, OwnerUserId = "starlord", AssignedToUserId = "antman" },
-                /* bugtracker ticket */ new Ticket {  Title = "Details Modal Design", Description = "Finish designing ticket details modal feature", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = highPriority, TicketStatusId = assigned, OwnerUserId = "starlord", AssignedToUserId = "drstrange" },
-                /* bugtracker ticket */ new Ticket {  Title = "Abstract to Helpers", Description = "Abstract access methods to their own helper class", Created = DateTimeOffset.Now, TicketTypeId = controller, ProjectId = trackerId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "spiderman", AssignedToUserId = "antman" },
+                /* bugtracker ticket */ new Ticket {  Title = "Notification Dropdown", Description = "Set CSS for Notification drop down styling", Created = DateTime.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "spiderman", AssignedToUserId = "drstrange"},
+                /* bugtracker ticket */ new Ticket {  Title = "Ticket History Helper", Description = "Write helper to help assign properties to ticket history", Created = DateTime.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = highPriority, TicketStatusId = assigned, OwnerUserId = "starlord", AssignedToUserId = "antman" },
+                /* bugtracker ticket */ new Ticket {  Title = "Details Modal Design", Description = "Finish designing ticket details modal feature", Created = DateTime.Now, TicketTypeId = style, ProjectId = trackerId, TicketPriorityId = highPriority, TicketStatusId = assigned, OwnerUserId = "starlord", AssignedToUserId = "drstrange" },
+                /* bugtracker ticket */ new Ticket {  Title = "Abstract to Helpers", Description = "Abstract access methods to their own helper class", Created = DateTime.Now, TicketTypeId = controller, ProjectId = trackerId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "spiderman", AssignedToUserId = "antman" },
                 
-                /* blog ticket */ new Ticket {  Title = "Impliment Kit", Description = "Add Material UI kit to site instead of current template", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = blogId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "warmachine", AssignedToUserId = "thehulk" },
-                /* blog ticket */ new Ticket {  Title = "Scroll Bar", Description = "Add custom scroll bar to blog", Created = DateTimeOffset.Now, TicketTypeId = featureReq, ProjectId = blogId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "scarletwitch", AssignedToUserId = "thehulk" },
+                /* blog ticket */ new Ticket {  Title = "Impliment Kit", Description = "Add Material UI kit to site instead of current template", Created = DateTime.Now, TicketTypeId = style, ProjectId = blogId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "warmachine", AssignedToUserId = "thehulk" },
+                /* blog ticket */ new Ticket {  Title = "Scroll Bar", Description = "Add custom scroll bar to blog", Created = DateTime.Now, TicketTypeId = featureReq, ProjectId = blogId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "scarletwitch", AssignedToUserId = "thehulk" },
                 
-                /* mythos ticket */ new Ticket {  Title = "Schema Design", Description = "Lay out database structure and modeling", Created = DateTimeOffset.Now, TicketTypeId = model, ProjectId = mythosId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "mantis", AssignedToUserId = "rocket" },
-                /* mythos ticket */ new Ticket {  Title = "Layout", Description = "Build Layout UI for site", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = mythosId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "mantis", AssignedToUserId = "rocket" },
+                /* mythos ticket */ new Ticket {  Title = "Schema Design", Description = "Lay out database structure and modeling", Created = DateTime.Now, TicketTypeId = model, ProjectId = mythosId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "mantis", AssignedToUserId = "rocket" },
+                /* mythos ticket */ new Ticket {  Title = "Layout", Description = "Build Layout UI for site", Created = DateTime.Now, TicketTypeId = style, ProjectId = mythosId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "mantis", AssignedToUserId = "rocket" },
 
-                /* portfolio ticket */ new Ticket {  Title = "Blackjack Cards", Description = "Add cards to blackjack script game", Created = DateTimeOffset.Now, TicketTypeId = featureReq, ProjectId = portfolioId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "falcon", AssignedToUserId = "vision" },
-                /* portfolio ticket */ new Ticket {  Title = "About Me Section", Description = "Impliment blockquote for text, change image to rectangle instead of circle", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "pepperpotts", AssignedToUserId = "shuri" },
-                /* portfolio ticket */ new Ticket {  Title = "Particles.js", Description = "Impliment particles framework to header or background", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "pepperpotts", AssignedToUserId = "vision" },
-                /* portfolio ticket */ new Ticket {  Title = "Header Styling", Description = "Add SVG gradient effect to header", Created = DateTimeOffset.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "falcon", AssignedToUserId = "shuri" }
+                /* portfolio ticket */ new Ticket {  Title = "Blackjack Cards", Description = "Add cards to blackjack script game", Created = DateTime.Now, TicketTypeId = featureReq, ProjectId = portfolioId, TicketPriorityId = medPriority, TicketStatusId = assigned, OwnerUserId = "falcon", AssignedToUserId = "vision" },
+                /* portfolio ticket */ new Ticket {  Title = "About Me Section", Description = "Impliment blockquote for text, change image to rectangle instead of circle", Created = DateTime.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "pepperpotts", AssignedToUserId = "shuri" },
+                /* portfolio ticket */ new Ticket {  Title = "Particles.js", Description = "Impliment particles framework to header or background", Created = DateTime.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "pepperpotts", AssignedToUserId = "vision" },
+                /* portfolio ticket */ new Ticket {  Title = "Header Styling", Description = "Add SVG gradient effect to header", Created = DateTime.Now, TicketTypeId = style, ProjectId = portfolioId, TicketPriorityId = lowPriority, TicketStatusId = assigned, OwnerUserId = "falcon", AssignedToUserId = "shuri" }
                 );
             context.SaveChanges();
             #endregion

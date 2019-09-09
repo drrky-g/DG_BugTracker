@@ -16,7 +16,7 @@ namespace DG_BugTracker.Models
         [Required]
         public string NewValue { get; set; }
         [Required]
-        public DateTimeOffset Changed { get; set; }
+        public DateTime Changed { get; set; }
         public string UserId { get; set; }
         public int TicketId { get; set; }
 

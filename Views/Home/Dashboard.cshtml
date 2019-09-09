@@ -3,16 +3,15 @@
 @model MyDashboard
 @{
     ViewBag.Header = $"Welcome back, {Model.UserName}.";
-    ViewBag.Subheader = $"You're assigned to {Model.MyProjectCount} project(s) and {Model.MyTicketCount} ticket(s).";
+    ViewBag.Subheader = $"You're assigned to {Model.MyProjectCount} projects and {Model.MyTicketCount} tickets.";
     var rH = new UserRoleHelper();
 }
 
 @if (Model.MyTicketCount > 0)
 {
-    <!--Progress Bars-->
+    <!-- Progress Bars -->
     <div class="row">
         <div class="col-md-12" style="margin-top:50px;">
-
             <!-- Tickets by Type-->
             Type:
             <div class="progress progress-line">

@@ -20,8 +20,6 @@ namespace DG_BugTracker.Controllers
         private ProjectHelper projectHelper = new ProjectHelper();
         private AccessHelper accessHelper = new AccessHelper();
 
-        
-
         // GET: Tickets
         public ActionResult Index()
         {
@@ -110,7 +108,7 @@ namespace DG_BugTracker.Controllers
             //automatic new status
             ticket.TicketStatusId = db.TicketStatuses.FirstOrDefault(t => t.Name == "New").Id;
             //automate created field
-            ticket.Created = DateTimeOffset.Now;
+            ticket.Created = DateTime.Now;
             //automate submitter field
             ticket.OwnerUserId = User.Identity.GetUserId();
             db.Tickets.Add(ticket);
@@ -126,6 +124,10 @@ namespace DG_BugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Ticket ticket = db.Tickets.Find(id);
+
+            if (accessHelper.CanSeeDetails(ticket))
+                RedirectToAction("NotAllowedTicket", "Home");
+
             if (ticket == null)
             {
                 return HttpNotFound();
@@ -157,10 +159,19 @@ namespace DG_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,Description,Created,TicketTypeId,ProjectId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket)
         {
-            //variable to only show Devs in assign field
-            var allDevs = roleHelper.UsersInRole("Developer");
-
-            ViewBag.AssignedToUserId = new SelectList(allDevs, "Id", "FirstName", ticket.AssignedToUserId);
+            if (!accessHelper.CanSeeDetails(ticket))
+                RedirectToAction("NotAllowedTicket", "Home");
+            var projectDevs = new List<ApplicationUser>();
+            //get list of all devs
+            var devList = roleHelper.UsersInRole("Developer").ToList();
+            foreach (var dev in devList)
+            {
+                if (projectHelper.IsUserOnProject(dev.Id, ticket.ProjectId) == true)
+                {
+                    projectDevs.Add(dev);
+                }
+            }
+            ViewBag.AssignedToUserId = new SelectList(projectDevs, "Id", "FirstName", ticket.AssignedToUserId);
             ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
@@ -170,13 +181,12 @@ namespace DG_BugTracker.Controllers
             if (ModelState.IsValid)
             {
                 // store old tickets value for comparison with logic of helper methods
-                var foreignTicketContext = db.Tickets.Include(tkt => tkt.TicketPriority).Include(tkt => tkt.TicketStatus).Include(tkt => tkt.TicketType).Include(tkt => tkt.AssignedToUser).AsQueryable();
+                var foreignTicketContext = db.Tickets.Include(tkt => tkt.TicketPriority).Include(tkt => tkt.TicketStatus).Include(tkt => tkt.TicketType).Include(tkt => tkt.AssignedToUser).Include(tkt => tkt.TicketStatus).AsQueryable();
                 var origin = foreignTicketContext.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
-                ticket.Updated = DateTimeOffset.Now;
+                ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
                 var edit = foreignTicketContext.FirstOrDefault(tkt => tkt.Id == ticket.Id);
-
                 //calls notificationhelper to see which notification needs to be sent for the assignment.
                 NotificationHelper.ManageNotifications(origin, edit);
 
@@ -205,12 +215,7 @@ namespace DG_BugTracker.Controllers
                     projectDevs.Add(dev);
                 }
             }
-
-
             ViewBag.AssignedToUserId = new SelectList(projectDevs, "Id", "FullName", ticket.AssignedToUserId);
-
-           
-
             return View(ticket);
         }
 
@@ -220,13 +225,12 @@ namespace DG_BugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AssignTicket(Ticket model)
         {
+            if (!accessHelper.CanSeeDetails(model))
+                RedirectToAction("NotAllowedTicket", "Home");
             var ticket = db.Tickets.Find(model.Id);
             var origin = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
             ticket.AssignedToUserId = model.AssignedToUserId;
-            
-
             db.SaveChanges();
-
             //calls notificationhelper to see which notification needs to be sent for the assignment
             NotificationHelper.ManageNotifications(origin, ticket);
 
@@ -296,19 +300,22 @@ namespace DG_BugTracker.Controllers
         {
             var me = User.Identity.GetUserId();
             var ticket = db.Tickets.Find(id);
+
+            if (accessHelper.CanSeeDetails(ticket))
+                RedirectToAction("NotAllowedTicket", "Home");
+
             var origin = db.Tickets.AsNoTracking().FirstOrDefault(tkt => tkt.Id == ticket.Id);
 
             if(ticket.AssignedToUserId == me)
             {
                 ticket.TicketStatusId = db.TicketStatuses.Where(status => status.Name == "In Progress").FirstOrDefault().Id;
-                ticket.Updated = DateTimeOffset.Now;
+                ticket.Updated = DateTime.Now;
                 db.SaveChanges();
                 NotificationHelper.CreateEditNotification(origin, ticket);
                 return RedirectToAction("Dashboard", "Home");
             }
             else
             {
-                //maybe make new action where message is "Only Developers can do that"
                 return RedirectToAction("DeveloperOnly", "Home");
             }
             
@@ -321,20 +328,19 @@ namespace DG_BugTracker.Controllers
         {
             var me = User.Identity.GetUserId();
             var ticket = db.Tickets.Find(id);
+            if (accessHelper.CanSeeDetails(ticket))
+                RedirectToAction("NotAllowedTicket", "Home");
             var origin = db.Tickets.AsNoTracking().FirstOrDefault(tkt => tkt.Id == ticket.Id);
-
             if(ticket.AssignedToUserId == me)
             {
                 ticket.TicketStatusId = db.TicketStatuses.Where(status => status.Name == "On Hold").FirstOrDefault().Id;
-                ticket.Updated = DateTimeOffset.Now;
+                ticket.Updated = DateTime.Now;
                 db.SaveChanges();
                 NotificationHelper.CreateEditNotification(origin, ticket);
                 return RedirectToAction("Dashboard", "Home");
             }
             else
-            {
                 return RedirectToAction("DeveloperOnly", "Home");
-            }
         }
     }
 }
