@@ -263,7 +263,6 @@ namespace DG_BugTracker.Controllers
                 //profile picture setting
                 if (ImageUploader.IsWebFriendlyImage(AvatarPath))
                 {
-
                     var fileName = Path.GetFileName(AvatarPath.FileName);
                     var ext = Path.GetExtension(AvatarPath.FileName);
                     //extended this to format the image file with an always unique title

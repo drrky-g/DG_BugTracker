@@ -50,6 +50,7 @@ namespace DG_BugTracker.Controllers
             ticketAttachment.Description = attachmentDescription;
             ticketAttachment.Created = DateTime.Now;
             ticketAttachment.UserId = User.Identity.GetUserId();
+            
 
             if (ModelState.IsValid)
             {

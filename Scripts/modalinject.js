@@ -2,9 +2,9 @@
 
     //listens for "details" button click
     $('.detailFire').click(function () {
-            //store the id of the button (has id nested inside of it from [notmapped] model property)
-            //the button id looks like this: 't{Ticket.Id}btn'
-            var btnFullId = this.id;
+        //store the id of the button (has id nested inside of it from [notmapped] model property)
+        //the button id looks like this: 't{Ticket.Id}btn'
+        var btnFullId = this.id;
         //split the characters of the id string into an array
         var idBreak = btnFullId.split('')
         //removes 'btn' from end of id
@@ -13,7 +13,6 @@
         idBreak.splice(0, 1);
         //remaining values in 'idBreak' string is now solely the id of the ticket in the model
         var targetCore = idBreak.join('');
-
         //rebuild the targetting strings out of the remaining value (the id) (these are [notmapped] model properties)
         var idCellTarget = "t" + targetCore + "Id";
         var titleCellTarget = "t" + targetCore + "Title";
@@ -33,7 +32,6 @@
         var subPicSrc = "t" + targetCore + "subpic";
         var userActions = "t" + targetCore + "Actions";
 
-
         //pull data inside the cells into variables
         var idToDetails = document.getElementById(idCellTarget).innerText; //format with title
         var titleToDetails = document.getElementById(titleCellTarget).innerText; //format with id
@@ -46,12 +44,10 @@
         var projToDetails = document.getElementById(projectCellTarget).innerText; //done
         // takes variable and formats it how i want it in the modal target element
         var projOutput = "Project: " + projToDetails;
-
-
         //pictures
         var subAvatarSrc = document.getElementById(subPicSrc).innerText;
         var devAvatarSrc = document.getElementById(devPicSrc).innerText;
-
+        //other
         var typeToDetails = document.getElementById(typeCellTarget).innerText; //done
         var statusToDetails = document.getElementById(statusCellTarget).innerText; //done
         var priorToDetails = document.getElementById(priorCellTarget).innerText; //done
@@ -61,7 +57,6 @@
         var attachmentsToDetails = document.getElementById(attachContainer).innerHTML; //done
         var historiesToDetails = document.getElementById(historyContainer).innerHTML;
         var actionsToFooter = document.getElementById(userActions).innerHTML;
-
         //push that data back into the modal targeted elements
         $('#headerTarget').html(headerOutput);
         $('#idPropTarget').text(idToDetails);
@@ -78,15 +73,13 @@
         $('#commentCollTarget').html(commentsToDetails);
         $('#attachCollTarget').html(attachmentsToDetails);
         $('#histCollTarget').html(historiesToDetails);
-
         //image targets
         $('#devDetailImg').attr("src", devAvatarSrc);
         $('#subDetailImg').attr("src", subAvatarSrc);
-
         //hidden values for forms get passed
         $('#attachmentTicketId').attr("value", targetCore);
         $('#commentTicketId').attr("value", targetCore);
-
+        //actions
         $('#modalUserActions').html(actionsToFooter);
 
 

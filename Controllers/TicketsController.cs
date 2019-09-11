@@ -192,9 +192,6 @@ namespace DG_BugTracker.Controllers
 
                 return RedirectToAction("Dashboard", "Home");
             }
-            
-
-
             return View(ticket);
         }
 
